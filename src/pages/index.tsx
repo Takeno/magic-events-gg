@@ -1,4 +1,5 @@
 import type {GetStaticProps, NextPage} from 'next';
+import Link from 'next/link';
 import {fetchAllEvents} from '../utils/firebase';
 
 type PageProps = {
@@ -12,7 +13,11 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
       <ul>
         {tournaments.map((event) => (
           <li key={event.id}>
-            Torneo {event.format} - {event.venue}
+            <Link href={`/tournament/${event.id}`}>
+              <a>
+                Torneo {event.format} - {event.venue}
+              </a>
+            </Link>
           </li>
         ))}
       </ul>

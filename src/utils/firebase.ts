@@ -1,14 +1,26 @@
 import {initializeApp, cert} from 'firebase-admin/app';
 import {getFirestore} from 'firebase-admin/firestore';
 
-const serviceAccount = JSON.parse(process.env.GSERVICE_ACCOUNT_SECRETS!);
+let db: FirebaseFirestore.Firestore | null = null;
 
-initializeApp({
-  credential: cert(serviceAccount),
-});
+function getDatabase() {
+  if (db !== null) {
+    return db;
+  }
+
+  const serviceAccount = JSON.parse(process.env.GSERVICE_ACCOUNT_SECRETS!);
+
+  initializeApp({
+    credential: cert(serviceAccount),
+  });
+
+  db = getFirestore();
+
+  return db;
+}
 
 export async function fetchAllEvents(): Promise<Tournament[]> {
-  const db = getFirestore();
+  const db = getDatabase();
 
   const snapshot = await db.collection('tournaments').get();
 

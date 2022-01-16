@@ -39,3 +39,24 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
 
   return data;
 }
+
+export async function fetchEventById(id: string): Promise<Tournament | null> {
+  const db = getDatabase();
+
+  const snapshot = await db.collection('tournaments').doc(id).get();
+
+  const d = snapshot.data();
+
+  if (snapshot.exists === false || d === undefined) {
+    return null;
+  }
+
+  const tournament: Tournament = {
+    id: snapshot.id,
+    format: d.format,
+    venue: d.venue,
+    timestamp: d.datetime.seconds,
+  };
+
+  return tournament;
+}

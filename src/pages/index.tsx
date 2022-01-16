@@ -1,4 +1,5 @@
 import type {GetStaticProps, NextPage} from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
 import {fetchAllEvents} from '../utils/firebase';
 
@@ -9,6 +10,9 @@ type PageProps = {
 const Home: NextPage<PageProps> = ({tournaments}) => {
   return (
     <>
+      <Head>
+        <title>Tutti gli eventi di Magic vicino a te! - magic-events.gg</title>
+      </Head>
       <h1>It works!</h1>
       <ul>
         {tournaments.map((event) => (

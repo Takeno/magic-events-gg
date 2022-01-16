@@ -1,3 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "@improntaadvance"]
+  "extends": ["next/core-web-vitals", "@improntaadvance"],
+  "rules": {
+    "react/prop-types": 0
+  }
 }

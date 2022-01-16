@@ -1,12 +1,6 @@
 import type {GetServerSideProps, NextPage} from 'next';
 import {fetchAllEvents} from '../utils/firebase';
 
-type Tournament = {
-  id: string;
-  format: string;
-  venue: string;
-};
-
 type PageProps = {
   tournaments: Tournament[];
 };

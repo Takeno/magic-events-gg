@@ -7,12 +7,12 @@ initializeApp({
   credential: cert(serviceAccount),
 });
 
-export async function fetchAllEvents() {
+export async function fetchAllEvents(): Promise<Tournament[]> {
   const db = getFirestore();
 
   const snapshot = await db.collection('tournaments').get();
 
-  const data: any[] = [];
+  const data: Tournament[] = [];
 
   snapshot.forEach((doc: any) => {
     const d = doc.data();

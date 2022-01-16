@@ -1,13 +1,24 @@
 import {initializeApp, getApps, cert} from 'firebase-admin/app';
 import {getFirestore} from 'firebase-admin/firestore';
 
-function getDatabase() {
-  if (getApps().length === 0) {
-    const serviceAccount = JSON.parse(process.env.GSERVICE_ACCOUNT_SECRETS!);
+function init() {
+  if (process.env.GSERVICE_ACCOUNT_SECRETS) {
+    const serviceAccount = JSON.parse(process.env.GSERVICE_ACCOUNT_SECRETS);
 
     initializeApp({
       credential: cert(serviceAccount),
     });
+    return;
+  }
+
+  initializeApp({
+    projectId: process.env.FIRESTORE_PROJECT_ID!,
+  });
+}
+
+function getDatabase() {
+  if (getApps().length === 0) {
+    init();
   }
 
   return getFirestore();

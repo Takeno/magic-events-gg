@@ -1,4 +1,4 @@
-import type {GetServerSideProps, NextPage} from 'next';
+import type {GetStaticProps, NextPage} from 'next';
 import {fetchAllEvents} from '../utils/firebase';
 
 type PageProps = {
@@ -22,14 +22,13 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async (
-  context
-) => {
+export const getStaticProps: GetStaticProps<PageProps> = async () => {
   const tournaments = await fetchAllEvents();
 
   return {
     props: {
       tournaments,
     },
+    revalidate: 20,
   };
 };

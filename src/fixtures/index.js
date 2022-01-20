@@ -2,6 +2,8 @@ const {initializeApp, getApps} = require('firebase-admin/app');
 const {getFirestore, Timestamp, GeoPoint} = require('firebase-admin/firestore');
 const {TOURNAMENTS} = require('./data');
 
+const geofire = require('geofire-common');
+
 function init() {
   initializeApp({
     projectId: process.env.FIRESTORE_PROJECT_ID,
@@ -23,6 +25,7 @@ async function populateDb() {
     id: item.id,
     datetime: Timestamp.fromDate(item.datetime),
     format: item.format,
+    geohash: geofire.geohashForLocation(item.location),
     location: new GeoPoint(...item.location),
     venue: item.venue,
   })).map(({id, ...item}) =>

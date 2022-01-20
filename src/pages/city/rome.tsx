@@ -1,24 +1,23 @@
 import type {GetStaticProps, NextPage} from 'next';
-import Head from 'next/head';
 import Link from 'next/link';
-import {fetchAllEvents} from '../utils/firebase';
+import {useRouter} from 'next/router';
+import {fetchEventByCoords} from '../../utils/firebase';
 
 type PageProps = {
   tournaments: Tournament[];
 };
 
-const Home: NextPage<PageProps> = ({tournaments}) => {
+const SingleCity: NextPage<PageProps> = ({tournaments}) => {
+  const router = useRouter();
+
   return (
     <>
-      <Head>
-        <title>Tutti gli eventi di Magic vicino a te! - magic-events.gg</title>
-      </Head>
-
-      <Link href={`/city/rome`}>
-        <a>Tornei di Roma</a>
-      </Link>
-
-      <h1>Tutti i tornei</h1>
+      <header>
+        <Link href="/">
+          <a>Torna alla lista</a>
+        </Link>
+      </header>
+      <h1>Tornei di Roma</h1>
       <ul>
         {tournaments.map((event) => (
           <li key={event.id}>
@@ -34,10 +33,13 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
   );
 };
 
-export default Home;
+export default SingleCity;
 
-export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const tournaments = await fetchAllEvents();
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
+  const tournaments = await fetchEventByCoords(
+    41.8905227376549,
+    12.492389585053866
+  );
 
   return {
     props: {

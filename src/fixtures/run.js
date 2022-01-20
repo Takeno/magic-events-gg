@@ -5,6 +5,8 @@ async function run() {
   // await verifyDb();
   await resetDb();
   await populateDb();
+
+  await verifyDb();
 }
 
 run();

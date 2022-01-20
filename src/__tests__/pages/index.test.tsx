@@ -19,5 +19,9 @@ describe('Page /', () => {
     expect(
       screen.getByText('Torneo modern - La Torre del Minotauro')
     ).toBeInTheDocument();
+
+    expect(
+      screen.getByText('Torneo modern - La Torre del Minotauro').closest('a')
+    ).toHaveAttribute('href', '/tournament/id');
   });
 });

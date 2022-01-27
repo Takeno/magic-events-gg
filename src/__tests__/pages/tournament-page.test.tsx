@@ -15,9 +15,7 @@ describe('Page /tournament/[id]', () => {
 
     expect(screen.getByText('Torneo modern')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('Ospitato da La Torre del Minotauro')
-    ).toBeInTheDocument();
+    expect(screen.getByText('La Torre del Minotauro')).toBeInTheDocument();
 
     expect(screen.getByText('Torna alla lista').closest('a')).toHaveAttribute(
       'href',

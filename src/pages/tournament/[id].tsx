@@ -28,7 +28,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
       <div className="max-w-screen-lg mx-auto">
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <div
-            className="flex-initial w-full md:w-2/3 bg-red-200 rounded p-4 flex items-center"
+            className="flex-initial w-full md:w-2/3 bg-red-200 card p-4 flex items-center"
             style={{
               background: `url(${staticMap.src}) center center no-repeat`,
             }}
@@ -44,7 +44,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
         </div>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-initial w-full md:w-2/3">
-            <div className="bg-white md:rounded-lg drop-shadow-md">
+            <div className="card">
               <div className="px-4 md:px-12 pt-4 md:pt-8">
                 <SectionTitle>Organizzatore</SectionTitle>
 
@@ -79,7 +79,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
           </div>
 
           <div className="flex-initial w-full md:w-1/3">
-            <div className="bg-white md:rounded-lg p-4 md:p-8 drop-shadow-md">
+            <div className="card p-4 md:p-8">
               <SectionTitle>Quando?</SectionTitle>
               <p>
                 martedì, 28 febbraio 2022

@@ -4,3 +4,9 @@ type Tournament = {
   venue: string;
   timestamp: number;
 };
+
+type User = {
+  id: string;
+  email: string;
+  roles: string[];
+};

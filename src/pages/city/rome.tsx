@@ -1,7 +1,7 @@
 import type {GetStaticProps, NextPage} from 'next';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import {fetchEventByCoords} from '../../utils/firebase';
+import {fetchEventByCoords} from '../../utils/firebase-server';
 
 type PageProps = {
   tournaments: Tournament[];

@@ -1,13 +1,16 @@
 import type {GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import {fetchAllEvents} from '../utils/firebase';
+import {useUser} from '../contexts/UserContext';
+import {fetchAllEvents} from '../utils/firebase-server';
 
 type PageProps = {
   tournaments: Tournament[];
 };
 
 const Home: NextPage<PageProps> = ({tournaments}) => {
+  const {user, logout} = useUser();
+
   return (
     <>
       <Head>
@@ -17,6 +20,18 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
       <Link href={`/city/rome`}>
         <a>Tornei di Roma</a>
       </Link>
+
+      <br />
+
+      {user ? (
+        <>
+          Bentornato. <button onClick={logout}>Logout</button>
+        </>
+      ) : (
+        <Link href="/login">
+          <a>Effettua il login</a>
+        </Link>
+      )}
 
       <h1>Tutti i tornei</h1>
       <ul>

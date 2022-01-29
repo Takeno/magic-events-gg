@@ -1,6 +1,6 @@
 /** * @jest-environment node */
 // We need "@jest-environment node" because with jsdom firebase-admin will not works as expected
-import {fetchEventByCoords, fetchAllEvents} from '../../utils/firebase';
+import {fetchEventByCoords, fetchAllEvents} from '../../utils/firebase-server';
 import {resetDb, populateDb} from '../../fixtures/index';
 
 describe('firebase.ts - fetchAllEvents', () => {

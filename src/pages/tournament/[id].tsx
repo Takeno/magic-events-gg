@@ -2,7 +2,7 @@ import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import {PropsWithChildren} from 'react';
-import {fetchEventById} from '../../utils/firebase';
+import {fetchEventById} from '../../utils/firebase-server';
 
 import staticMap from '../../assets/staticmap.png';
 

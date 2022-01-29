@@ -19,14 +19,7 @@ describe('Page /signup', () => {
     );
   });
 
-  it('should call login method', () => {
-    const routerReplaceMock = jest.fn();
-
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-    useRouter.mockReturnValue({
-      replace: routerReplaceMock,
-    });
-
+  it('should call signup method', async () => {
     const context: UserContextType = {
       user: null,
       signup: jest.fn(() => Promise.resolve()),
@@ -53,9 +46,45 @@ describe('Page /signup', () => {
     expect(context.signup).toBeCalledTimes(1);
     expect(context.signup).toBeCalledWith('test@test.test', 'test');
 
-    // expect(routerReplaceMock).toBeCalledTimes(1);
-    // expect(routerReplaceMock).toBeCalledWith('/');
+    // workaround to avoid React Final Form component updates
+    expect(await screen.findByText('Registrati!')).toBeInTheDocument();
+  });
 
-    useRouter.mockRestore();
+  it('should show error message on failure', async () => {
+    const context: UserContextType = {
+      user: null,
+      signup: jest.fn(() => {
+        const err = new Error('error');
+        // @ts-expect-error
+        err.code = 'auth/email-already-exists';
+
+        throw err;
+      }),
+      login: () => Promise.reject('Not implemented'),
+      logout: () => Promise.reject('Not implemented'),
+    };
+
+    render(
+      <UserContext.Provider value={context}>
+        <Signup />
+      </UserContext.Provider>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: {value: 'test@test.test'},
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: {value: 'test'},
+    });
+
+    fireEvent.click(screen.getByText('Registrati!'));
+
+    expect(context.signup).toBeCalledTimes(1);
+    expect(context.signup).toBeCalledWith('test@test.test', 'test');
+
+    expect(
+      await screen.findByText('auth/email-already-exists')
+    ).toBeInTheDocument();
   });
 });

@@ -19,7 +19,7 @@ describe('Page /login', () => {
     );
   });
 
-  it('should call login method', () => {
+  it('should call login method', async () => {
     const routerReplaceMock = jest.fn();
 
     const useRouter = jest.spyOn(require('next/router'), 'useRouter');
@@ -56,6 +56,47 @@ describe('Page /login', () => {
     // expect(routerReplaceMock).toBeCalledTimes(1);
     // expect(routerReplaceMock).toBeCalledWith('/');
 
+    // workaround to avoid React Final Form component updates
+    expect(await screen.findByText('Accedi')).toBeInTheDocument();
+
     useRouter.mockRestore();
+  });
+
+  it('should show error message on failure', async () => {
+    const context: UserContextType = {
+      user: null,
+      signup: () => Promise.reject('Not implemented'),
+      login: jest.fn(() => {
+        const err = new Error('error');
+        // @ts-expect-error
+        err.code = 'auth/wrong-credentials';
+
+        throw err;
+      }),
+      logout: () => Promise.reject('Not implemented'),
+    };
+
+    render(
+      <UserContext.Provider value={context}>
+        <Login />
+      </UserContext.Provider>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: {value: 'test@test.test'},
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: {value: 'test'},
+    });
+
+    fireEvent.click(screen.getByText('Accedi'));
+
+    expect(context.login).toBeCalledTimes(1);
+    expect(context.login).toBeCalledWith('test@test.test', 'test');
+
+    expect(
+      await screen.findByText('auth/wrong-credentials')
+    ).toBeInTheDocument();
   });
 });

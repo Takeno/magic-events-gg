@@ -13,6 +13,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.4.0",
     "firebase": "^9.6.5",
     "firebase-admin": "^10.0.1",
     "geofire-common": "^5.2.0",

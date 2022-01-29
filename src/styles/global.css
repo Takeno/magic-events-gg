@@ -12,3 +12,8 @@ body {
     @apply bg-white md:rounded-lg drop-shadow-md;
   }
 }
+
+
+#__next {
+  @apply h-full;
+}

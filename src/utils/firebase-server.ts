@@ -1,5 +1,6 @@
 import {initializeApp, getApps, cert} from 'firebase-admin/app';
 import {getFirestore} from 'firebase-admin/firestore';
+import {getAuth as getFirebaseAuth} from 'firebase-admin/auth';
 import * as geofire from 'geofire-common';
 
 function init() {
@@ -23,6 +24,14 @@ function getDatabase() {
   }
 
   return getFirestore();
+}
+
+function getAuth() {
+  if (getApps().length === 0) {
+    init();
+  }
+
+  return getFirebaseAuth();
 }
 
 export async function fetchAllEvents(): Promise<Tournament[]> {
@@ -118,4 +127,42 @@ export async function fetchEventByCoords(
   }
 
   return matchingDocs;
+}
+
+export async function verifyAuthToken(idToken: string) {
+  const auth = getAuth();
+
+  return await auth.verifyIdToken(idToken);
+}
+
+export async function fetchUser(uid: string): Promise<User | null> {
+  const db = getDatabase();
+
+  const snapshot = await db.collection('users').doc(uid).get();
+
+  if (snapshot.exists === false) {
+    return null;
+  }
+
+  const d = snapshot.data()!;
+
+  return {
+    id: snapshot.id,
+    email: d.email,
+    roles: d.roles,
+  };
+}
+
+export async function initUser(uid: string, email: string): Promise<User> {
+  const db = getDatabase();
+
+  const user: User = {
+    id: uid,
+    email: email,
+    roles: ['ROLE_USER'],
+  };
+
+  await db.collection('users').doc(uid).set(user);
+
+  return user;
 }

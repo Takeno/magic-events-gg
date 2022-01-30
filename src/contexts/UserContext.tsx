@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import {http, fetchCurrentUser} from '../utils/api';
 import * as firebase from '../utils/firebase-client';
 
 export type UserContextType = {
@@ -25,6 +26,7 @@ export const UserContext = createContext<UserContextType>({
 type UserProviderProps = PropsWithChildren<{}>;
 
 export const UserProvider = ({children}: UserProviderProps) => {
+  const [token, setToken] = useState<string>();
   const [user, setUser] = useState<User | null>(null);
 
   const login = useCallback(async (email: string, password: string) => {
@@ -39,25 +41,41 @@ export const UserProvider = ({children}: UserProviderProps) => {
 
   const logout = useCallback(async () => {
     await firebase.logout();
-    setUser(null);
+    // setUser(null);
   }, []);
 
   useEffect(() => {
-    const unsub = firebase.addAuthStateListener((user) => {
+    const unsub = firebase.addAuthStateListener(async (user) => {
       if (user === null) {
-        setUser(null);
+        setToken(undefined);
         return;
       }
 
-      setUser({
-        id: user.uid,
-        email: user.email!,
-        roles: [],
-      });
+      const token = await user.getIdToken();
+
+      setToken(token);
     });
 
     return () => unsub();
   }, []);
+
+  useEffect(() => {
+    if (token === undefined) {
+      setUser(null);
+      return;
+    }
+
+    const myInterceptor = http.interceptors.request.use((config) => {
+      config.headers = config.headers || {};
+      config.headers.authorization = `Bearer ${token}`;
+
+      return config;
+    });
+
+    fetchCurrentUser().then((user) => setUser(user));
+
+    return () => http.interceptors.request.eject(myInterceptor);
+  }, [token]);
 
   return (
     <UserContext.Provider value={{user, login, signup, logout}}>

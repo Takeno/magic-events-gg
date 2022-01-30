@@ -1,3 +1,11 @@
+const USERS = [
+  {
+    id: 'lU1mG4MXPYPgoXgbTBX0ekP4Ldk1',
+    email: 'test@test.it',
+    roles: ['ROLE_USER', 'ROLE_ADMIN'],
+  },
+];
+
 const TOURNAMENT_ORGANIZERS = [
   {
     id: 'to-01',
@@ -36,6 +44,7 @@ const TOURNAMENTS = [
 ];
 
 module.exports = {
+  USERS,
   TOURNAMENTS,
   TOURNAMENT_ORGANIZERS,
 };

@@ -1,6 +1,6 @@
 const {initializeApp, getApps} = require('firebase-admin/app');
 const {getFirestore, Timestamp, GeoPoint} = require('firebase-admin/firestore');
-const {TOURNAMENTS} = require('./data');
+const {TOURNAMENTS, USERS} = require('./data');
 
 const geofire = require('geofire-common');
 
@@ -33,6 +33,12 @@ async function populateDb() {
   );
 
   await Promise.all(actions);
+
+  const usersActions = USERS.map((user) =>
+    database.collection('users').doc(user.id).set(user)
+  );
+
+  await Promise.all(usersActions);
 }
 
 async function verifyDb() {

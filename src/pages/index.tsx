@@ -23,15 +23,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
 
       <br />
 
-      {user ? (
-        <>
-          Bentornato. <button onClick={logout}>Logout</button>
-        </>
-      ) : (
-        <Link href="/login">
-          <a>Effettua il login</a>
-        </Link>
-      )}
+      <UserHeader user={user} logout={logout} />
 
       <h1>Tutti i tornei</h1>
       <ul>
@@ -45,6 +37,35 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
           </li>
         ))}
       </ul>
+    </>
+  );
+};
+
+type UserHeaderType = {
+  user: User | null;
+  logout: () => void;
+};
+
+const UserHeader = ({user, logout}: UserHeaderType) => {
+  if (!user) {
+    return (
+      <Link href="/login">
+        <a>Effettua il login</a>
+      </Link>
+    );
+  }
+
+  return (
+    <>
+      Bentornato {user.email}.
+      <br />
+      {user.roles.includes('ROLE_ADMIN') && (
+        <Link href="/admin">
+          <a>Admin</a>
+        </Link>
+      )}
+      <br />
+      <button onClick={logout}>Logout</button>
     </>
   );
 };

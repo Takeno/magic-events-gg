@@ -11,6 +11,7 @@ import * as firebase from '../utils/firebase-client';
 
 export type UserContextType = {
   user: User | null;
+  loading: boolean;
   signup: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -18,6 +19,7 @@ export type UserContextType = {
 
 export const UserContext = createContext<UserContextType>({
   user: null,
+  loading: false,
   signup: () => Promise.reject('Not implemented'),
   login: () => Promise.reject('Not implemented'),
   logout: () => Promise.reject('Not implemented'),
@@ -27,6 +29,7 @@ type UserProviderProps = PropsWithChildren<{}>;
 
 export const UserProvider = ({children}: UserProviderProps) => {
   const [token, setToken] = useState<string>();
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
   const login = useCallback(async (email: string, password: string) => {
@@ -47,6 +50,7 @@ export const UserProvider = ({children}: UserProviderProps) => {
   useEffect(() => {
     const unsub = firebase.addAuthStateListener(async (user) => {
       if (user === null) {
+        setLoading(false);
         setToken(undefined);
         return;
       }
@@ -72,13 +76,15 @@ export const UserProvider = ({children}: UserProviderProps) => {
       return config;
     });
 
-    fetchCurrentUser().then((user) => setUser(user));
+    fetchCurrentUser()
+      .then((user) => setUser(user))
+      .then(() => setLoading(false));
 
     return () => http.interceptors.request.eject(myInterceptor);
   }, [token]);
 
   return (
-    <UserContext.Provider value={{user, login, signup, logout}}>
+    <UserContext.Provider value={{user, loading, login, signup, logout}}>
       {children}
     </UserContext.Provider>
   );

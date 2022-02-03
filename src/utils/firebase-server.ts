@@ -49,6 +49,10 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
       format: d.format,
       venue: d.venue,
       timestamp: d.datetime.seconds,
+      location: {
+        latitude: d.location.latitude,
+        longitude: d.location.longitude,
+      },
     });
   });
 
@@ -71,6 +75,10 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
     format: d.format,
     venue: d.venue,
     timestamp: d.datetime.seconds,
+    location: {
+      latitude: d.location.latitude,
+      longitude: d.location.longitude,
+    },
   };
 
   return tournament;
@@ -121,6 +129,10 @@ export async function fetchEventByCoords(
           format: d.format,
           venue: d.venue,
           timestamp: d.datetime.seconds,
+          location: {
+            latitude: d.location.latitude,
+            longitude: d.location.longitude,
+          },
         });
       }
     }

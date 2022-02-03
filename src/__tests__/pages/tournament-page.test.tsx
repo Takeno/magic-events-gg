@@ -10,6 +10,10 @@ describe('Page /tournament/[id]', () => {
       venue: 'La Torre del Minotauro',
       format: 'modern',
       timestamp: 1642340900271,
+      location: {
+        latitude: 1,
+        longitude: 2,
+      },
     };
     render(<TournamentPage tournament={tournament} />);
 

@@ -1,7 +1,10 @@
 import type {GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import {useEffect, useState} from 'react';
+import LocationSearch from '../components/LocationSearch';
 import {useUser} from '../contexts/UserContext';
+import {fetchEventByCoords} from '../utils/api';
 import {fetchAllEvents} from '../utils/firebase-server';
 
 type PageProps = {
@@ -10,6 +13,18 @@ type PageProps = {
 
 const Home: NextPage<PageProps> = ({tournaments}) => {
   const {user, logout} = useUser();
+
+  const [data, setData] = useState<Tournament[]>(tournaments);
+
+  const [coords, setCoords] = useState<Coords>();
+
+  useEffect(() => {
+    if (coords === undefined) {
+      return;
+    }
+
+    fetchEventByCoords(coords).then(setData);
+  }, [coords]);
 
   return (
     <>
@@ -25,13 +40,16 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
 
       <UserHeader user={user} logout={logout} />
 
+      <LocationSearch onPosition={setCoords} />
+
       <h1>Tutti i tornei</h1>
       <ul>
-        {tournaments.map((event) => (
+        {data.map((event) => (
           <li key={event.id}>
             <Link href={`/tournament/${event.id}`}>
               <a>
-                Torneo {event.format} - {event.venue}
+                Torneo {event.format} - {event.venue} [{event.location.latitude}
+                , {event.location.longitude}]
               </a>
             </Link>
           </li>

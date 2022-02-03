@@ -12,7 +12,7 @@ describe('firebase.ts - fetchAllEvents', () => {
   it('should returns 3 tournaments', async () => {
     const results = await fetchAllEvents();
 
-    expect(results).toHaveLength(3);
+    expect(results).toHaveLength(5);
   });
 });
 
@@ -37,7 +37,7 @@ describe('firebase.ts - fetchEventByCoords', () => {
       12.492389585053866
     );
 
-    expect(results).toHaveLength(2);
+    expect(results).toHaveLength(4);
 
     expect(results.find((t) => t.id === 'tournament-01')).not.toBeUndefined();
   });
@@ -56,7 +56,7 @@ describe('firebase.ts - fetchEventByCoords', () => {
       30
     );
 
-    expect(results2).toHaveLength(2);
+    expect(results2).toHaveLength(4);
 
     expect(results2.find((t) => t.id === 'tournament-01')).not.toBeUndefined();
   });

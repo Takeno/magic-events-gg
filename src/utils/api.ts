@@ -15,3 +15,15 @@ export const fetchEventByCoords = async (
 
   return response.data;
 };
+
+type CityOption = {
+  name: string;
+  latitude: number;
+  longitude: number;
+};
+
+export const autocompleteCity = async (q: string): Promise<CityOption[]> => {
+  const response = await http.get('/api/search-cities', {params: {q}});
+
+  return response.data;
+};

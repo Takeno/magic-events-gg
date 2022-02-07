@@ -4,7 +4,7 @@ import {render, screen} from '@testing-library/react';
 import Home from '../../pages/index';
 
 describe('Page /', () => {
-  it('should render correctly', () => {
+  it('should render correctly', async () => {
     const tournaments: Tournament[] = [
       {
         id: 'id',
@@ -21,11 +21,13 @@ describe('Page /', () => {
     render(<Home tournaments={tournaments} />);
 
     expect(
-      screen.getByText(/Torneo modern - La Torre del Minotauro/)
+      await screen.findByText(/Torneo modern - La Torre del Minotauro/)
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(/Torneo modern - La Torre del Minotauro/).closest('a')
+      (
+        await screen.findByText(/Torneo modern - La Torre del Minotauro/)
+      ).closest('a')
     ).toHaveAttribute('href', '/tournament/id');
   });
 });

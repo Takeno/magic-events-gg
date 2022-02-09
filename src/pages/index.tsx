@@ -1,9 +1,8 @@
 import type {GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import {useEffect, useState} from 'react';
+import {EventCardList} from '../components/EventList';
 import LocationSearch from '../components/LocationSearch';
-import {useUser} from '../contexts/UserContext';
 import {fetchEventByCoords} from '../utils/api';
 import {fetchAllEvents} from '../utils/firebase-server';
 
@@ -12,8 +11,6 @@ type PageProps = {
 };
 
 const Home: NextPage<PageProps> = ({tournaments}) => {
-  const {user, logout} = useUser();
-
   const [data, setData] = useState<Tournament[]>(tournaments);
 
   const [coords, setCoords] = useState<Coords>();
@@ -32,58 +29,32 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
         <title>Tutti gli eventi di Magic vicino a te! - magic-events.gg</title>
       </Head>
 
-      <Link href={`/city/rome`}>
-        <a>Tornei di Roma</a>
-      </Link>
+      <div className="bg-primary h-[70vh] min-h-[300px] md:h-1/3 flex flex-col items-center justify-center">
+        <h2 className="text-white text-3xl uppercase font-bold text-center mb-4">
+          Tutti gli eventi di Magic intorno a te
+        </h2>
+        <LocationSearch onPosition={setCoords} />
+      </div>
 
-      <br />
+      <nav className="bg-white drop-shadow-sm">
+        <div className="max-w-screen-lg mx-auto h-16 flex flex-row  items-center gap-3 overflow-x-auto">
+          <a className="font-bold text-primary">Tutti</a>
+          <a>Modern</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+          <a>Pauper</a>
+        </div>
+      </nav>
 
-      <UserHeader user={user} logout={logout} />
-
-      <LocationSearch onPosition={setCoords} />
-
-      <h1>Tutti i tornei</h1>
-      <ul>
-        {data.map((event) => (
-          <li key={event.id}>
-            <Link href={`/tournament/${event.id}`}>
-              <a>
-                Torneo {event.format} - {event.venue} [{event.location.latitude}
-                , {event.location.longitude}]
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
-};
-
-type UserHeaderType = {
-  user: User | null;
-  logout: () => void;
-};
-
-const UserHeader = ({user, logout}: UserHeaderType) => {
-  if (!user) {
-    return (
-      <Link href="/login">
-        <a>Effettua il login</a>
-      </Link>
-    );
-  }
-
-  return (
-    <>
-      Bentornato {user.email}.
-      <br />
-      {user.roles.includes('ROLE_ADMIN') && (
-        <Link href="/admin">
-          <a>Admin</a>
-        </Link>
-      )}
-      <br />
-      <button onClick={logout}>Logout</button>
+      <article className="max-w-screen-lg mx-auto mt-10">
+        <EventCardList events={data} />
+      </article>
     </>
   );
 };

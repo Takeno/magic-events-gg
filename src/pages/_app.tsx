@@ -1,6 +1,8 @@
 import type {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
 import {PropsWithChildren} from 'react';
+import Footer from '../components/Layout/Footer';
+import Header from '../components/Layout/Header';
 import {UserProvider, useUser} from '../contexts/UserContext';
 import '../styles/global.css';
 
@@ -8,7 +10,13 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <UserProvider>
       <PrivateAdminChecker>
-        <Component {...pageProps} />
+        <main className="min-h-screen flex flex-col">
+          <Header />
+          <div className="flex-1">
+            <Component {...pageProps} />
+          </div>
+          <Footer />
+        </main>
       </PrivateAdminChecker>
     </UserProvider>
   );

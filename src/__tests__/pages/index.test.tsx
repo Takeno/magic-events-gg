@@ -20,14 +20,10 @@ describe('Page /', () => {
 
     render(<Home tournaments={tournaments} />);
 
-    expect(
-      await screen.findByText(/Torneo modern - La Torre del Minotauro/)
-    ).toBeInTheDocument();
+    expect(await screen.findAllByText(/Torneo modern/)).toHaveLength(1);
 
     expect(
-      (
-        await screen.findByText(/Torneo modern - La Torre del Minotauro/)
-      ).closest('a')
+      (await screen.findByText(/Torneo modern/)).closest('a')
     ).toHaveAttribute('href', '/tournament/id');
   });
 });

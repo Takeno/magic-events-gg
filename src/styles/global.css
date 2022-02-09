@@ -11,6 +11,18 @@ body {
   .card {
     @apply bg-white md:rounded-lg drop-shadow-md;
   }
+
+  .btn {
+    @apply border-2 rounded-md px-4 py-2 uppercase text-sm border-transparent bg-gradient-to-b from-[#FF9300] to-[#FFBD62];
+  }
+
+  .btn.outline {
+    @apply bg-none border-white outline-none;
+  }
+
+  .btn.outline.disabled {
+    @apply bg-slate-500;
+  }
 }
 
 

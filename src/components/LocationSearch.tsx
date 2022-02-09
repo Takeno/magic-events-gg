@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback} from 'react';
 import AsyncSelect from 'react-select/async';
 import {autocompleteCity} from '../utils/api';
 
@@ -57,15 +57,28 @@ export default function LocationSearch({onPosition}: LocationSearchProps) {
   );
 
   return (
-    <div className="py-10 bg-blue-400">
-      Cerca a:
+    <div className="bg-white rounded-3xl flex flex-row items-center p-2 w-full max-w-[600px]">
+      <span className="mx-4">Cerca a:</span>
       <AsyncSelect
         cacheOptions
         loadOptions={loadOptions}
         defaultOptions
         onChange={onCitySelect}
+        className="flex-1"
       />
-      <button onClick={getUserPosition}>Usa GPS</button>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 stroke-primary fill-primary mx-4 cursor-pointer"
+        viewBox="0 0 20 20"
+        onClick={getUserPosition}
+      >
+        <path
+          fillRule="evenodd"
+          d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+          clipRule="evenodd"
+        />
+      </svg>
     </div>
   );
 }

@@ -48,7 +48,7 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
       id: doc.id,
       format: d.format,
       venue: d.venue,
-      timestamp: d.datetime.seconds,
+      timestamp: d.datetime.seconds * 1000,
       location: {
         latitude: d.location.latitude,
         longitude: d.location.longitude,
@@ -74,7 +74,7 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
     id: snapshot.id,
     format: d.format,
     venue: d.venue,
-    timestamp: d.datetime.seconds,
+    timestamp: d.datetime.seconds * 1000,
     location: {
       latitude: d.location.latitude,
       longitude: d.location.longitude,
@@ -128,7 +128,7 @@ export async function fetchEventByCoords(
           id: doc.id,
           format: d.format,
           venue: d.venue,
-          timestamp: d.datetime.seconds,
+          timestamp: d.datetime.seconds * 1000,
           location: {
             latitude: d.location.latitude,
             longitude: d.location.longitude,

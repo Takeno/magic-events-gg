@@ -4,20 +4,21 @@ import {PropsWithChildren} from 'react';
 import Footer from '../components/Layout/Footer';
 import Header from '../components/Layout/Header';
 import {UserProvider, useUser} from '../contexts/UserContext';
+import {isAdmin} from '../utils/acl';
 import '../styles/global.css';
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <UserProvider>
-      <PrivateAdminChecker>
-        <main className="min-h-screen flex flex-col">
-          <Header />
-          <div className="flex-1">
+      <main className="min-h-screen flex flex-col">
+        <Header />
+        <div className="flex-1">
+          <PrivateAdminChecker>
             <Component {...pageProps} />
-          </div>
-          <Footer />
-        </main>
-      </PrivateAdminChecker>
+          </PrivateAdminChecker>
+        </div>
+        <Footer />
+      </main>
     </UserProvider>
   );
 }
@@ -30,12 +31,12 @@ const PrivateAdminChecker = (props: PropsWithChildren<{}>) => {
     return <>{props.children}</>;
   }
 
-  if (user && user.roles.includes('ROLE_ADMIN')) {
-    return <>{props.children}</>;
-  }
-
   if (loading) {
     return <h1>Loading...</h1>;
+  }
+
+  if (isAdmin(user)) {
+    return <>{props.children}</>;
   }
 
   return <h1>Unauthenticated</h1>;

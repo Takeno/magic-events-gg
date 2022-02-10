@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../assets/king.png';
 import {useUser} from '../../contexts/UserContext';
+import {isAdmin} from '../../utils/acl';
 import Button, {ButtonLink} from '../Buttons';
 
 export default function Header() {
@@ -24,13 +25,17 @@ export default function Header() {
         <div className="flex row items-center gap-4">
           {user ? (
             <>
-              <Button onClick={logout} outline>
-                Esci
-              </Button>
-
+              {isAdmin(user) && (
+                <Link href="/admin" passHref>
+                  <ButtonLink>Gestione negozio</ButtonLink>
+                </Link>
+              )}
               <Link href="/profile" passHref>
                 <ButtonLink>Profilo</ButtonLink>
               </Link>
+              <Button onClick={logout} outline>
+                Esci
+              </Button>
             </>
           ) : (
             <>

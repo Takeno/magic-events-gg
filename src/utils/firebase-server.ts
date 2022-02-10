@@ -2,6 +2,7 @@ import {initializeApp, getApps, cert} from 'firebase-admin/app';
 import {getFirestore} from 'firebase-admin/firestore';
 import {getAuth as getFirebaseAuth} from 'firebase-admin/auth';
 import * as geofire from 'geofire-common';
+import {isAdmin} from './acl';
 
 function init() {
   if (process.env.GSERVICE_ACCOUNT_SECRETS) {
@@ -53,6 +54,10 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
         latitude: d.location.latitude,
         longitude: d.location.longitude,
       },
+      organizer: {
+        id: d.organizer.id,
+        name: d.organizer.name,
+      },
     });
   });
 
@@ -78,6 +83,10 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
     location: {
       latitude: d.location.latitude,
       longitude: d.location.longitude,
+    },
+    organizer: {
+      id: d.organizer.id,
+      name: d.organizer.name,
     },
   };
 
@@ -133,6 +142,10 @@ export async function fetchEventByCoords(
             latitude: d.location.latitude,
             longitude: d.location.longitude,
           },
+          organizer: {
+            id: d.organizer.id,
+            name: d.organizer.name,
+          },
         });
       }
     }
@@ -177,4 +190,45 @@ export async function initUser(uid: string, email: string): Promise<User> {
   await db.collection('users').doc(uid).set(user);
 
   return user;
+}
+
+export async function fetchOrganizerManagedBy(
+  uid: string
+): Promise<Organizer[]> {
+  const db = getDatabase();
+
+  const snapshot = await db.collection('users').doc(uid).get();
+
+  if (snapshot.exists === false) {
+    throw new Error('Unknown user');
+  }
+
+  const user = snapshot.data() as User | Admin;
+
+  if (!isAdmin(user)) {
+    throw new Error('User is not an admin');
+  }
+
+  const results = await db
+    .collection('organizers')
+    .where('id', 'in', user.storeManagerOf)
+    .get();
+
+  const organizers: Organizer[] = [];
+
+  results.forEach((doc: any) => {
+    const d = doc.data();
+
+    organizers.push({
+      id: doc.id,
+      name: d.name,
+      address: d.address,
+      city: d.city,
+      location: {
+        latitude: d.location.latitude,
+        longitude: d.location.longitude,
+      },
+    });
+  });
+  return organizers;
 }

@@ -1,7 +1,12 @@
 /** * @jest-environment node */
 // We need "@jest-environment node" because with jsdom firebase-admin will not works as expected
-import {fetchEventByCoords, fetchAllEvents} from '../../utils/firebase-server';
+import {
+  fetchEventByCoords,
+  fetchAllEvents,
+  fetchOrganizerManagedBy,
+} from '../../utils/firebase-server';
 import {resetDb, populateDb} from '../../fixtures/index';
+import {TOURNAMENT_ORGANIZERS, USERS} from '../../fixtures/data';
 
 describe('firebase.ts - fetchAllEvents', () => {
   beforeAll(async () => {
@@ -70,5 +75,31 @@ describe('firebase.ts - fetchEventByCoords', () => {
     expect(results).toHaveLength(1);
 
     expect(results.find((t) => t.id === 'tournament-03')).not.toBeUndefined();
+  });
+});
+
+describe('firebase.ts - fetchOrganizerManagedBy', () => {
+  beforeAll(async () => {
+    await resetDb();
+    await populateDb();
+  });
+
+  it('should throw exception for unknown user', async () => {
+    const p = fetchOrganizerManagedBy('abc');
+
+    await expect(p).rejects.toBeInstanceOf(Error);
+  });
+
+  it('should throw exception for non-admin user', async () => {
+    const p = fetchOrganizerManagedBy(USERS[1].id);
+
+    await expect(p).rejects.toBeInstanceOf(Error);
+  });
+
+  it('should return 1 result for admin 01', async () => {
+    const results = await fetchOrganizerManagedBy(USERS[0].id);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].id).toBe(TOURNAMENT_ORGANIZERS[0].id);
   });
 });

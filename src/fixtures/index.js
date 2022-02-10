@@ -28,6 +28,7 @@ async function populateDb() {
     geohash: geofire.geohashForLocation(item.location),
     location: new GeoPoint(...item.location),
     venue: item.venue,
+    organizer: item.organizer,
   })).map(({id, ...item}) =>
     database.collection('tournaments').doc(id).set(item)
   );
@@ -41,7 +42,14 @@ async function populateDb() {
   await Promise.all(usersActions);
 
   const toActions = TOURNAMENT_ORGANIZERS.map((to) =>
-    database.collection('organizers').doc(to.id).set(to)
+    database
+      .collection('organizers')
+      .doc(to.id)
+      .set({
+        ...to,
+        geohash: geofire.geohashForLocation(to.location),
+        location: new GeoPoint(...to.location),
+      })
   );
   await Promise.all(toActions);
 }

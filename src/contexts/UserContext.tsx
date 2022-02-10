@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import {isAdmin} from '../utils/acl';
 import {http, fetchCurrentUser} from '../utils/api';
 import * as firebase from '../utils/firebase-client';
 
@@ -97,6 +98,19 @@ export const useRequiredUser = () => {
 
   if (user === null) {
     throw new Error('User required');
+  }
+
+  return {
+    user,
+    ...rest,
+  };
+};
+
+export const useAdmin = () => {
+  const {user, ...rest} = useUser();
+
+  if (!isAdmin(user)) {
+    throw new Error('Admin required!');
   }
 
   return {

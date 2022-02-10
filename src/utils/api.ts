@@ -27,3 +27,9 @@ export const autocompleteCity = async (q: string): Promise<CityOption[]> => {
 
   return response.data;
 };
+
+export const fetchMyOrganizers = async (): Promise<Organizer[]> => {
+  const response = await http.get('/api/admin/organizers');
+
+  return response.data;
+};

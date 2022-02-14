@@ -21,9 +21,6 @@ describe('Page /tournament/[id]', () => {
 
     expect(screen.getByText('La Torre del Minotauro')).toBeInTheDocument();
 
-    expect(screen.getByText('Torna alla lista').closest('a')).toHaveAttribute(
-      'href',
-      '/'
-    );
+    expect(screen.getByText('Home').closest('a')).toHaveAttribute('href', '/');
   });
 });

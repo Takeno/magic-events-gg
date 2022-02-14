@@ -1,10 +1,14 @@
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
+import Image from 'next/image';
+import format from 'date-fns/format';
 import {PropsWithChildren} from 'react';
+import EventBackground from '../../components/EventList/partials/EventBackground';
 import {fetchEventById} from '../../utils/firebase-server';
 
 import staticMap from '../../assets/staticmap.png';
+import store from '../../assets/store.png';
+import Breadcrumb from '../../components/Breadcrumb';
 
 type PageProps = {
   tournament: Tournament;
@@ -19,23 +23,36 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
         </title>
       </Head>
 
-      <header>
-        <Link href="/">
-          <a>Torna alla lista</a>
-        </Link>
-      </header>
+      <Breadcrumb
+        items={[
+          {
+            href: '#',
+            text: 'Roma',
+          },
+          {
+            href: '#',
+            text: 'Modern',
+          },
+          {
+            text: tournament.id,
+          },
+        ]}
+      />
 
-      <div className="max-w-screen-lg mx-auto">
+      <div className="max-w-screen-lg mx-auto mt-8">
         <div className="flex flex-col md:flex-row gap-4 mb-4">
-          <div
-            className="flex-initial w-full md:w-2/3 bg-red-200 card p-4 flex items-center"
-            style={{
-              background: `url(${staticMap.src}) center center no-repeat`,
-            }}
-          >
-            <div className="aspect-square w-10 rounded-full bg-white mr-2" />
+          <div className="flex-initial w-full md:w-2/3 bg-red-200 card p-4 flex items-center">
+            <EventBackground event={tournament} />
+            <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-2">
+              <Image
+                className="h-10 w-10 rounded-full"
+                src={store}
+                alt={tournament.venue}
+                objectFit="contain"
+              />
+            </div>
 
-            <span className="text-white text-2xl font-bold">
+            <span className="relative text-white text-shadow-sm text-2xl font-bold uppercase">
               Torneo {tournament.format}
             </span>
           </div>
@@ -82,9 +99,9 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
             <div className="card p-4 md:p-8">
               <SectionTitle>Quando?</SectionTitle>
               <p>
-                martedì, 28 febbraio 2022
+                {format(tournament.timestamp, 'EEEE, d MMMM')}
                 <br />
-                ore: 18:00
+                {format(tournament.timestamp, 'HH:mm')}
               </p>
 
               <SectionTitle className="mt-6">Dove?</SectionTitle>

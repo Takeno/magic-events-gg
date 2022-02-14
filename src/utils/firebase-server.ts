@@ -1,5 +1,5 @@
 import {initializeApp, getApps, cert} from 'firebase-admin/app';
-import {getFirestore} from 'firebase-admin/firestore';
+import {getFirestore, Timestamp} from 'firebase-admin/firestore';
 import {getAuth as getFirebaseAuth} from 'firebase-admin/auth';
 import * as geofire from 'geofire-common';
 import {isAdmin} from './acl';
@@ -33,6 +33,39 @@ function getAuth() {
   }
 
   return getFirebaseAuth();
+}
+
+export async function fetchHomeEvents(): Promise<Tournament[]> {
+  const db = getDatabase();
+
+  const snapshot = await db
+    .collection('tournaments')
+    .where('datetime', '>=', Timestamp.fromDate(new Date()))
+    .orderBy('datetime', 'asc')
+    .get();
+
+  const data: Tournament[] = [];
+
+  snapshot.forEach((doc: any) => {
+    const d = doc.data();
+
+    data.push({
+      id: doc.id,
+      format: d.format,
+      venue: d.venue,
+      timestamp: d.datetime.seconds * 1000,
+      location: {
+        latitude: d.location.latitude,
+        longitude: d.location.longitude,
+      },
+      organizer: {
+        id: d.organizer.id,
+        name: d.organizer.name,
+      },
+    });
+  });
+
+  return data;
 }
 
 export async function fetchAllEvents(): Promise<Tournament[]> {

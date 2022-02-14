@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 import {EventCardList} from '../components/EventList';
 import LocationSearch from '../components/LocationSearch';
 import {fetchEventByCoords} from '../utils/api';
-import {fetchAllEvents} from '../utils/firebase-server';
+import {fetchHomeEvents} from '../utils/firebase-server';
 
 type PageProps = {
   tournaments: Tournament[];
@@ -12,6 +12,7 @@ type PageProps = {
 
 const Home: NextPage<PageProps> = ({tournaments}) => {
   const [data, setData] = useState<Tournament[]>(tournaments);
+  const [filter, setFilter] = useState<Format>();
 
   const [coords, setCoords] = useState<Coords>();
 
@@ -38,22 +39,55 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
 
       <nav className="bg-white drop-shadow-sm">
         <div className="max-w-screen-lg mx-auto h-16 flex flex-row  items-center gap-3 overflow-x-auto">
-          <a className="font-bold text-primary">Tutti</a>
-          <a>Modern</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
-          <a>Pauper</a>
+          <button
+            className={
+              filter === undefined ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter(undefined)}
+          >
+            Tutti
+          </button>
+          <button
+            className={
+              filter === 'modern' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('modern')}
+          >
+            Modern
+          </button>
+          <button
+            className={
+              filter === 'standard' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('standard')}
+          >
+            Standard
+          </button>
+          <button
+            className={
+              filter === 'legacy' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('legacy')}
+          >
+            Legacy
+          </button>
+          <button
+            className={
+              filter === 'pauper' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('pauper')}
+          >
+            Pauper
+          </button>
         </div>
       </nav>
 
       <article className="max-w-screen-lg mx-auto mt-10">
-        <EventCardList events={data} />
+        <EventCardList
+          events={data.filter(
+            (t) => filter === undefined || t.format === filter
+          )}
+        />
       </article>
     </>
   );
@@ -62,7 +96,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const tournaments = await fetchAllEvents();
+  const tournaments = await fetchHomeEvents();
 
   return {
     props: {

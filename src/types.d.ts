@@ -3,6 +3,15 @@ type Coords = {
   longitude: number;
 };
 
+type Format =
+  | 'modern'
+  | 'legacy'
+  | 'standard'
+  | 'pioneer'
+  | 'vintage'
+  | 'centurion'
+  | 'pauper';
+
 interface Organizer {
   id: string;
   name: string;
@@ -13,7 +22,7 @@ interface Organizer {
 
 type Tournament = {
   id: string;
-  format: string;
+  format: Format;
   venue: string;
   timestamp: number;
   location: Coords;

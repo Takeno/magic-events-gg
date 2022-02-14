@@ -76,7 +76,7 @@ const TOURNAMENTS = [
   },
   {
     id: 'tournament-04',
-    datetime: add(set(new Date(), {hours: 21, minutes: 30}), {days: 0}),
+    datetime: add(set(new Date(), {hours: 21, minutes: 30}), {days: 1}),
     format: 'pauper',
     location: TOURNAMENT_ORGANIZERS[2].location,
     venue: TOURNAMENT_ORGANIZERS[2].name,

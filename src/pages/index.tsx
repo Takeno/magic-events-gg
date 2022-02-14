@@ -1,6 +1,8 @@
 import type {GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
+import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
+import slugify from 'slugify';
 import {EventCardList} from '../components/EventList';
 import LocationSearch from '../components/LocationSearch';
 import {fetchEventByCoords} from '../utils/api';
@@ -15,6 +17,8 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
   const [filter, setFilter] = useState<Format>();
 
   const [coords, setCoords] = useState<Coords>();
+
+  const router = useRouter();
 
   useEffect(() => {
     if (coords === undefined) {
@@ -34,7 +38,12 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
         <h2 className="text-white text-3xl uppercase font-bold text-center mb-4">
           Tutti gli eventi di Magic intorno a te
         </h2>
-        <LocationSearch onPosition={setCoords} />
+        <LocationSearch
+          onPosition={setCoords}
+          onCity={({name}) =>
+            router.push(`/italia/${slugify(name, {lower: true})}`)
+          }
+        />
       </div>
 
       <nav className="bg-white drop-shadow-sm">

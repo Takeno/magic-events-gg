@@ -4,14 +4,20 @@ import {autocompleteCity} from '../utils/api';
 
 type LocationSearchProps = {
   onPosition: (coords: Coords) => void;
+  onCity: (city: {name: string}) => void;
 };
 
 type SelectOption = {
   label: string;
-  value: Coords;
+  value: Coords & {
+    name: string;
+  };
 };
 
-export default function LocationSearch({onPosition}: LocationSearchProps) {
+export default function LocationSearch({
+  onPosition,
+  onCity,
+}: LocationSearchProps) {
   const getUserPosition = useCallback(() => {
     navigator.geolocation.getCurrentPosition(
       ({coords: {latitude, longitude}}) => onPosition({latitude, longitude}),
@@ -48,12 +54,9 @@ export default function LocationSearch({onPosition}: LocationSearchProps) {
         return;
       }
 
-      onPosition({
-        latitude: input.value.latitude,
-        longitude: input.value.longitude,
-      });
+      onCity(input.value);
     },
-    [onPosition]
+    [onCity]
   );
 
   return (

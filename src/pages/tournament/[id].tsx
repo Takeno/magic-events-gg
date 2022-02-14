@@ -26,11 +26,11 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
       <Breadcrumb
         items={[
           {
-            href: '#',
+            href: '/italia/roma',
             text: 'Roma',
           },
           {
-            href: '#',
+            href: '/italia/roma/modern',
             text: 'Modern',
           },
           {

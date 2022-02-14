@@ -1,9 +1,11 @@
 import Image from 'next/image';
 
 import modern from '../../../assets/modern-placeholder.jpg';
+import pauper from '../../../assets/pauper-placeholder.png';
 
 const format2image: Record<string, StaticImageData> = {
   modern,
+  pauper,
 };
 
 type EventBackgroundProps = {

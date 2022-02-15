@@ -65,6 +65,7 @@ export async function fetchHomeEvents(): Promise<Tournament[]> {
       organizer: {
         id: d.organizer.id,
         name: d.organizer.name,
+        logo: d.organizer.logo || null,
       },
     });
   });
@@ -98,6 +99,7 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
       organizer: {
         id: d.organizer.id,
         name: d.organizer.name,
+        logo: d.organizer.logo || null,
       },
     });
   });
@@ -132,6 +134,7 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
     organizer: {
       id: d.organizer.id,
       name: d.organizer.name,
+      logo: d.organizer.logo || null,
     },
   };
 
@@ -194,6 +197,7 @@ export async function fetchEventByCoords(
           organizer: {
             id: d.organizer.id,
             name: d.organizer.name,
+            logo: d.organizer.logo || null,
           },
         });
       }
@@ -272,6 +276,7 @@ export async function fetchOrganizerManagedBy(
     organizers.push({
       id: doc.id,
       name: d.name,
+      logo: d.logo,
       address: d.address,
       city: d.city,
       location: {
@@ -318,6 +323,7 @@ export async function fetchAllEventsByOrganizer(
       organizer: {
         id: d.organizer.id,
         name: d.organizer.name,
+        logo: d.organizer.logo || null,
       },
     });
   });
@@ -349,6 +355,7 @@ export async function saveNewEvent(
     organizer: {
       id: organizer.id,
       name: organizer.name,
+      logo: organizer.logo || null,
     },
     location: {...organizer.location, venue: organizer.name},
   };

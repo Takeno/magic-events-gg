@@ -3,8 +3,6 @@ import Image from 'next/image';
 import {format} from '../../utils/dates';
 import EventBackground from './partials/EventBackground';
 
-import store from '../../assets/store.png';
-
 type EventCardProps = {
   event: Tournament;
 };
@@ -14,14 +12,18 @@ export default function EventCard({event}: EventCardProps) {
     <div className="bg-white md:rounded-md drop-shadow-sm h-fit">
       <div className="h-32 bg-blue-dark relative">
         <EventBackground event={event} />
-        <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center top-4 left-4">
-          <Image
-            className="h-10 w-10 rounded-full"
-            src={store}
-            alt={event.organizer.name}
-            objectFit="contain"
-          />
-        </div>
+        {event.organizer.logo && (
+          <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center top-4 left-4">
+            <Image
+              className="rounded-full"
+              src={event.organizer.logo}
+              alt={event.organizer.name}
+              objectFit="contain"
+              width={50}
+              height={50}
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex flex-row justify-between px-4 my-2">

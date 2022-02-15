@@ -11,6 +11,7 @@ describe('Page /', () => {
         organizer: {
           name: 'La Torre del Minotauro',
           id: '123',
+          logo: null,
         },
         format: 'modern',
         timestamp: 1642340900271,

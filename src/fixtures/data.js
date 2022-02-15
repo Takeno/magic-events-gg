@@ -6,6 +6,7 @@ const TOURNAMENT_ORGANIZERS = [
   {
     id: 'to-01',
     name: 'La Mia Fumetteria',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/magic-events-gg.appspot.com/o/organizers%2Fstore.png?alt=media',
     location: {
       address: 'Via Roma, 100',
       city: 'Roma',
@@ -18,6 +19,7 @@ const TOURNAMENT_ORGANIZERS = [
   {
     id: 'to-02',
     name: 'Carte Che Passione',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/magic-events-gg.appspot.com/o/organizers%2Fstore.png?alt=media',
     location: {
       address: 'Via Roma, 100',
       city: 'Torino',
@@ -30,6 +32,7 @@ const TOURNAMENT_ORGANIZERS = [
   {
     id: 'to-03',
     name: 'Negozio 01',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/magic-events-gg.appspot.com/o/organizers%2Fstore.png?alt=media',
     location: {
       address: 'Via Roma, 100',
       city: 'Roma',
@@ -67,6 +70,7 @@ const TOURNAMENTS = [
     organizer: {
       id: TOURNAMENT_ORGANIZERS[0].id,
       name: TOURNAMENT_ORGANIZERS[0].name,
+      logo: TOURNAMENT_ORGANIZERS[0].logo,
     },
   },
   {
@@ -80,6 +84,7 @@ const TOURNAMENTS = [
     organizer: {
       id: TOURNAMENT_ORGANIZERS[0].id,
       name: TOURNAMENT_ORGANIZERS[0].name,
+      logo: TOURNAMENT_ORGANIZERS[0].logo,
     },
   },
   {
@@ -93,6 +98,7 @@ const TOURNAMENTS = [
     organizer: {
       id: TOURNAMENT_ORGANIZERS[1].id,
       name: TOURNAMENT_ORGANIZERS[1].name,
+      logo: TOURNAMENT_ORGANIZERS[1].logo,
     },
   },
   {
@@ -106,6 +112,7 @@ const TOURNAMENTS = [
     organizer: {
       id: TOURNAMENT_ORGANIZERS[2].id,
       name: TOURNAMENT_ORGANIZERS[2].name,
+      logo: TOURNAMENT_ORGANIZERS[2].logo,
     },
   },
   {
@@ -119,6 +126,7 @@ const TOURNAMENTS = [
     organizer: {
       id: TOURNAMENT_ORGANIZERS[2].id,
       name: TOURNAMENT_ORGANIZERS[2].name,
+      logo: TOURNAMENT_ORGANIZERS[2].logo,
     },
   },
 ];

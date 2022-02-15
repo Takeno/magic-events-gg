@@ -7,7 +7,6 @@ import {format} from '../../utils/dates';
 import {fetchEventById} from '../../utils/firebase-server';
 
 import staticMap from '../../assets/staticmap.png';
-import store from '../../assets/store.png';
 import Breadcrumb from '../../components/Breadcrumb';
 
 type PageProps = {
@@ -44,14 +43,18 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <div className="flex-initial w-full md:w-2/3 bg-red-200 card p-4 flex items-center">
             <EventBackground event={tournament} />
-            <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-2">
-              <Image
-                className="h-10 w-10 rounded-full"
-                src={store}
-                alt={tournament.organizer.name}
-                objectFit="contain"
-              />
-            </div>
+            {tournament.organizer.logo && (
+              <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-2">
+                <Image
+                  className="rounded-full"
+                  src={tournament.organizer.logo}
+                  alt={tournament.organizer.name}
+                  objectFit="contain"
+                  width={50}
+                  height={50}
+                />
+              </div>
+            )}
 
             <span className="relative text-white text-shadow-sm text-2xl font-bold uppercase">
               Torneo {tournament.format}

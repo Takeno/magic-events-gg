@@ -26,6 +26,7 @@ type Format =
 interface Organizer {
   id: string;
   name: string;
+  logo: string | null;
   address: string;
   city: string;
   location: OrganizerLocation;
@@ -36,7 +37,7 @@ type Tournament = {
   format: Format;
   timestamp: number;
   location: EventLocation;
-  organizer: Pick<Organizer, 'id' | 'name'>;
+  organizer: Pick<Organizer, 'id' | 'name' | 'logo'>;
 };
 
 interface User {

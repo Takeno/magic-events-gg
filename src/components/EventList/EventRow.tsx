@@ -3,8 +3,6 @@ import {format} from '../../utils/dates';
 
 import EventBackground from './partials/EventBackground';
 
-import store from '../../assets/store.png';
-
 type EventRowProps = {
   event: Tournament;
 };
@@ -14,14 +12,18 @@ export default function EventRow({event}: EventRowProps) {
     <div className="flex items-center bg-white md:rounded-md overflow-hidden drop-shadow-sm h-[64px] my-2">
       <div className="bg-blue-dark relative h-full w-40 mr-4">
         <EventBackground event={event} />
-        <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center top-1 left-1">
-          <Image
-            className="h-10 w-10 rounded-full bg-red-600"
-            src={store}
-            alt={event.organizer.name}
-            objectFit="contain"
-          />
-        </div>
+        {event.organizer.logo && (
+          <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center top-1 left-1">
+            <Image
+              className="rounded-full bg-red-600"
+              src={event.organizer.logo}
+              alt={event.organizer.name}
+              objectFit="contain"
+              width={50}
+              height={50}
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex-1">

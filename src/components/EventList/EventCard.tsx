@@ -18,7 +18,7 @@ export default function EventCard({event}: EventCardProps) {
           <Image
             className="h-10 w-10 rounded-full"
             src={store}
-            alt={event.venue}
+            alt={event.organizer.name}
             objectFit="contain"
           />
         </div>
@@ -40,8 +40,8 @@ export default function EventCard({event}: EventCardProps) {
       </div>
 
       <div className="px-4 my-2">
-        <Link href={`/to/${event.id}`}>
-          <a>{event.venue}</a>
+        <Link href={`/to/${event.organizer.id}`}>
+          <a>{event.organizer.name}</a>
         </Link>
         <div className="text-sm font-normal text-gray-500 normal-case">
           Roma (RM), Italy

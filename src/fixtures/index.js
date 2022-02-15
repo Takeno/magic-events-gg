@@ -1,5 +1,5 @@
 const {initializeApp, getApps} = require('firebase-admin/app');
-const {getFirestore, Timestamp, GeoPoint} = require('firebase-admin/firestore');
+const {getFirestore, Timestamp} = require('firebase-admin/firestore');
 const {TOURNAMENTS, USERS, TOURNAMENT_ORGANIZERS} = require('./data');
 
 const geofire = require('geofire-common');
@@ -23,11 +23,13 @@ async function populateDb() {
 
   const actions = TOURNAMENTS.map((item) => ({
     id: item.id,
-    datetime: Timestamp.fromDate(item.datetime),
+    timestamp: Timestamp.fromDate(item.datetime),
     format: item.format,
-    geohash: geofire.geohashForLocation(item.location),
-    location: new GeoPoint(...item.location),
-    venue: item.venue,
+    geohash: geofire.geohashForLocation([
+      item.location.latitude,
+      item.location.longitude,
+    ]),
+    location: item.location,
     organizer: item.organizer,
   })).map(({id, ...item}) =>
     database.collection('tournaments').doc(id).set(item)
@@ -47,8 +49,10 @@ async function populateDb() {
       .doc(to.id)
       .set({
         ...to,
-        geohash: geofire.geohashForLocation(to.location),
-        location: new GeoPoint(...to.location),
+        geohash: geofire.geohashForLocation([
+          to.location.latitude,
+          to.location.longitude,
+        ]),
       })
   );
   await Promise.all(toActions);

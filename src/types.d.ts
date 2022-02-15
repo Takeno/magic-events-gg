@@ -1,7 +1,18 @@
-type Coords = {
+interface Coords {
   latitude: number;
   longitude: number;
-};
+}
+
+interface OrganizerLocation extends Coords {
+  address: string;
+  city: string;
+  province: string;
+  country: string;
+}
+
+interface EventLocation extends OrganizerLocation {
+  venue: string;
+}
 
 type Format =
   | 'modern'
@@ -17,19 +28,15 @@ interface Organizer {
   name: string;
   address: string;
   city: string;
-  location: Coords;
+  location: OrganizerLocation;
 }
 
 type Tournament = {
   id: string;
   format: Format;
-  venue: string;
   timestamp: number;
-  location: Coords;
-  organizer: {
-    id: Organizer['id'];
-    name: Organizer['name'];
-  };
+  location: EventLocation;
+  organizer: Pick<Organizer, 'id' | 'name'>;
 };
 
 interface User {

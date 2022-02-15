@@ -19,7 +19,8 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
     <>
       <Head>
         <title>
-          Torneo {tournament.format} di {tournament.venue} - magic-events.gg
+          Torneo {tournament.format} di {tournament.organizer.name} -
+          magic-events.gg
         </title>
       </Head>
 
@@ -47,7 +48,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
               <Image
                 className="h-10 w-10 rounded-full"
                 src={store}
-                alt={tournament.venue}
+                alt={tournament.organizer.name}
                 objectFit="contain"
               />
             </div>
@@ -65,7 +66,9 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
               <div className="px-4 md:px-12 pt-4 md:pt-8">
                 <SectionTitle>Organizzatore</SectionTitle>
 
-                <h3 className="text-3xl font-bold">{tournament.venue}</h3>
+                <h3 className="text-3xl font-bold">
+                  {tournament.organizer.name}
+                </h3>
 
                 <SectionTitle className="mt-6">Descrizione evento</SectionTitle>
 

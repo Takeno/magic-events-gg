@@ -6,23 +6,38 @@ const TOURNAMENT_ORGANIZERS = [
   {
     id: 'to-01',
     name: 'La Mia Fumetteria',
-    address: 'Via Roma, 100',
-    city: 'Roma (RM), Italy',
-    location: [41.89591311534382, 12.482574089058868],
+    location: {
+      address: 'Via Roma, 100',
+      city: 'Roma',
+      province: 'RM',
+      country: 'Italy',
+      latitude: 41.89591311534382,
+      longitude: 12.482574089058868,
+    },
   },
   {
     id: 'to-02',
     name: 'Carte Che Passione',
-    address: 'Via Roma, 100',
-    city: 'Torino (TO), Italy',
-    location: [45.07119418846577, 7.686011907682986],
+    location: {
+      address: 'Via Roma, 100',
+      city: 'Torino',
+      province: 'TO',
+      country: 'Italy',
+      latitude: 45.07119418846577,
+      longitude: 7.686011907682986,
+    },
   },
   {
     id: 'to-03',
     name: 'Negozio 01',
-    address: 'Via Roma, 100',
-    city: 'Roma (RM), Italy',
-    location: [41.87663604952337, 12.481060499636694],
+    location: {
+      address: 'Via Roma, 100',
+      city: 'Roma',
+      province: 'RM',
+      country: 'Italy',
+      latitude: 41.87663604952337,
+      longitude: 12.481060499636694,
+    },
   },
 ];
 
@@ -45,8 +60,10 @@ const TOURNAMENTS = [
     id: 'tournament-01',
     datetime: add(set(new Date(), {hours: 21, minutes: 0}), {days: 7}),
     format: 'modern',
-    location: TOURNAMENT_ORGANIZERS[0].location,
-    venue: TOURNAMENT_ORGANIZERS[0].name,
+    location: {
+      venue: TOURNAMENT_ORGANIZERS[0].name,
+      ...TOURNAMENT_ORGANIZERS[0].location,
+    },
     organizer: {
       id: TOURNAMENT_ORGANIZERS[0].id,
       name: TOURNAMENT_ORGANIZERS[0].name,
@@ -56,8 +73,10 @@ const TOURNAMENTS = [
     id: 'tournament-02',
     datetime: add(set(new Date(), {hours: 21, minutes: 30}), {days: 6}),
     format: 'modern',
-    location: TOURNAMENT_ORGANIZERS[0].location,
-    venue: TOURNAMENT_ORGANIZERS[0].name,
+    location: {
+      venue: TOURNAMENT_ORGANIZERS[0].name,
+      ...TOURNAMENT_ORGANIZERS[0].location,
+    },
     organizer: {
       id: TOURNAMENT_ORGANIZERS[0].id,
       name: TOURNAMENT_ORGANIZERS[0].name,
@@ -67,8 +86,10 @@ const TOURNAMENTS = [
     id: 'tournament-03',
     datetime: add(set(new Date(), {hours: 21, minutes: 0}), {days: 7}),
     format: 'modern',
-    location: TOURNAMENT_ORGANIZERS[1].location,
-    venue: TOURNAMENT_ORGANIZERS[1].name,
+    location: {
+      venue: TOURNAMENT_ORGANIZERS[1].name,
+      ...TOURNAMENT_ORGANIZERS[1].location,
+    },
     organizer: {
       id: TOURNAMENT_ORGANIZERS[1].id,
       name: TOURNAMENT_ORGANIZERS[1].name,
@@ -78,8 +99,10 @@ const TOURNAMENTS = [
     id: 'tournament-04',
     datetime: add(set(new Date(), {hours: 21, minutes: 30}), {days: 1}),
     format: 'pauper',
-    location: TOURNAMENT_ORGANIZERS[2].location,
-    venue: TOURNAMENT_ORGANIZERS[2].name,
+    location: {
+      venue: TOURNAMENT_ORGANIZERS[2].name,
+      ...TOURNAMENT_ORGANIZERS[2].location,
+    },
     organizer: {
       id: TOURNAMENT_ORGANIZERS[2].id,
       name: TOURNAMENT_ORGANIZERS[2].name,
@@ -89,8 +112,10 @@ const TOURNAMENTS = [
     id: 'tournament-05',
     datetime: sub(set(new Date(), {hours: 21, minutes: 0}), {days: 1}),
     format: 'legacy',
-    location: TOURNAMENT_ORGANIZERS[2].location,
-    venue: TOURNAMENT_ORGANIZERS[2].name,
+    location: {
+      venue: TOURNAMENT_ORGANIZERS[2].name,
+      ...TOURNAMENT_ORGANIZERS[2].location,
+    },
     organizer: {
       id: TOURNAMENT_ORGANIZERS[2].id,
       name: TOURNAMENT_ORGANIZERS[2].name,

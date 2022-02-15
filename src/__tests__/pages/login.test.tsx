@@ -29,6 +29,7 @@ describe('Page /login', () => {
 
     const context: UserContextType = {
       user: null,
+      loading: false,
       signup: () => Promise.reject('Not implemented'),
       login: jest.fn(() => Promise.resolve()),
       logout: () => Promise.reject('Not implemented'),
@@ -65,6 +66,7 @@ describe('Page /login', () => {
   it('should show error message on failure', async () => {
     const context: UserContextType = {
       user: null,
+      loading: false,
       signup: () => Promise.reject('Not implemented'),
       login: jest.fn(() => {
         const err = new Error('error');

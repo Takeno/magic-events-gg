@@ -22,6 +22,7 @@ describe('Page /signup', () => {
   it('should call signup method', async () => {
     const context: UserContextType = {
       user: null,
+      loading: false,
       signup: jest.fn(() => Promise.resolve()),
       login: () => Promise.reject('Not implemented'),
       logout: () => Promise.reject('Not implemented'),
@@ -53,6 +54,7 @@ describe('Page /signup', () => {
   it('should show error message on failure', async () => {
     const context: UserContextType = {
       user: null,
+      loading: false,
       signup: jest.fn(() => {
         const err = new Error('error');
         // @ts-expect-error

@@ -18,7 +18,7 @@ export default function EventRow({event}: EventRowProps) {
           <Image
             className="h-10 w-10 rounded-full bg-red-600"
             src={store}
-            alt={event.venue}
+            alt={event.organizer.name}
             objectFit="contain"
           />
         </div>
@@ -28,7 +28,7 @@ export default function EventRow({event}: EventRowProps) {
         <div className="text-md font-bold text-gray-900 uppercase">
           {event.format} -{' '}
           <span className="text-sm font-normal text-gray-500 normal-case">
-            {event.venue}
+            {event.organizer.name}
           </span>
         </div>
         <div className="text-sm font-normal text-gray-500 normal-case">

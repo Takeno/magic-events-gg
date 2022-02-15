@@ -40,8 +40,8 @@ export async function fetchHomeEvents(): Promise<Tournament[]> {
 
   const snapshot = await db
     .collection('tournaments')
-    .where('datetime', '>=', Timestamp.fromDate(new Date()))
-    .orderBy('datetime', 'asc')
+    .where('timestamp', '>=', Timestamp.fromDate(new Date()))
+    .orderBy('timestamp', 'asc')
     .get();
 
   const data: Tournament[] = [];
@@ -52,9 +52,13 @@ export async function fetchHomeEvents(): Promise<Tournament[]> {
     data.push({
       id: doc.id,
       format: d.format,
-      venue: d.venue,
-      timestamp: d.datetime.seconds * 1000,
+      timestamp: d.timestamp.seconds * 1000,
       location: {
+        venue: d.location.venue,
+        address: d.location.address,
+        city: d.location.city,
+        province: d.location.province,
+        country: d.location.country,
         latitude: d.location.latitude,
         longitude: d.location.longitude,
       },
@@ -81,9 +85,13 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
     data.push({
       id: doc.id,
       format: d.format,
-      venue: d.venue,
-      timestamp: d.datetime.seconds * 1000,
+      timestamp: d.timestamp.seconds * 1000,
       location: {
+        venue: d.location.venue,
+        address: d.location.address,
+        city: d.location.city,
+        province: d.location.province,
+        country: d.location.country,
         latitude: d.location.latitude,
         longitude: d.location.longitude,
       },
@@ -111,9 +119,13 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
   const tournament: Tournament = {
     id: snapshot.id,
     format: d.format,
-    venue: d.venue,
-    timestamp: d.datetime.seconds * 1000,
+    timestamp: d.timestamp.seconds * 1000,
     location: {
+      venue: d.location.venue,
+      address: d.location.address,
+      city: d.location.city,
+      province: d.location.province,
+      country: d.location.country,
       latitude: d.location.latitude,
       longitude: d.location.longitude,
     },
@@ -169,9 +181,13 @@ export async function fetchEventByCoords(
         matchingDocs.push({
           id: doc.id,
           format: d.format,
-          venue: d.venue,
-          timestamp: d.datetime.seconds * 1000,
+          timestamp: d.timestamp.seconds * 1000,
           location: {
+            venue: d.location.venue,
+            address: d.location.address,
+            city: d.location.city,
+            province: d.location.province,
+            country: d.location.country,
             latitude: d.location.latitude,
             longitude: d.location.longitude,
           },
@@ -258,6 +274,10 @@ export async function fetchOrganizerManagedBy(
       address: d.address,
       city: d.city,
       location: {
+        address: d.location.address,
+        city: d.location.city,
+        province: d.location.province,
+        country: d.location.country,
         latitude: d.location.latitude,
         longitude: d.location.longitude,
       },

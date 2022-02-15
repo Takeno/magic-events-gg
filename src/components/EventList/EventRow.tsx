@@ -1,5 +1,5 @@
-import format from 'date-fns/format';
 import Image from 'next/image';
+import {format} from '../../utils/dates';
 
 import EventBackground from './partials/EventBackground';
 
@@ -37,7 +37,7 @@ export default function EventRow({event}: EventRowProps) {
       </div>
 
       <div className="flex flex-col items-center mr-4">
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-gray-600 first-letter:uppercase">
           {format(event.timestamp, 'E, d MMM')}
         </span>
         <span className="text-md font-bold text-gray-600">

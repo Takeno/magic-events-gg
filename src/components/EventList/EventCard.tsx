@@ -1,9 +1,9 @@
-import format from 'date-fns/format';
 import Link from 'next/link';
+import Image from 'next/image';
+import {format} from '../../utils/dates';
 import EventBackground from './partials/EventBackground';
 
 import store from '../../assets/store.png';
-import Image from 'next/image';
 
 type EventCardProps = {
   event: Tournament;
@@ -25,7 +25,7 @@ export default function EventCard({event}: EventCardProps) {
       </div>
 
       <div className="flex flex-row justify-between px-4 my-2">
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-gray-600 first-letter:uppercase">
           {format(event.timestamp, 'E, d MMM')}
         </span>
         <span className="text-sm text-gray-600">

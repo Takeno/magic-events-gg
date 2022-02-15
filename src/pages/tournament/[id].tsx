@@ -1,9 +1,9 @@
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import format from 'date-fns/format';
 import {PropsWithChildren} from 'react';
 import EventBackground from '../../components/EventList/partials/EventBackground';
+import {format} from '../../utils/dates';
 import {fetchEventById} from '../../utils/firebase-server';
 
 import staticMap from '../../assets/staticmap.png';
@@ -98,7 +98,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
           <div className="flex-initial w-full md:w-1/3">
             <div className="card p-4 md:p-8">
               <SectionTitle>Quando?</SectionTitle>
-              <p>
+              <p className="first-letter:uppercase">
                 {format(tournament.timestamp, 'EEEE, d MMMM')}
                 <br />
                 {format(tournament.timestamp, 'HH:mm')}

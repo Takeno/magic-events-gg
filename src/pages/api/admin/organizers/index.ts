@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import {
   fetchOrganizerManagedBy,
   verifyAuthToken,
-} from '../../../utils/firebase-server';
+} from '../../../../utils/firebase-server';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const auth = req.headers.authorization;

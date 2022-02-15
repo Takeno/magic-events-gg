@@ -1,30 +1,44 @@
 import type {NextPage} from 'next';
-import Link from 'next/link';
+import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
-import Breadcrumb from '../../components/Breadcrumb';
-import {useAdmin} from '../../contexts/UserContext';
-import {fetchMyOrganizers} from '../../utils/api';
+import {format} from '../../../utils/dates';
+import Breadcrumb from '../../../components/Breadcrumb';
+import {fetchEventsByOrganizer} from '../../../utils/api';
+import Link from 'next/link';
 
 type PageProps = {};
 
-const AdminIndex: NextPage<PageProps> = () => {
-  const {user} = useAdmin();
+const AdminOrganizerIndex: NextPage<PageProps> = () => {
+  const [tournaments, setTournaments] = useState<Tournament[]>([]);
 
-  const [organizers, setOrganizers] = useState<Organizer[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
-    fetchMyOrganizers().then(setOrganizers);
-  }, []);
+    const organizerId = router.query.to;
+    if (typeof organizerId !== 'string') {
+      throw new Error('Invalid organizer');
+    }
+    fetchEventsByOrganizer(organizerId).then(setTournaments);
+  }, [router]);
+
   return (
     <>
       <Breadcrumb
         items={[
           {
-            text: 'Admin',
+            href: '/admin',
+            text: 'I miei negozi',
+          },
+          {
+            text: 'Eventi',
           },
         ]}
       />
-      <div className="container mx-auto pt-16">
+      <div className="container mx-auto pt-4">
+        <Link href={`/admin/to/${router.query.to}/new-event`}>
+          <a className="underline">Aggiungi nuovo evento</a>
+        </Link>
+
         <div className="flex flex-col">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -36,56 +50,53 @@ const AdminIndex: NextPage<PageProps> = () => {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Negozio
+                        Data
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Location
+                        Formato
                       </th>
-
                       <th scope="col" className="relative px-6 py-3">
                         <span className="sr-only">Edit</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {organizers.map((to) => (
-                      <tr key={to.id}>
+                    {tournaments.map((tournament) => (
+                      <tr key={tournament.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            {/* <div className="flex-shrink-0 h-10 w-10">
-                              <img
-                                className="h-10 w-10 rounded-full"
-                                src=""
-                                alt="negozio1"
-                              />
-                            </div> */}
-                            <div className="ml-4">
-                              <Link href={`/admin/to/${to.id}`}>
-                                <a className="text-md font-medium text-gray-900">
-                                  {to.name}
-                                </a>
-                              </Link>
+                          <div className="">
+                            <div className="text-sm font-medium text-gray-900 first-letter:uppercase">
+                              {format(tournament.timestamp, 'E, d MMM')}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {format(tournament.timestamp, 'HH:mm')}
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {to.location.address}
-                            <br />
-                            {to.location.city} ({to.location.province}),{' '}
-                            {to.location.country}
+                            {tournament.format}
                           </div>
-                          <div className="text-sm text-gray-500">{to.city}</div>
+                          <div className="text-sm text-gray-500">
+                            Il modern del venerdì!
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link href={`/admin/to/${to.id}/edit`}>
+                          <Link href={`/tournament/${tournament.id}`}>
                             <a className="text-indigo-600 hover:text-indigo-900">
-                              Modifica
+                              Vedi evento
                             </a>
-                          </Link>
+                          </Link>{' '}
+                          -{' '}
+                          <a
+                            href="#"
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            Modifica
+                          </a>
                         </td>
                       </tr>
                     ))}
@@ -100,4 +111,4 @@ const AdminIndex: NextPage<PageProps> = () => {
   );
 };
 
-export default AdminIndex;
+export default AdminOrganizerIndex;

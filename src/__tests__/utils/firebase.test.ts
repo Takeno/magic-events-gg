@@ -4,9 +4,11 @@ import {
   fetchEventByCoords,
   fetchAllEvents,
   fetchOrganizerManagedBy,
+  fetchAllEventsByOrganizer,
+  saveNewEvent,
 } from '../../utils/firebase-server';
 import {resetDb, populateDb} from '../../fixtures/index';
-import {TOURNAMENT_ORGANIZERS, USERS} from '../../fixtures/data';
+import {TOURNAMENTS, TOURNAMENT_ORGANIZERS, USERS} from '../../fixtures/data';
 
 describe('firebase.ts - fetchAllEvents', () => {
   beforeAll(async () => {
@@ -101,5 +103,49 @@ describe('firebase.ts - fetchOrganizerManagedBy', () => {
 
     expect(results).toHaveLength(1);
     expect(results[0].id).toBe(TOURNAMENT_ORGANIZERS[0].id);
+  });
+});
+
+describe('firebase.ts - fetchAllEventsByOrganizer', () => {
+  beforeAll(async () => {
+    await resetDb();
+    await populateDb();
+  });
+
+  it('should return 1 result for admin 01', async () => {
+    const results = await fetchAllEventsByOrganizer(
+      TOURNAMENT_ORGANIZERS[0].id
+    );
+
+    expect(results).toHaveLength(2);
+    expect(results[0].id).toBe(TOURNAMENTS[0].id);
+  });
+
+  it('should return 0 results for unknown organizer', async () => {
+    const results = await fetchAllEventsByOrganizer('abc');
+
+    expect(results).toHaveLength(0);
+  });
+});
+
+describe('firebase.ts - saveNewEvent', () => {
+  beforeAll(async () => {
+    await resetDb();
+    await populateDb();
+  });
+
+  it('should save new event', async () => {
+    const before = await fetchAllEventsByOrganizer(TOURNAMENT_ORGANIZERS[0].id);
+
+    expect(before).toHaveLength(2);
+
+    await saveNewEvent(TOURNAMENT_ORGANIZERS[0].id, {
+      format: 'modern',
+      timestamp: Date.now(),
+    });
+
+    const after = await fetchAllEventsByOrganizer(TOURNAMENT_ORGANIZERS[0].id);
+
+    expect(after).toHaveLength(3);
   });
 });

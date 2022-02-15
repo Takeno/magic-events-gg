@@ -33,3 +33,23 @@ export const fetchMyOrganizers = async (): Promise<Organizer[]> => {
 
   return response.data;
 };
+
+export const fetchEventsByOrganizer = async (
+  organizer: string
+): Promise<Tournament[]> => {
+  const response = await http.get(`/api/admin/organizers/${organizer}/events`);
+
+  return response.data;
+};
+
+export const saveEvent = async (
+  organizer: Organizer['id'],
+  event: Pick<Tournament, 'format' | 'timestamp'>
+): Promise<Tournament> => {
+  const response = await http.post(
+    `/api/admin/organizers/${organizer}/events`,
+    event
+  );
+
+  return response.data;
+};

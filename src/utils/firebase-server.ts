@@ -209,7 +209,7 @@ export async function verifyAuthToken(idToken: string) {
   return await auth.verifyIdToken(idToken);
 }
 
-export async function fetchUser(uid: string): Promise<User | null> {
+export async function fetchUser(uid: string): Promise<User | Admin | null> {
   const db = getDatabase();
 
   const snapshot = await db.collection('users').doc(uid).get();
@@ -224,6 +224,7 @@ export async function fetchUser(uid: string): Promise<User | null> {
     id: snapshot.id,
     email: d.email,
     roles: d.roles,
+    storeManagerOf: d.storeManagerOf,
   };
 }
 
@@ -284,4 +285,81 @@ export async function fetchOrganizerManagedBy(
     });
   });
   return organizers;
+}
+
+export async function fetchAllEventsByOrganizer(
+  organizer: string
+): Promise<Tournament[]> {
+  const db = getDatabase();
+
+  const snapshot = await db
+    .collection('tournaments')
+    .where('organizer.id', '==', organizer)
+    .get();
+
+  const data: Tournament[] = [];
+
+  snapshot.forEach((doc: any) => {
+    const d = doc.data();
+
+    data.push({
+      id: doc.id,
+      format: d.format,
+      timestamp: d.timestamp.seconds * 1000,
+      location: {
+        venue: d.location.venue,
+        address: d.location.address,
+        city: d.location.city,
+        province: d.location.province,
+        country: d.location.country,
+        latitude: d.location.latitude,
+        longitude: d.location.longitude,
+      },
+      organizer: {
+        id: d.organizer.id,
+        name: d.organizer.name,
+      },
+    });
+  });
+
+  return data;
+}
+
+export async function saveNewEvent(
+  organizerId: string,
+  event: Pick<Tournament, 'format' | 'timestamp'>
+): Promise<Tournament> {
+  const db = getDatabase();
+
+  const organizerSnapshot = await db
+    .collection('organizers')
+    .doc(organizerId)
+    .get();
+
+  const organizer = organizerSnapshot.data();
+
+  if (organizer === undefined) {
+    throw new Error('Invalid organizer');
+  }
+
+  const tournament: Tournament = {
+    id: '' + Date.now(),
+    format: event.format,
+    timestamp: event.timestamp,
+    organizer: {
+      id: organizer.id,
+      name: organizer.name,
+    },
+    location: {...organizer.location, venue: organizer.name},
+  };
+
+  await db
+    .collection('tournaments')
+    .doc(tournament.id)
+    .set({
+      ...tournament,
+      timestamp: Timestamp.fromMillis(tournament.timestamp),
+    });
+
+  return tournament;
 }

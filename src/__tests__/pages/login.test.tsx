@@ -25,6 +25,7 @@ describe('Page /login', () => {
     const useRouter = jest.spyOn(require('next/router'), 'useRouter');
     useRouter.mockReturnValue({
       replace: routerReplaceMock,
+      prefetch: () => Promise.resolve(),
     });
 
     const context: UserContextType = {

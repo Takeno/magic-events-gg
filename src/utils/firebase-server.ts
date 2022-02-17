@@ -52,6 +52,8 @@ export async function fetchHomeEvents(): Promise<Tournament[]> {
     data.push({
       id: doc.id,
       format: d.format,
+      title: d.title || null,
+      text: d.text || null,
       timestamp: d.timestamp.seconds * 1000,
       location: {
         venue: d.location.venue,
@@ -86,6 +88,8 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
     data.push({
       id: doc.id,
       format: d.format,
+      title: d.title || null,
+      text: d.text || null,
       timestamp: d.timestamp.seconds * 1000,
       location: {
         venue: d.location.venue,
@@ -121,6 +125,8 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
   const tournament: Tournament = {
     id: snapshot.id,
     format: d.format,
+    title: d.title || null,
+    text: d.text || null,
     timestamp: d.timestamp.seconds * 1000,
     location: {
       venue: d.location.venue,
@@ -184,6 +190,8 @@ export async function fetchEventByCoords(
         matchingDocs.push({
           id: doc.id,
           format: d.format,
+          title: d.title || null,
+          text: d.text || null,
           timestamp: d.timestamp.seconds * 1000,
           location: {
             venue: d.location.venue,
@@ -310,6 +318,8 @@ export async function fetchAllEventsByOrganizer(
     data.push({
       id: doc.id,
       format: d.format,
+      title: d.title || null,
+      text: d.text || null,
       timestamp: d.timestamp.seconds * 1000,
       location: {
         venue: d.location.venue,
@@ -333,7 +343,7 @@ export async function fetchAllEventsByOrganizer(
 
 export async function saveNewEvent(
   organizerId: string,
-  event: Pick<Tournament, 'format' | 'timestamp'>
+  event: Pick<Tournament, 'format' | 'timestamp' | 'title' | 'text'>
 ): Promise<Tournament> {
   const db = getDatabase();
 
@@ -351,6 +361,8 @@ export async function saveNewEvent(
   const tournament: Tournament = {
     id: '' + Date.now(),
     format: event.format,
+    title: event.title,
+    text: event.text,
     timestamp: event.timestamp,
     organizer: {
       id: organizer.id,
@@ -360,13 +372,10 @@ export async function saveNewEvent(
     location: {...organizer.location, venue: organizer.name},
   };
 
-  await db
-    .collection('tournaments')
-    .doc(tournament.id)
-    .set({
-      ...tournament,
-      timestamp: Timestamp.fromMillis(tournament.timestamp),
-    });
+  await db.collection('tournaments').add({
+    ...tournament,
+    timestamp: Timestamp.fromMillis(tournament.timestamp),
+  });
 
   return tournament;
 }

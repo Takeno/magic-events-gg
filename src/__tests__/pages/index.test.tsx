@@ -14,6 +14,8 @@ describe('Page /', () => {
           logo: null,
         },
         format: 'modern',
+        title: null,
+        text: null,
         timestamp: 1642340900271,
         location: {
           venue: 'La Torre del Minotauro',

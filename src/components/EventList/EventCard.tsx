@@ -46,7 +46,8 @@ export default function EventCard({event}: EventCardProps) {
           <a>{event.organizer.name}</a>
         </Link>
         <div className="text-sm font-normal text-gray-500 normal-case">
-          Roma (RM), Italy
+          {event.location.city} ({event.location.province}),{' '}
+          {event.location.country}
         </div>
       </div>
     </div>

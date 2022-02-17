@@ -25,6 +25,8 @@ async function populateDb() {
     id: item.id,
     timestamp: Timestamp.fromDate(item.datetime),
     format: item.format,
+    title: item.title || null,
+    text: item.text || null,
     geohash: geofire.geohashForLocation([
       item.location.latitude,
       item.location.longitude,

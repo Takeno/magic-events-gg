@@ -44,7 +44,7 @@ export const fetchEventsByOrganizer = async (
 
 export const saveEvent = async (
   organizer: Organizer['id'],
-  event: Pick<Tournament, 'format' | 'timestamp'>
+  event: Pick<Tournament, 'format' | 'timestamp' | 'title' | 'text'>
 ): Promise<Tournament> => {
   const response = await http.post(
     `/api/admin/organizers/${organizer}/events`,

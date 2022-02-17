@@ -9,6 +9,8 @@ type PageProps = {};
 type FormType = {
   format: Format;
   timestamp: string;
+  title: string;
+  text: string;
 };
 
 const AdminTournamentCreate: NextPage<PageProps> = () => {
@@ -22,6 +24,8 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
     const created = await saveEvent(router.query.to, {
       format: data.format,
       timestamp: new Date(data.timestamp).getTime(),
+      title: data.title,
+      text: data.text,
     });
 
     router.push(`/admin/to/${router.query.to}`);
@@ -36,7 +40,7 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
             text: 'I miei negozi',
           },
           {
-            text: 'Eventi',
+            text: 'Nuovo evento',
           },
         ]}
       />
@@ -51,13 +55,21 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
                 Formato
               </label>
               <Field
-                component="input"
+                component="select"
                 name="format"
                 id="format"
                 required
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900"
                 placeholder="Formato"
-              />
+              >
+                <option value="modern">modern</option>
+                <option value="legacy">legacy</option>
+                <option value="standard">standard</option>
+                <option value="pioneer">pioneer</option>
+                <option value="vintage">vintage</option>
+                <option value="centurion">centurion</option>
+                <option value="pauper">pauper</option>
+              </Field>
               <label htmlFor="timestamp" className="sr-only">
                 Quando
               </label>
@@ -69,6 +81,30 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
                 required
                 className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900"
                 placeholder="Quando"
+              />
+
+              <label htmlFor="title" className="sr-only">
+                Titolo
+              </label>
+              <Field
+                component="input"
+                name="title"
+                id="title"
+                required
+                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900"
+                placeholder="Titolo"
+              />
+
+              <label htmlFor="text" className="sr-only">
+                Descrizione
+              </label>
+              <Field
+                component="textarea"
+                name="text"
+                id="text"
+                required
+                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900"
+                placeholder="Descrizione"
               />
 
               <button

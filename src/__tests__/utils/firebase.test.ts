@@ -142,6 +142,8 @@ describe('firebase.ts - saveNewEvent', () => {
     await saveNewEvent(TOURNAMENT_ORGANIZERS[0].id, {
       format: 'modern',
       timestamp: Date.now(),
+      title: null,
+      text: null,
     });
 
     const after = await fetchAllEventsByOrganizer(TOURNAMENT_ORGANIZERS[0].id);

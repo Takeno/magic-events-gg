@@ -35,6 +35,8 @@ interface Organizer {
 type Tournament = {
   id: string;
   format: Format;
+  title: string | null;
+  text: string | null;
   timestamp: number;
   location: EventLocation;
   organizer: Pick<Organizer, 'id' | 'name' | 'logo'>;

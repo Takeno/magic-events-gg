@@ -5,8 +5,6 @@ import {PropsWithChildren} from 'react';
 import EventBackground from '../../components/EventList/partials/EventBackground';
 import {format} from '../../utils/dates';
 import {fetchEventById} from '../../utils/firebase-server';
-
-import staticMap from '../../assets/staticmap.png';
 import Breadcrumb from '../../components/Breadcrumb';
 
 type PageProps = {
@@ -34,7 +32,9 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
             text: 'Modern',
           },
           {
-            text: tournament.id,
+            text:
+              tournament.title ||
+              `Torneo ${tournament.format} di ${tournament.organizer.name}`,
           },
         ]}
       />
@@ -65,31 +65,20 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
         </div>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-initial w-full md:w-2/3">
-            <div className="card">
-              <div className="px-4 md:px-12 pt-4 md:pt-8">
-                <SectionTitle>Organizzatore</SectionTitle>
+            <div className="card py-4 md:py-8">
+              <div className="px-4 md:px-12">
+                {tournament.title && (
+                  <h2 className="text-xl font-bold">{tournament.title}</h2>
+                )}
 
-                <h3 className="text-3xl font-bold">
-                  {tournament.organizer.name}
-                </h3>
-
-                <SectionTitle className="mt-6">Descrizione evento</SectionTitle>
-
-                <p className="text-base">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  porta, quam id mollis scelerisque, lorem sapien dictum neque,
-                  ac egestas nisi nisl a nulla. Vivamus laoreet congue congue.
-                  Curabitur a nibh ut tortor luctus dictum. Etiam in nulla
-                  scelerisque, finibus ex venenatis, pharetra lacus. Donec quis
-                  tincidunt ex, quis facilisis tellus. Mauris quis elit
-                  venenatis, hendrerit magna sit amet, mollis arcu. Pellentesque
-                  vulputate dui eget pulvinar condimentum. Aliquam erat
-                  volutpat. Nulla nisi velit, tempus quis mauris sed, consequat
-                  maximus massa.
-                </p>
+                <div className="space-y-2">
+                  {(tournament.text || '').split('\n').map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
               </div>
 
-              <hr className="my-6" />
+              {/* <hr className="my-6" />
               <div className="px-4 md:px-12 pb-4 md:pb-8">
                 <div className="flex flex-row">
                   <SectionTitle className="mr-2">
@@ -97,13 +86,16 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                   </SectionTitle>
                   <img className="aspect-square w-6" alt="Twitter" />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
           <div className="flex-initial w-full md:w-1/3">
-            <div className="card p-4 md:p-8">
-              <SectionTitle>Quando?</SectionTitle>
+            <aside className="card p-4 md:p-8 sticky top-20">
+              <SectionTitle>Organizzatore</SectionTitle>
+              <h3 className="text-xl font-bold">{tournament.organizer.name}</h3>
+
+              <SectionTitle className="mt-6">Quando?</SectionTitle>
               <p className="first-letter:uppercase">
                 {format(tournament.timestamp, 'EEEE, d MMMM')}
                 <br />
@@ -111,15 +103,18 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
               </p>
 
               <SectionTitle className="mt-6">Dove?</SectionTitle>
-              <p>Via Roma, 100 - 00100 Milano (MI)</p>
+              <p>
+                {tournament.location.address} - {tournament.location.city} (
+                {tournament.location.province})
+              </p>
 
-              <img src={staticMap.src} className="aspect-video mt-4" />
+              {/* <img src={staticMap.src} className="aspect-video mt-4" /> */}
 
-              <button className="bg-green-600 w-full py-1 pl-5 pr-2 text-white text-left flex justify-between rounded-sm mt-4">
+              {/* <button className="bg-green-600 w-full py-1 pl-5 pr-2 text-white text-left flex justify-between rounded-sm mt-4">
                 Iscriviti
                 <span className="bg-white/30 px-1 rounded-sm">€ 20</span>
-              </button>
-            </div>
+              </button> */}
+            </aside>
           </div>
         </div>
       </div>

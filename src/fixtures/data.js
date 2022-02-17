@@ -119,6 +119,7 @@ const TOURNAMENTS = [
     id: 'tournament-05',
     datetime: sub(set(new Date(), {hours: 21, minutes: 0}), {days: 1}),
     format: 'legacy',
+    title: 'Legacy League',
     location: {
       venue: TOURNAMENT_ORGANIZERS[2].name,
       ...TOURNAMENT_ORGANIZERS[2].location,

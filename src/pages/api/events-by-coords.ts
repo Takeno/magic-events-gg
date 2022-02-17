@@ -1,4 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
+import {withSentry} from '@sentry/nextjs';
 import {fetchEventByCoords} from '../../utils/firebase-server';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -7,15 +8,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const radius = req.query.radius || '30';
 
   if (typeof latitude !== 'string') {
-    return res.status(400).end();
+    res.status(400).end();
+    return;
   }
 
   if (typeof longitude !== 'string') {
-    return res.status(400).end();
+    res.status(400).end();
+    return;
   }
 
   if (typeof radius !== 'string' || isNaN(+radius)) {
-    return res.status(400).end();
+    res.status(400).end();
+    return;
   }
 
   const tournaments = await fetchEventByCoords(
@@ -27,4 +31,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).send(tournaments);
 };
 
-export default handler;
+export default withSentry(handler);

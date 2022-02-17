@@ -1,4 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
+import {withSentry} from '@sentry/nextjs';
 import {
   fetchOrganizerManagedBy,
   verifyAuthToken,
@@ -8,7 +9,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const auth = req.headers.authorization;
 
   if (auth === undefined) {
-    return res.status(401).end();
+    res.status(401).end();
+    return;
   }
 
   const [, token] = auth.split(' ');
@@ -20,4 +22,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.json(organizers);
 };
 
-export default handler;
+export default withSentry(handler);

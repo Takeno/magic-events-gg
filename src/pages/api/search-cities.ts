@@ -1,11 +1,13 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
+import {withSentry} from '@sentry/nextjs';
 import cities from '../../city.json';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const q = req.query.q;
 
   if (typeof q !== 'string') {
-    return res.status(400).end();
+    res.status(400).end();
+    return;
   }
 
   const results = cities.filter((city) =>
@@ -15,4 +17,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.send(results);
 };
 
-export default handler;
+export default withSentry(handler);

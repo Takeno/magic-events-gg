@@ -1,4 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
+import {withSentry} from '@sentry/nextjs';
 import {isAdmin} from '../../../../../../utils/acl';
 import {
   fetchAllEventsByOrganizer,
@@ -11,7 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const auth = req.headers.authorization;
 
   if (auth === undefined) {
-    return res.status(401).end();
+    res.status(401).end();
+    return;
   }
 
   const [, token] = auth.split(' ');
@@ -21,30 +23,35 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await fetchUser(decoded.uid);
 
   if (user === null || !isAdmin(user)) {
-    return res.status(401).end();
+    res.status(401).end();
+    return;
   }
 
   const organizer = req.query.organizer;
 
   if (typeof organizer !== 'string') {
-    return res.status(400).end();
+    res.status(400).end();
+    return;
   }
 
   if (!user.storeManagerOf.includes(organizer)) {
-    return res.status(403).end();
+    res.status(403).end();
+    return;
   }
 
   if (req.method === 'GET') {
     const events = await fetchAllEventsByOrganizer(organizer);
 
-    return res.json(events);
+    res.json(events);
+    return;
   }
 
   if (req.method === 'POST') {
     const event = await saveNewEvent(organizer, req.body);
 
-    return res.json(event);
+    res.json(event);
+    return;
   }
 };
 
-export default handler;
+export default withSentry(handler);

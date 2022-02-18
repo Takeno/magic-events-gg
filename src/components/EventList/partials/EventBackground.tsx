@@ -22,8 +22,8 @@ export default function EventBackground({event}: EventBackgroundProps) {
       layout="fill"
       objectFit="cover"
       objectPosition="top center"
-      quality={100}
       className="opacity-70"
+      sizes="(min-width: 1024px) 300px, 100vw"
     />
   );
 }

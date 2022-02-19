@@ -61,13 +61,19 @@ export default function LocationSearch({
 
   return (
     <div className="bg-white rounded-3xl flex flex-row items-center p-2 w-full max-w-[600px]">
-      <span className="mx-4">Cerca a:</span>
+      <span className="mx-4">Trova tornei:</span>
       <AsyncSelect
         cacheOptions
         loadOptions={loadOptions}
         defaultOptions
         onChange={onCitySelect}
         className="flex-1"
+        placeholder="Città"
+        noOptionsMessage={({inputValue}) =>
+          inputValue.length < 3
+            ? 'Digita almeno tre caratteri'
+            : 'Nessuna città trovata'
+        }
       />
 
       <svg

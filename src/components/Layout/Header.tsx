@@ -54,7 +54,7 @@ export default function Header() {
                 </Disclosure.Button>
               </div>
               <div className="flex-1 flex items-center justify-end sm:items-stretch sm:justify-between">
-                <div className="flex-shrink-0 flex items-center w-20">
+                <div className="flex-shrink-0 flex items-center">
                   <span className="sm:absolute translate-y-1 sm:translate-y-9 h-20 sm:h-auto">
                     <Link href="/">
                       <a>
@@ -67,6 +67,13 @@ export default function Header() {
                       </a>
                     </Link>
                   </span>
+                  <Link href="/">
+                    <a>
+                      <h1 className="text-primary text-xl font-bold sm:pl-24 hidden sm:block">
+                        magic-events.gg
+                      </h1>
+                    </a>
+                  </Link>
                 </div>
                 <div className="hidden sm:block sm:ml-6 h-full">
                   <div className="flex space-x-4">

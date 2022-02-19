@@ -212,7 +212,9 @@ export async function fetchEventByCoords(
     }
   }
 
-  return matchingDocs;
+  return matchingDocs
+    .filter((a) => a.timestamp > Date.now())
+    .sort((a, b) => a.timestamp - b.timestamp);
 }
 
 export async function verifyAuthToken(idToken: string) {

@@ -46,6 +46,21 @@ const CityPage: NextPage<PageProps> = ({tournaments, city}) => {
           <Link href={`/italia/${slugify(city.name, {lower: true})}/pauper`}>
             <a>Pauper</a>
           </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/pioneer`}>
+            <a>Pioneer</a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/vintage`}>
+            <a>Vintage</a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/commander`}>
+            <a>Commander</a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/draft`}>
+            <a>Booster Draft</a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/sealed`}>
+            <a>Sealed Draft</a>
+          </Link>
         </div>
       </nav>
 

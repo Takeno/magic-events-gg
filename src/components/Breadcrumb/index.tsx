@@ -69,12 +69,12 @@ function BreadcrumbItem({href, first, last, children}: BreadcrumbItemType) {
         )}
         {href ? (
           <Link href={href}>
-            <a className="inline-flex items-center text-sm font-medium text-blue-dark hover:text-white whitespace-nowrap ml-2">
+            <a className="inline-flex items-center text-sm font-medium text-blue-dark hover:text-white whitespace-nowrap ml-2 first-letter:uppercase">
               {children}
             </a>
           </Link>
         ) : (
-          <span className="text-sm font-medium text-blue-dark whitespace-nowrap ml-2">
+          <span className="text-sm font-medium text-blue-dark whitespace-nowrap ml-2 first-letter:uppercase">
             {children}
           </span>
         )}

@@ -1,6 +1,7 @@
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import slugify from 'slugify';
 import {PropsWithChildren} from 'react';
 import EventBackground from '../../components/EventList/partials/EventBackground';
 import {format} from '../../utils/dates';
@@ -24,12 +25,14 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
       <Breadcrumb
         items={[
           {
-            href: '/italia/roma',
-            text: 'Roma',
+            href: `/italia/${slugify(tournament.location.city, {lower: true})}`,
+            text: tournament.location.city,
           },
           {
-            href: '/italia/roma/modern',
-            text: 'Modern',
+            href: `/italia/${slugify(tournament.location.city, {
+              lower: true,
+            })}/${tournament.format}`,
+            text: tournament.format,
           },
           {
             text:

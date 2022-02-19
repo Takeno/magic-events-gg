@@ -75,6 +75,51 @@ const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
               Pauper
             </a>
           </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/pioneer`}>
+            <a
+              className={
+                format === 'pioneer' ? 'font-bold text-primary' : undefined
+              }
+            >
+              Pioneer
+            </a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/vintage`}>
+            <a
+              className={
+                format === 'vintage' ? 'font-bold text-primary' : undefined
+              }
+            >
+              Vintage
+            </a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/commander`}>
+            <a
+              className={
+                format === 'commander' ? 'font-bold text-primary' : undefined
+              }
+            >
+              Commander
+            </a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/draft`}>
+            <a
+              className={
+                format === 'draft' ? 'font-bold text-primary' : undefined
+              }
+            >
+              Booster Draft
+            </a>
+          </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/sealed`}>
+            <a
+              className={
+                format === 'sealed' ? 'font-bold text-primary' : undefined
+              }
+            >
+              Sealed Draft
+            </a>
+          </Link>
         </div>
       </nav>
 

@@ -88,6 +88,46 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
           >
             Pauper
           </button>
+          <button
+            className={
+              filter === 'pioneer' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('pioneer')}
+          >
+            Pioneer
+          </button>
+          <button
+            className={
+              filter === 'vintage' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('vintage')}
+          >
+            Vintage
+          </button>
+          <button
+            className={
+              filter === 'commander' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('commander')}
+          >
+            Commander
+          </button>
+          <button
+            className={
+              filter === 'draft' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('draft')}
+          >
+            Booster Draft
+          </button>
+          <button
+            className={
+              filter === 'sealed' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('sealed')}
+          >
+            Sealed Draft
+          </button>
         </div>
       </nav>
 

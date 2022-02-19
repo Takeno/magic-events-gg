@@ -7,6 +7,8 @@ export default function Footer() {
           <a
             className="text-primary underline"
             href="https://www.twitch.tv/takenodev"
+            target="_blank"
+            rel="noreferrer"
           >
             Twitch
           </a>{' '}
@@ -14,6 +16,8 @@ export default function Footer() {
           <a
             className="text-primary underline"
             href="https://github.com/Takeno/magic-events-gg/"
+            target="_blank"
+            rel="noreferrer"
           >
             Github Repo
           </a>

@@ -93,6 +93,11 @@ export default function Header() {
                         </a>
                       </Link>
                     )}
+                    <Link href="/contatti">
+                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
+                        Contatti
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -130,6 +135,14 @@ export default function Header() {
                   </Disclosure.Button>
                 </Link>
               )}
+              <Link href="/contatti" passHref>
+                <Disclosure.Button
+                  as="a"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Contatti
+                </Disclosure.Button>
+              </Link>
             </div>
           </Disclosure.Panel>
         </>

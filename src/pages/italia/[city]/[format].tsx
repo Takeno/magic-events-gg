@@ -19,7 +19,13 @@ const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
   return (
     <>
       <Head>
-        <title>Tornei a {city.name} - magic-events.gg</title>
+        <title>
+          Tornei {format} a {city.name} | magic-events.gg
+        </title>
+        <meta
+          name="description"
+          content={`Tutti i tornei formato ${format} di Magic: The Gathering a ${city.name}`}
+        />
       </Head>
 
       <Breadcrumb

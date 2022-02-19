@@ -17,9 +17,16 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
     <>
       <Head>
         <title>
-          Torneo {tournament.format} di {tournament.organizer.name} -
-          magic-events.gg
+          {tournament.title ||
+            `Torneo ${tournament.format} di ${tournament.organizer.name}`}{' '}
+          | magic-events.gg
         </title>
+        <meta
+          name="description"
+          content={`${format(tournament.timestamp, 'EEEE d MMMM HH:mm')} - ${
+            tournament.format
+          } presso ${tournament.organizer.name}`}
+        />
       </Head>
 
       <Breadcrumb

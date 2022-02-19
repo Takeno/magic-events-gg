@@ -67,7 +67,7 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
                 <option value="standard">standard</option>
                 <option value="pioneer">pioneer</option>
                 <option value="vintage">vintage</option>
-                <option value="centurion">centurion</option>
+                <option value="commander">commander</option>
                 <option value="pauper">pauper</option>
               </Field>
               <label htmlFor="timestamp" className="sr-only">

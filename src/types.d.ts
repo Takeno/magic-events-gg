@@ -20,8 +20,10 @@ type Format =
   | 'standard'
   | 'pioneer'
   | 'vintage'
-  | 'centurion'
-  | 'pauper';
+  | 'commander'
+  | 'pauper'
+  | 'draft'
+  | 'sealed';
 
 interface Organizer {
   id: string;

@@ -44,7 +44,7 @@ describe('firebase.ts - fetchEventByCoords', () => {
       12.492389585053866
     );
 
-    expect(results).toHaveLength(4);
+    expect(results).toHaveLength(3);
 
     expect(results.find((t) => t.id === 'tournament-01')).not.toBeUndefined();
   });
@@ -63,7 +63,7 @@ describe('firebase.ts - fetchEventByCoords', () => {
       30
     );
 
-    expect(results2).toHaveLength(4);
+    expect(results2).toHaveLength(3);
 
     expect(results2.find((t) => t.id === 'tournament-01')).not.toBeUndefined();
   });

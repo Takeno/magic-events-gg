@@ -114,8 +114,15 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
 
               <SectionTitle className="mt-6">Dove?</SectionTitle>
               <p>
-                {tournament.location.address} - {tournament.location.city} (
-                {tournament.location.province})
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${tournament.location.latitude}%2C${tournament.location.longitude}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:underline"
+                >
+                  {tournament.location.address} - {tournament.location.city} (
+                  {tournament.location.province})
+                </a>
               </p>
 
               {/* <img src={staticMap.src} className="aspect-video mt-4" /> */}

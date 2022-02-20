@@ -41,7 +41,7 @@ const Signup: NextPage<PageProps> = () => {
         ]}
       />
 
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center px-2">
         <div className="max-w-xl w-full">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Registra un nuovo account

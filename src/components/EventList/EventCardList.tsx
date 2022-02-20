@@ -7,17 +7,17 @@ type EventListProps = {
 export default function EventCardList({events}: EventListProps) {
   if (events.length === 0) {
     return (
-      <div className="max-w-2xl text-center text-blue-dark space-y-4">
-        <h3 className="text-4xl font-bold">:(</h3>
+      <div className="max-w-2xl text-justify text-blue-dark space-y-4 px-4">
+        <h3 className="text-4xl font-bold text-center">:(</h3>
         <h3 className="text-3xl font-bold">
           Attualmente non abbiamo tornei di questo tipo e/o in questa città da
           consigliarti.
         </h3>
-        <p className="text-justify text-lg">
+        <p className="text-lg">
           La nostra raccolta di eventi e tornei è in continuo aumento e stiamo
           coinvolgendo sempre più organizzatori e negozianti.
         </p>
-        <p className="text-justify text-lg">
+        <p className="text-lg">
           Se conosci qualche organizzatore o negozio che organizza tornei di
           Magic, puoi segnalarcelo tramite{' '}
           <a

@@ -37,7 +37,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
         <title>Tutti gli eventi di Magic vicino a te! - magic-events.gg</title>
       </Head>
 
-      <div className="bg-blue-dark h-[70vh] min-h-[300px] md:h-1/3 flex flex-col items-center justify-center relative">
+      <div className="bg-blue-dark h-[70vh] min-h-[300px] md:h-1/3 flex flex-col items-center justify-center relative px-2">
         <Image
           src={home}
           alt=""
@@ -60,7 +60,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
       </div>
 
       <nav className="bg-white drop-shadow-sm">
-        <div className="max-w-screen-lg mx-auto h-16 flex flex-row  items-center gap-3 overflow-x-auto">
+        <div className="max-w-screen-lg mx-auto h-16 flex flex-row items-center gap-3 overflow-x-auto px-2">
           <button
             className={
               filter === undefined ? 'font-bold text-primary' : undefined

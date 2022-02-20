@@ -43,7 +43,7 @@ const Login: NextPage<PageProps> = () => {
         ]}
       />
 
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center px-2">
         <div className="max-w-xl w-full">
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
             {"Effettua l'accesso"}

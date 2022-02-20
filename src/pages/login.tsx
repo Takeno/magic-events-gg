@@ -5,6 +5,7 @@ import {useRouter} from 'next/router';
 import {FORM_ERROR} from 'final-form';
 import {Form, Field} from 'react-final-form';
 import {useUser} from '../contexts/UserContext';
+import Breadcrumb from '../components/Breadcrumb';
 
 type PageProps = {};
 
@@ -34,21 +35,27 @@ const Login: NextPage<PageProps> = () => {
         <title>Tutti gli eventi di Magic vicino a te! - magic-events.gg</title>
       </Head>
 
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              {"Effettua l'accesso"}
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Hai già un account?{' '}
-              <Link href="/signup">
-                <a className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Registrati ora!
-                </a>
-              </Link>
-            </p>
-          </div>
+      <Breadcrumb
+        items={[
+          {
+            text: 'Accedi',
+          },
+        ]}
+      />
+
+      <div className="flex-1 flex items-center justify-center">
+        <div className="max-w-xl w-full">
+          <h2 className="text-center text-3xl font-extrabold text-gray-900">
+            {"Effettua l'accesso"}
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Hai già un account?{' '}
+            <Link href="/signup">
+              <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                Registrati ora!
+              </a>
+            </Link>
+          </p>
           <Form<LoginFormType>
             onSubmit={handleSubmit}
             render={({handleSubmit, submitting, submitError}) => (

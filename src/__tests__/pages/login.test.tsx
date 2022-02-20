@@ -11,7 +11,7 @@ describe('Page /login', () => {
 
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-    expect(screen.getByText('Accedi')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
 
     expect(screen.getByText('Registrati ora!').closest('a')).toHaveAttribute(
       'href',
@@ -50,7 +50,7 @@ describe('Page /login', () => {
       target: {value: 'test'},
     });
 
-    fireEvent.click(screen.getByText('Accedi'));
+    fireEvent.click(screen.getByRole('button'));
 
     expect(context.login).toBeCalledTimes(1);
     expect(context.login).toBeCalledWith('test@test.test', 'test');
@@ -59,7 +59,7 @@ describe('Page /login', () => {
     // expect(routerReplaceMock).toBeCalledWith('/');
 
     // workaround to avoid React Final Form component updates
-    expect(await screen.findByText('Accedi')).toBeInTheDocument();
+    expect(await screen.findByRole('button')).toBeInTheDocument();
 
     useRouter.mockRestore();
   });
@@ -93,7 +93,7 @@ describe('Page /login', () => {
       target: {value: 'test'},
     });
 
-    fireEvent.click(screen.getByText('Accedi'));
+    fireEvent.click(screen.getByRole('button'));
 
     expect(context.login).toBeCalledTimes(1);
     expect(context.login).toBeCalledWith('test@test.test', 'test');

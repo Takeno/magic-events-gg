@@ -13,7 +13,7 @@ function MyApp({Component, pageProps}: AppProps) {
     <UserProvider>
       <main className="min-h-screen flex flex-col">
         <Header />
-        <div className="flex-1">
+        <div className="flex flex-col flex-1">
           <PrivateAdminChecker>
             <Component {...pageProps} />
           </PrivateAdminChecker>

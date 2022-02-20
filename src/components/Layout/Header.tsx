@@ -96,7 +96,7 @@ export default function Header() {
                     ) : (
                       <Link href="/login">
                         <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
-                          Login
+                          Accedi
                         </a>
                       </Link>
                     )}
@@ -138,7 +138,7 @@ export default function Header() {
                     as="a"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                   >
-                    Login
+                    Accedi
                   </Disclosure.Button>
                 </Link>
               )}

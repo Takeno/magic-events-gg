@@ -5,7 +5,7 @@ import placeholder from '../assets/not-found-placeholder.png';
 
 const NotFoundPage: NextPage<{}> = () => {
   return (
-    <div className="flex justify-center items-center flex-col py-8">
+    <div className="flex-1 flex justify-center items-center flex-col px-4">
       <Image src={placeholder} alt="Not found" aria-hidden="true" />
 
       <h1 className="text-4xl font-bold text-blue-dark mt-8">

@@ -6,14 +6,20 @@ import vintage from '../../../assets/vintage-placeholder.jpg';
 import legacy from '../../../assets/legacy-placeholder.jpg';
 import commander from '../../../assets/centurion-placeholder.webp';
 import pauper from '../../../assets/pauper-placeholder.png';
+import pioneer from '../../../assets/pioneer-placeholder.jpg';
+import draft from '../../../assets/draft-placeholder.jpg';
+import sealed from '../../../assets/sealed-placeholder.jpg';
 
-const format2image: Record<string, StaticImageData> = {
+const format2image: Record<Format, StaticImageData> = {
   standard,
   modern,
   pauper,
   vintage,
   commander,
   legacy,
+  pioneer,
+  draft,
+  sealed,
 };
 
 type EventBackgroundProps = {

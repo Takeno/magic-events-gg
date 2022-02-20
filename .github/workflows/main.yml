@@ -43,8 +43,8 @@ jobs:
       - name: Test
         run: npm run test:ci
 
-      # - name: Next build
-      #   env:
-      #     FIRESTORE_EMULATOR_HOST: localhost:8200
-      #     FIRESTORE_PROJECT_ID: magic-events-gg
-      #   run: npm run build
+      - name: Next build
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8200
+          FIRESTORE_PROJECT_ID: magic-events-gg
+        run: npm run build

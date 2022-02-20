@@ -45,6 +45,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
           layout="fill"
           objectFit="cover"
           className="blur-sm opacity-40"
+          priority={true}
         />
         <div className="relative">
           <h2 className="text-white text-3xl uppercase font-bold text-center mb-4">

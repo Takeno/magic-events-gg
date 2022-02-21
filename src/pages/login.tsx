@@ -51,7 +51,7 @@ const Login: NextPage<PageProps> = () => {
           <p className="mt-2 text-center text-sm text-gray-600">
             Hai già un account?{' '}
             <Link href="/signup">
-              <a className="font-medium text-indigo-600 hover:text-indigo-500">
+              <a className="font-medium text-blue-dark hover:underline">
                 Registrati ora!
               </a>
             </Link>
@@ -78,7 +78,7 @@ const Login: NextPage<PageProps> = () => {
                     type="email"
                     autoComplete="email"
                     required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                     placeholder="Email"
                   />
 
@@ -92,7 +92,7 @@ const Login: NextPage<PageProps> = () => {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                     placeholder="Password"
                   />
                 </div>
@@ -100,8 +100,8 @@ const Login: NextPage<PageProps> = () => {
                 <button
                   disabled={submitting}
                   type="submit"
-                  className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                    submitting ? 'bg-gray-600' : 'bg-indigo-600'
+                  className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${
+                    submitting ? 'bg-gray-600' : 'bg-primary'
                   }`}
                 >
                   Accedi

@@ -99,7 +99,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
   const tournaments = await fetchEventByCoords(
     +city.latitude,
     +city.longitude,
-    50
+    30
   );
 
   return {

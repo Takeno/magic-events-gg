@@ -129,7 +129,7 @@ const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
         </div>
       </nav>
 
-      <article className="max-w-screen-lg mx-auto mt-10">
+      <article className="max-w-screen-lg mx-auto mt-10 w-full">
         <h2 className="text-2xl font-bold uppercase my-4">
           Tornei {format} a {city.name}
         </h2>

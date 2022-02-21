@@ -145,7 +145,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
         </div>
       </nav>
 
-      <article className="max-w-screen-lg mx-auto mt-10">
+      <article className="max-w-screen-lg mx-auto mt-10 w-full">
         <EventCardList
           events={data.filter(
             (t) => filter === undefined || t.format === filter

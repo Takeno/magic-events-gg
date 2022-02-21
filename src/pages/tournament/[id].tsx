@@ -49,7 +49,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
         ]}
       />
 
-      <div className="max-w-screen-lg mx-auto mt-8">
+      <div className="max-w-screen-lg mx-auto mt-8 w-full">
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <div className="flex-initial w-full md:w-2/3 bg-red-200 card p-4 flex items-center relative">
             <EventBackground event={tournament} />

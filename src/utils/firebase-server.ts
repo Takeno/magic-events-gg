@@ -239,6 +239,8 @@ export async function fetchUser(uid: string): Promise<User | Admin | null> {
     email: d.email,
     roles: d.roles,
     storeManagerOf: d.storeManagerOf,
+    cities: d.cities || [],
+    formats: d.formats || [],
   };
 }
 
@@ -254,6 +256,16 @@ export async function initUser(uid: string, email: string): Promise<User> {
   await db.collection('users').doc(uid).set(user);
 
   return user;
+}
+
+export async function updateUserEvents(
+  uid: string,
+  cities: string[],
+  formats: Format[]
+): Promise<void> {
+  const db = getDatabase();
+
+  await db.collection('users').doc(uid).set({cities, formats}, {merge: true});
 }
 
 export async function fetchOrganizerManagedBy(

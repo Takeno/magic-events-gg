@@ -48,6 +48,8 @@ interface User {
   id: string;
   email: string;
   roles: string[];
+  cities: string[];
+  formats: Format[];
 }
 
 interface Admin extends User {

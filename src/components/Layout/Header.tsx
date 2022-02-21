@@ -79,6 +79,11 @@ export default function Header() {
                 </div>
                 <div className="hidden sm:block sm:ml-6 h-full">
                   <div className="flex space-x-4">
+                    <Link href="/i-miei-eventi">
+                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
+                        I miei eventi
+                      </a>
+                    </Link>
                     {user ? (
                       <>
                         {isAdmin(user) && (

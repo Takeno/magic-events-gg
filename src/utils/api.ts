@@ -42,6 +42,22 @@ export const fetchEventsByOrganizer = async (
   return response.data;
 };
 
+export const saveMyEvents = async (
+  cities: string[],
+  formats: Format[]
+): Promise<void> => {
+  await http.post('/api/save-my-events', {cities, formats});
+};
+
+export const fetchMyEvents = async (
+  cities: string[],
+  formats: Format[]
+): Promise<Tournament[]> => {
+  const response = await http.post('/api/my-events', {cities, formats});
+
+  return response.data;
+};
+
 export const saveEvent = async (
   organizer: Organizer['id'],
   event: Pick<Tournament, 'format' | 'timestamp' | 'title' | 'text'>

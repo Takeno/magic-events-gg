@@ -123,7 +123,7 @@ const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
                 format === 'sealed' ? 'font-bold text-primary' : undefined
               }
             >
-              Sealed Draft
+              Sealed Deck
             </a>
           </Link>
         </div>

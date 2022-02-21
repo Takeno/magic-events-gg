@@ -140,7 +140,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
             }
             onClick={() => setFilter('sealed')}
           >
-            Sealed Draft
+            Sealed Deck
           </button>
         </div>
       </nav>

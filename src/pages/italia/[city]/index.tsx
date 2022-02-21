@@ -63,7 +63,7 @@ const CityPage: NextPage<PageProps> = ({tournaments, city}) => {
             <a>Booster Draft</a>
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/sealed`}>
-            <a>Sealed Draft</a>
+            <a>Sealed Deck</a>
           </Link>
         </div>
       </nav>

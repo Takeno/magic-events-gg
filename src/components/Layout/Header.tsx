@@ -63,6 +63,8 @@ export default function Header() {
                           alt="magic-events.gg"
                           width="86"
                           height="117"
+                          priority={true}
+                          layout="fixed"
                         />
                       </a>
                     </Link>

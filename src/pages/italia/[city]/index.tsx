@@ -107,7 +107,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
       tournaments,
       city,
     },
-    revalidate: 20,
+    revalidate: 60 * 5,
   };
 };
 

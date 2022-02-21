@@ -171,6 +171,6 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
     props: {
       tournaments,
     },
-    revalidate: 20,
+    revalidate: 60 * 60 * 2,
   };
 };

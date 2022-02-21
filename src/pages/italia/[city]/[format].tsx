@@ -176,7 +176,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
       city,
       format,
     },
-    revalidate: 20,
+    revalidate: 60 * 60 * 2,
   };
 };
 

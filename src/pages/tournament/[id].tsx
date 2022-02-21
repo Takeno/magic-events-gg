@@ -168,7 +168,6 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
     props: {
       tournament,
     },
-    revalidate: 20,
   };
 };
 

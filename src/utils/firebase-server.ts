@@ -251,6 +251,8 @@ export async function initUser(uid: string, email: string): Promise<User> {
     id: uid,
     email: email,
     roles: ['ROLE_USER'],
+    cities: [],
+    formats: [],
   };
 
   await db.collection('users').doc(uid).set(user);

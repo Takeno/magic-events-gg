@@ -5,6 +5,7 @@
     "fixtures:load": "node src/fixtures/run.js",
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node bin/generate-sitemap.js",
     "start": "next start",
     "lint:ci": "next lint",
     "lint:fix": "next lint --fix",

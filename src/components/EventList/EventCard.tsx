@@ -37,7 +37,10 @@ export default function EventCard({event}: EventCardProps) {
 
       <div className="flex flex-row justify-between px-4 my-2">
         <Link href={`/tournament/${event.id}`}>
-          <a className="text-lg font-bold uppercase truncate">
+          <a
+            className="text-lg font-bold uppercase truncate"
+            title={`Torneo ${event.format} di ${event.organizer.name}`}
+          >
             {event.title || `Torneo ${event.format}`}
           </a>
         </Link>

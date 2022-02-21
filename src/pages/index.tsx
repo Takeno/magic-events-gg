@@ -34,7 +34,13 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
   return (
     <>
       <Head>
-        <title>Tutti gli eventi di Magic vicino a te! - magic-events.gg</title>
+        <title>
+          Scopri eventi e tornei di Magic vicino a te! - magic-events.gg
+        </title>
+        <meta
+          name="description"
+          content="magic-events.gg è un aggregatore di eventi e tornei di Magic. Trova i tornei di Magic vicino a te!"
+        />
       </Head>
 
       <div className="bg-blue-dark h-[70vh] min-h-[300px] md:h-1/3 flex flex-col items-center justify-center relative px-2">
@@ -49,7 +55,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
         />
         <div className="relative">
           <h2 className="text-white text-3xl uppercase font-bold text-center mb-4">
-            Tutti gli eventi di Magic intorno a te
+            Tutti i tornei di Magic intorno a te
           </h2>
           <LocationSearch
             onPosition={setCoords}

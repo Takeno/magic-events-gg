@@ -1,5 +1,6 @@
 import type {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
+import Head from 'next/head';
 import Script from 'next/script';
 import {PropsWithChildren} from 'react';
 import Footer from '../components/Layout/Footer';
@@ -8,9 +9,14 @@ import {UserProvider, useUser} from '../contexts/UserContext';
 import {isAdmin} from '../utils/acl';
 import '../styles/global.css';
 
+import graphImage from '../assets/graph-image.png';
+
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <UserProvider>
+      <Head>
+        <meta key="og:image" property="og:image" content={graphImage.src} />
+      </Head>
       <main className="min-h-screen flex flex-col">
         <Header />
         <div className="flex flex-col flex-1">

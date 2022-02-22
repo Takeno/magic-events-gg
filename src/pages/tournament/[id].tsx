@@ -7,6 +7,7 @@ import EventBackground from '../../components/EventList/partials/EventBackground
 import {format} from '../../utils/dates';
 import {fetchEventById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
+import Link from 'next/link';
 
 type PageProps = {
   tournament: Tournament;
@@ -103,7 +104,13 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
           <div className="flex-initial w-full md:w-1/3">
             <aside className="card p-4 md:p-8 sticky top-20">
               <SectionTitle>Organizzatore</SectionTitle>
-              <h3 className="text-xl font-bold">{tournament.organizer.name}</h3>
+              <Link href={`/to/${tournament.organizer.id}`}>
+                <a>
+                  <h3 className="text-xl font-bold">
+                    {tournament.organizer.name}
+                  </h3>
+                </a>
+              </Link>
 
               <SectionTitle className="mt-6">Quando?</SectionTitle>
               <p className="first-letter:uppercase">

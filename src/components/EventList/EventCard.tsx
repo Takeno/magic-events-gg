@@ -46,7 +46,7 @@ export default function EventCard({event}: EventCardProps) {
         </Link>
       </div>
 
-      <div className="px-4 my-2">
+      <div className="px-4 my-2 truncate">
         <Link href={`/to/${event.organizer.id}`}>
           <a>{event.organizer.name}</a>
         </Link>

@@ -29,8 +29,7 @@ interface Organizer {
   id: string;
   name: string;
   logo: string | null;
-  address: string;
-  city: string;
+  facebook: string | null;
   location: OrganizerLocation;
 }
 

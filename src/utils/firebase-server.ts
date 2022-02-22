@@ -147,6 +147,37 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
   return tournament;
 }
 
+export async function fetchOrganizerById(
+  id: string
+): Promise<Organizer | null> {
+  const db = getDatabase();
+
+  const snapshot = await db.collection('organizers').doc(id).get();
+
+  const d = snapshot.data();
+
+  if (snapshot.exists === false || d === undefined) {
+    return null;
+  }
+
+  const organizer: Organizer = {
+    id: snapshot.id,
+    name: d.name,
+    logo: d.logo || null,
+    facebook: d.facebook || null,
+    location: {
+      address: d.location.address,
+      city: d.location.city,
+      province: d.location.province,
+      country: d.location.country,
+      latitude: d.location.latitude,
+      longitude: d.location.longitude,
+    },
+  };
+
+  return organizer;
+}
+
 export async function fetchEventByCoords(
   lat: number,
   lng: number,
@@ -300,9 +331,8 @@ export async function fetchOrganizerManagedBy(
     organizers.push({
       id: doc.id,
       name: d.name,
-      logo: d.logo,
-      address: d.address,
-      city: d.city,
+      logo: d.logo || null,
+      facebook: d.facebook || null,
       location: {
         address: d.location.address,
         city: d.location.city,

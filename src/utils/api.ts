@@ -42,6 +42,14 @@ export const fetchEventsByOrganizer = async (
   return response.data;
 };
 
+export const fetchPublicEventsByOrganizer = async (
+  organizer: string
+): Promise<Tournament[]> => {
+  const response = await http.get(`/api/organizers/${organizer}/events`);
+
+  return response.data;
+};
+
 export const saveMyEvents = async (
   cities: string[],
   formats: Format[]

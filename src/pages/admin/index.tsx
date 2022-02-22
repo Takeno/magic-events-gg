@@ -78,7 +78,9 @@ const AdminIndex: NextPage<PageProps> = () => {
                             {to.location.city} ({to.location.province}),{' '}
                             {to.location.country}
                           </div>
-                          <div className="text-sm text-gray-500">{to.city}</div>
+                          <div className="text-sm text-gray-500">
+                            {to.location.city}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <Link href={`/admin/to/${to.id}/edit`}>

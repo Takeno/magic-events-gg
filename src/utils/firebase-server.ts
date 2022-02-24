@@ -421,6 +421,10 @@ export async function saveNewEvent(
   const doc = await db.collection('tournaments').add({
     ...tournament,
     timestamp: Timestamp.fromMillis(tournament.timestamp),
+    geohash: geofire.geohashForLocation([
+      tournament.location.latitude,
+      tournament.location.longitude,
+    ]),
   });
 
   return {...tournament, id: doc.id};
@@ -442,6 +446,10 @@ export async function updateEvent(
       {
         ...event,
         timestamp: Timestamp.fromMillis(event.timestamp),
+        geohash: geofire.geohashForLocation([
+          event.location.latitude,
+          event.location.longitude,
+        ]),
       },
       {merge: true}
     );

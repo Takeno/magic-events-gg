@@ -1,4 +1,6 @@
 import {ChangeEvent, useCallback} from 'react';
+import parseISO from 'date-fns/parseISO';
+import format from 'date-fns/format';
 
 interface DatetimeProps {
   name: string;
@@ -15,14 +17,16 @@ export default function Datetime(props: DatetimeProps) {
     (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
 
-      props.onChange(new Date(value).getTime());
+      const d = parseISO(value);
+
+      props.onChange(d.getTime());
     },
     [props.onChange]
   );
 
   const value =
     typeof props.value === 'number'
-      ? new Date(props.value).toISOString().slice(0, 16)
+      ? format(props.value, "yyyy-MM-dd'T'HH:mm")
       : '';
 
   return (

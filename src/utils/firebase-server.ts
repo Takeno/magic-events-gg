@@ -1,5 +1,5 @@
 import {initializeApp, getApps, cert} from 'firebase-admin/app';
-import {getFirestore, Timestamp} from 'firebase-admin/firestore';
+import {getFirestore, Timestamp, FieldPath} from 'firebase-admin/firestore';
 import {getAuth as getFirebaseAuth} from 'firebase-admin/auth';
 import * as geofire from 'geofire-common';
 import {isAdmin} from './acl';
@@ -320,7 +320,7 @@ export async function fetchOrganizerManagedBy(
 
   const results = await db
     .collection('organizers')
-    .where('id', 'in', user.storeManagerOf)
+    .where(FieldPath.documentId(), 'in', user.storeManagerOf)
     .get();
 
   const organizers: Organizer[] = [];

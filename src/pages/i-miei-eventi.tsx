@@ -34,7 +34,7 @@ export default function MyEvents() {
           ]}
         />
 
-        <article className="max-w-screen-md mx-auto mt-4">
+        <article className="max-w-screen-md mx-auto mt-4 px-2">
           <h2 className="text-3xl font-bold my-4">I miei eventi</h2>
           <p>
             Tu ci dici quali formati giochi e in quali città, noi ti segnaliamo
@@ -77,7 +77,7 @@ export default function MyEvents() {
           ]}
         />
 
-        <article className="max-w-screen-md mx-auto mt-4">
+        <article className="max-w-screen-md mx-auto mt-4 px-2">
           <h2 className="text-3xl font-bold my-4">I miei eventi</h2>
           <p>
             Tu ci dici quali formati giochi e in quali città, noi ti segnaliamo
@@ -179,7 +179,7 @@ function MyEventForm() {
         ]}
       />
 
-      <article className="max-w-screen-md mx-auto mt-4">
+      <article className="max-w-screen-md mx-auto mt-4 px-2">
         <h2 className="text-3xl font-bold my-4">I miei eventi</h2>
         <p>
           Tu ci dici quali formati giochi e in quali città, noi ti segnaliamo i

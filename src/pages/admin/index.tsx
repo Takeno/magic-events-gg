@@ -1,6 +1,7 @@
 import type {NextPage} from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
-import {useEffect, useState} from 'react';
+import useSWR from 'swr';
 import Breadcrumb from '../../components/Breadcrumb';
 import {useAdmin} from '../../contexts/UserContext';
 import {fetchMyOrganizers} from '../../utils/api';
@@ -8,13 +9,12 @@ import {fetchMyOrganizers} from '../../utils/api';
 type PageProps = {};
 
 const AdminIndex: NextPage<PageProps> = () => {
-  const {user} = useAdmin();
+  useAdmin();
 
-  const [organizers, setOrganizers] = useState<Organizer[]>([]);
+  const {data: organizers} = useSWR('/my-organizers', () =>
+    fetchMyOrganizers()
+  );
 
-  useEffect(() => {
-    fetchMyOrganizers().then(setOrganizers);
-  }, []);
   return (
     <>
       <Breadcrumb
@@ -51,17 +51,22 @@ const AdminIndex: NextPage<PageProps> = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {organizers.map((to) => (
+                    {(organizers || []).map((to) => (
                       <tr key={to.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            {/* <div className="flex-shrink-0 h-10 w-10">
-                              <img
-                                className="h-10 w-10 rounded-full"
-                                src=""
-                                alt="negozio1"
-                              />
-                            </div> */}
+                            {to.logo && (
+                              <div className="flex-shrink-0 relative h-10 w-10 rounded-full bg-white flex justify-center items-center">
+                                <Image
+                                  className="rounded-full"
+                                  src={to.logo}
+                                  alt={to.name}
+                                  objectFit="contain"
+                                  width={50}
+                                  height={50}
+                                />
+                              </div>
+                            )}
                             <div className="ml-4">
                               <Link href={`/admin/to/${to.id}`}>
                                 <a className="text-md font-medium text-gray-900">
@@ -83,11 +88,11 @@ const AdminIndex: NextPage<PageProps> = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link href={`/admin/to/${to.id}/edit`}>
+                          {/* <Link href={`/admin/to/${to.id}/edit`}>
                             <a className="text-indigo-600 hover:text-indigo-900">
                               Modifica
                             </a>
-                          </Link>
+                          </Link> */}
                         </td>
                       </tr>
                     ))}

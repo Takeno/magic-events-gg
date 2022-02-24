@@ -389,7 +389,8 @@ export async function fetchAllEventsByOrganizer(
 
 export async function saveNewEvent(
   organizerId: string,
-  event: Pick<Tournament, 'format' | 'timestamp' | 'title' | 'text'>
+  event: Pick<Tournament, 'format' | 'timestamp' | 'title' | 'text'> &
+    Partial<Pick<Tournament, 'location'>>
 ): Promise<Tournament> {
   const db = getDatabase();
 
@@ -404,24 +405,44 @@ export async function saveNewEvent(
     throw new Error('Invalid organizer');
   }
 
-  const tournament: Tournament = {
-    id: '' + Date.now(),
+  const tournament: Omit<Tournament, 'id'> = {
     format: event.format,
     title: event.title,
-    text: event.text,
+    text: event.text || '',
     timestamp: event.timestamp,
     organizer: {
       id: organizer.id,
       name: organizer.name,
       logo: organizer.logo || null,
     },
-    location: {...organizer.location, venue: organizer.name},
+    location: event.location || {...organizer.location, venue: organizer.name},
   };
 
-  await db.collection('tournaments').add({
+  const doc = await db.collection('tournaments').add({
     ...tournament,
     timestamp: Timestamp.fromMillis(tournament.timestamp),
   });
 
-  return tournament;
+  return {...tournament, id: doc.id};
+}
+
+export async function updateEvent(
+  eventId: string,
+  event: Pick<
+    Tournament,
+    'format' | 'timestamp' | 'title' | 'text' | 'location'
+  >
+): Promise<void> {
+  const db = getDatabase();
+
+  await db
+    .collection('tournaments')
+    .doc(eventId)
+    .set(
+      {
+        ...event,
+        timestamp: Timestamp.fromMillis(event.timestamp),
+      },
+      {merge: true}
+    );
 }

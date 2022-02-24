@@ -1,25 +1,23 @@
 import type {NextPage} from 'next';
 import {useRouter} from 'next/router';
-import {useEffect, useState} from 'react';
-import {format} from '../../../utils/dates';
-import Breadcrumb from '../../../components/Breadcrumb';
-import {fetchEventsByOrganizer} from '../../../utils/api';
 import Link from 'next/link';
+import useSWR from 'swr';
+import {format} from '../../../../utils/dates';
+import Breadcrumb from '../../../../components/Breadcrumb';
+import {fetchEventsByOrganizer} from '../../../../utils/api';
 
 type PageProps = {};
 
 const AdminOrganizerIndex: NextPage<PageProps> = () => {
-  const [tournaments, setTournaments] = useState<Tournament[]>([]);
-
   const router = useRouter();
 
-  useEffect(() => {
-    const organizerId = router.query.to;
-    if (typeof organizerId !== 'string') {
-      throw new Error('Invalid organizer');
-    }
-    fetchEventsByOrganizer(organizerId).then(setTournaments);
-  }, [router]);
+  const organizerId = router.query.to as string;
+
+  const {data: tournaments} = useSWR(
+    `/admin/organizer/${organizerId}/events`,
+    () => fetchEventsByOrganizer(organizerId)
+  );
+  // const {data: organizer} = useSWR(`/admin/organizer/${organizerId}`, () => fetchEventsByOrganizer(organizerId));
 
   return (
     <>
@@ -27,7 +25,7 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
         items={[
           {
             href: '/admin',
-            text: 'I miei negozi',
+            text: 'Admin',
           },
           {
             text: 'Eventi',
@@ -35,9 +33,13 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
         ]}
       />
       <div className="container mx-auto pt-4">
-        <Link href={`/admin/to/${router.query.to}/new-event`}>
-          <a className="underline">Aggiungi nuovo evento</a>
-        </Link>
+        <h2 className="text-3xl font-bold my-4 ml-3">Eventi</h2>
+
+        <div className="w-full flex flex-row justify-end my-4">
+          <Link href={`/admin/to/${router.query.to}/new-event`}>
+            <a className="underline">Aggiungi nuovo evento</a>
+          </Link>
+        </div>
 
         <div className="flex flex-col">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -56,7 +58,7 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Formato
+                        Evento
                       </th>
                       <th scope="col" className="relative px-6 py-3">
                         <span className="sr-only">Edit</span>
@@ -64,7 +66,7 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {tournaments.map((tournament) => (
+                    {(tournaments || []).map((tournament) => (
                       <tr key={tournament.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="">
@@ -77,26 +79,30 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 first-letter:uppercase">
-                            {tournament.format}
-                          </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-gray-900">
                             {tournament.title}
+                          </div>
+                          <div className="text-sm text-gray-500 first-letter:uppercase">
+                            {tournament.format}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <Link href={`/tournament/${tournament.id}`}>
-                            <a className="text-indigo-600 hover:text-indigo-900">
+                            <a
+                              className="text-indigo-600 hover:text-indigo-900"
+                              target="_blank"
+                            >
                               Vedi evento
                             </a>
                           </Link>{' '}
                           -{' '}
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
+                          <Link
+                            href={`/admin/to/${organizerId}/${tournament.id}`}
                           >
-                            Modifica
-                          </a>
+                            <a className="text-indigo-600 hover:text-indigo-900">
+                              Modifica
+                            </a>
+                          </Link>
                         </td>
                       </tr>
                     ))}

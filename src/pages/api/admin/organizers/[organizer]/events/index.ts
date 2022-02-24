@@ -7,6 +7,8 @@ import {
   saveNewEvent,
   verifyAuthToken,
 } from '../../../../../../utils/firebase-server';
+import {validate} from 'validate.js';
+import {newEventConstraints} from '../../../../../../utils/validation';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const auth = req.headers.authorization;
@@ -47,6 +49,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'POST') {
+    const validationErrors = validate(req.body, newEventConstraints);
+
+    if (validationErrors !== undefined) {
+      res
+        .status(400)
+        .json({...validationErrors, location: validationErrors.location?.[0]});
+      return;
+    }
+
     const event = await saveNewEvent(organizer, req.body);
 
     res.json(event);

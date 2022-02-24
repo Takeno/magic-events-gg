@@ -411,7 +411,7 @@ export async function saveNewEvent(
     text: event.text || '',
     timestamp: event.timestamp,
     organizer: {
-      id: organizer.id,
+      id: organizerSnapshot.id,
       name: organizer.name,
       logo: organizer.logo || null,
     },

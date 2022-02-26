@@ -454,3 +454,31 @@ export async function updateEvent(
       {merge: true}
     );
 }
+
+export async function fetchAllOrganizers(): Promise<Organizer[]> {
+  const db = getDatabase();
+
+  const results = await db.collection('organizers').orderBy('name').get();
+
+  const organizers: Organizer[] = [];
+
+  results.forEach((doc: any) => {
+    const d = doc.data();
+
+    organizers.push({
+      id: doc.id,
+      name: d.name,
+      logo: d.logo || null,
+      facebook: d.facebook || null,
+      location: {
+        address: d.location.address,
+        city: d.location.city,
+        province: d.location.province,
+        country: d.location.country,
+        latitude: d.location.latitude,
+        longitude: d.location.longitude,
+      },
+    });
+  });
+  return organizers;
+}

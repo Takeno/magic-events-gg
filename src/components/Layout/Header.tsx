@@ -79,6 +79,11 @@ export default function Header() {
                 </div>
                 <div className="hidden sm:block sm:ml-6 h-full">
                   <div className="flex space-x-4">
+                    <Link href="/organizzatori">
+                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
+                        Organizzatori
+                      </a>
+                    </Link>
                     <Link href="/i-miei-eventi">
                       <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
                         I miei eventi
@@ -135,6 +140,14 @@ export default function Header() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
+              <Link href="/organizzatori" passHref>
+                <Disclosure.Button
+                  as="a"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Organizzatori
+                </Disclosure.Button>
+              </Link>
               <Link href="/i-miei-eventi" passHref>
                 <Disclosure.Button
                   as="a"

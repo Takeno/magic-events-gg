@@ -127,8 +127,11 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                   rel="noreferrer"
                   className="hover:underline"
                 >
-                  {tournament.location.address} - {tournament.location.city} (
-                  {tournament.location.province})
+                  {tournament.location.venue}
+                  {tournament.location.venue && <br />}
+                  {tournament.location.address}
+                  <br />
+                  {tournament.location.city} ({tournament.location.province})
                 </a>
               </p>
 

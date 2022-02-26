@@ -69,6 +69,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   await updateEvent(event.id, req.body);
 
+  res.unstable_revalidate(`/tournament/${event.id}`);
+
   res.json(event);
   return;
 };

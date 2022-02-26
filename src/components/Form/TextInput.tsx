@@ -4,6 +4,7 @@ interface TextInputProps {
   error?: string;
   placeholder?: string;
   title: string;
+  type?: 'text' | 'email' | 'url';
   value: string | null | undefined;
   onChange: (text: string) => void;
 }
@@ -18,7 +19,7 @@ export default function TextInput(props: TextInputProps) {
         <input
           name={props.name}
           id={props.id || props.name}
-          type="text"
+          type={props.type || 'text'}
           className="block w-full border-gray-300 rounded-md"
           placeholder={props.placeholder}
           value={props.value || ''}

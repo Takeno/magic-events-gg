@@ -98,3 +98,15 @@ export const updateEventConstraints = {
     updateEventLocation: true,
   },
 };
+
+export const updateOrganizerConstraints = {
+  facebook: {
+    type: 'string',
+  },
+  whatsapp: {
+    type: 'string',
+  },
+  email: {
+    type: 'string',
+  },
+};

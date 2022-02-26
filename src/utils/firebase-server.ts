@@ -165,6 +165,9 @@ export async function fetchOrganizerById(
     name: d.name,
     logo: d.logo || null,
     facebook: d.facebook || null,
+    email: d.email || null,
+    whatsapp: d.whatsapp || null,
+    website: d.website || null,
     location: {
       address: d.location.address,
       city: d.location.city,
@@ -333,6 +336,9 @@ export async function fetchOrganizerManagedBy(
       name: d.name,
       logo: d.logo || null,
       facebook: d.facebook || null,
+      email: d.email || null,
+      whatsapp: d.whatsapp || null,
+      website: d.website || null,
       location: {
         address: d.location.address,
         city: d.location.city,
@@ -470,6 +476,9 @@ export async function fetchAllOrganizers(): Promise<Organizer[]> {
       name: d.name,
       logo: d.logo || null,
       facebook: d.facebook || null,
+      email: d.email || null,
+      whatsapp: d.whatsapp || null,
+      website: d.website || null,
       location: {
         address: d.location.address,
         city: d.location.city,
@@ -481,4 +490,16 @@ export async function fetchAllOrganizers(): Promise<Organizer[]> {
     });
   });
   return organizers;
+}
+
+export async function updateOrganizer(
+  organizerId: Organizer['id'],
+  organizer: Pick<Organizer, 'facebook' | 'whatsapp' | 'email' | 'website'>
+): Promise<void> {
+  const db = getDatabase();
+
+  await db
+    .collection('organizers')
+    .doc(organizerId)
+    .set(organizer, {merge: true});
 }

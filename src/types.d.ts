@@ -30,6 +30,9 @@ interface Organizer {
   name: string;
   logo: string | null;
   facebook: string | null;
+  email: string | null;
+  whatsapp: string | null;
+  website: string | null;
   location: OrganizerLocation;
 }
 

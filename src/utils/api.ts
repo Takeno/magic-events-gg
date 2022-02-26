@@ -90,3 +90,15 @@ export const updateEvent = async (
 
   return response.data;
 };
+
+export const updateOrganizer = async (
+  organizerId: Organizer['id'],
+  organizer: Pick<Organizer, 'facebook' | 'whatsapp' | 'email'>
+): Promise<Tournament> => {
+  const response = await http.post(
+    `/api/admin/organizers/${organizerId}`,
+    organizer
+  );
+
+  return response.data;
+};

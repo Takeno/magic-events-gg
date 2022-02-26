@@ -54,6 +54,7 @@ export async function fetchHomeEvents(): Promise<Tournament[]> {
       format: d.format,
       title: d.title || null,
       text: d.text || null,
+      registrationLink: d.registrationLink || null,
       timestamp: d.timestamp.seconds * 1000,
       location: {
         venue: d.location.venue,
@@ -90,6 +91,7 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
       format: d.format,
       title: d.title || null,
       text: d.text || null,
+      registrationLink: d.registrationLink || null,
       timestamp: d.timestamp.seconds * 1000,
       location: {
         venue: d.location.venue,
@@ -127,6 +129,7 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
     format: d.format,
     title: d.title || null,
     text: d.text || null,
+    registrationLink: d.registrationLink || null,
     timestamp: d.timestamp.seconds * 1000,
     location: {
       venue: d.location.venue,
@@ -226,6 +229,7 @@ export async function fetchEventByCoords(
           format: d.format,
           title: d.title || null,
           text: d.text || null,
+          registrationLink: d.registrationLink || null,
           timestamp: d.timestamp.seconds * 1000,
           location: {
             venue: d.location.venue,
@@ -372,6 +376,7 @@ export async function fetchAllEventsByOrganizer(
       format: d.format,
       title: d.title || null,
       text: d.text || null,
+      registrationLink: d.registrationLink || null,
       timestamp: d.timestamp.seconds * 1000,
       location: {
         venue: d.location.venue,
@@ -395,7 +400,10 @@ export async function fetchAllEventsByOrganizer(
 
 export async function saveNewEvent(
   organizerId: string,
-  event: Pick<Tournament, 'format' | 'timestamp' | 'title' | 'text'> &
+  event: Pick<
+    Tournament,
+    'format' | 'timestamp' | 'title' | 'text' | 'registrationLink'
+  > &
     Partial<Pick<Tournament, 'location'>>
 ): Promise<Tournament> {
   const db = getDatabase();
@@ -415,6 +423,7 @@ export async function saveNewEvent(
     format: event.format,
     title: event.title,
     text: event.text || '',
+    registrationLink: event.registrationLink,
     timestamp: event.timestamp,
     organizer: {
       id: organizerSnapshot.id,
@@ -440,7 +449,7 @@ export async function updateEvent(
   eventId: string,
   event: Pick<
     Tournament,
-    'format' | 'timestamp' | 'title' | 'text' | 'location'
+    'format' | 'timestamp' | 'title' | 'text' | 'location' | 'registrationLink'
   >
 ): Promise<void> {
   const db = getDatabase();

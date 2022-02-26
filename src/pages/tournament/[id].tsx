@@ -137,10 +137,30 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
 
               {/* <img src={staticMap.src} className="aspect-video mt-4" /> */}
 
-              {/* <button className="bg-green-600 w-full py-1 pl-5 pr-2 text-white text-left flex justify-between rounded-sm mt-4">
-                Iscriviti
-                <span className="bg-white/30 px-1 rounded-sm">€ 20</span>
-              </button> */}
+              {tournament.registrationLink && (
+                <a
+                  href={tournament.registrationLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-blue-dark w-full p-4 text-primary font-bold flex items-center uppercase rounded-md mt-4"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 mr-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
+                    />
+                  </svg>
+                  Iscriviti
+                </a>
+              )}
             </aside>
           </div>
         </div>

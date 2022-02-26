@@ -63,6 +63,7 @@ const AdminTournamentEdit: NextPage<PageProps> = ({tournament}) => {
         timestamp: new Date(data.timestamp).getTime(),
         title: data.title,
         text: data.text,
+        registrationLink: data.registrationLink,
         location: data.location,
       });
     } catch (e) {
@@ -161,6 +162,20 @@ const AdminTournamentEdit: NextPage<PageProps> = ({tournament}) => {
                 render={({input, meta}) => (
                   <Datetime
                     title="Quando"
+                    name={input.name}
+                    value={input.value}
+                    onChange={input.onChange}
+                    error={meta.error || meta.submitError}
+                  />
+                )}
+              />
+
+              <Field<FormType['registrationLink']>
+                name="registrationLink"
+                render={({input, meta}) => (
+                  <TextInput
+                    title="Link registratione evento"
+                    type="url"
                     name={input.name}
                     value={input.value}
                     onChange={input.onChange}

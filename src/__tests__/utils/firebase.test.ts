@@ -144,6 +144,7 @@ describe('firebase.ts - saveNewEvent', () => {
       timestamp: Date.now(),
       title: null,
       text: null,
+      registrationLink: null,
     });
 
     const after = await fetchAllEventsByOrganizer(TOURNAMENT_ORGANIZERS[0].id);

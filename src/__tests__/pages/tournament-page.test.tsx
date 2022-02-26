@@ -15,6 +15,7 @@ describe('Page /tournament/[id]', () => {
       format: 'modern',
       title: null,
       text: null,
+      registrationLink: null,
       timestamp: 1642340900271,
       location: {
         venue: 'La Torre del Minotauro',

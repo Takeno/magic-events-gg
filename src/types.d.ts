@@ -21,6 +21,7 @@ type Format =
   | 'pioneer'
   | 'vintage'
   | 'commander'
+  | 'centurion'
   | 'pauper'
   | 'draft'
   | 'sealed';

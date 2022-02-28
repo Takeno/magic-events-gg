@@ -158,6 +158,7 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
                       {label: 'pioneer', value: 'pioneer'},
                       {label: 'vintage', value: 'vintage'},
                       {label: 'commander', value: 'commander'},
+                      {label: 'centurion', value: 'centurion'},
                       {label: 'pauper', value: 'pauper'},
                     ]}
                   />

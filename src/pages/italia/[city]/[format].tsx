@@ -108,6 +108,15 @@ const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
               Commander
             </a>
           </Link>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}/centurion`}>
+            <a
+              className={
+                format === 'centurion' ? 'font-bold text-primary' : undefined
+              }
+            >
+              Centurion
+            </a>
+          </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/draft`}>
             <a
               className={

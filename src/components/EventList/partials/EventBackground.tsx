@@ -4,7 +4,8 @@ import standard from '../../../assets/standard-placeholder.jpg';
 import modern from '../../../assets/modern-placeholder.jpg';
 import vintage from '../../../assets/vintage-placeholder.jpg';
 import legacy from '../../../assets/legacy-placeholder.jpg';
-import commander from '../../../assets/centurion-placeholder.webp';
+import commander from '../../../assets/commander-placeholder.webp';
+import centurion from '../../../assets/centurion-placeholder.jpg';
 import pauper from '../../../assets/pauper-placeholder.png';
 import pioneer from '../../../assets/pioneer-placeholder.jpg';
 import draft from '../../../assets/draft-placeholder.jpg';
@@ -16,6 +17,7 @@ const format2image: Record<Format, StaticImageData> = {
   pauper,
   vintage,
   commander,
+  centurion,
   legacy,
   pioneer,
   draft,

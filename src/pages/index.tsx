@@ -134,6 +134,14 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
           </button>
           <button
             className={
+              filter === 'centurion' ? 'font-bold text-primary' : undefined
+            }
+            onClick={() => setFilter('centurion')}
+          >
+            Centurion
+          </button>
+          <button
+            className={
               filter === 'draft' ? 'font-bold text-primary' : undefined
             }
             onClick={() => setFilter('draft')}

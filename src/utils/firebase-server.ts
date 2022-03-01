@@ -423,7 +423,7 @@ export async function saveNewEvent(
     format: event.format,
     title: event.title,
     text: event.text || '',
-    registrationLink: event.registrationLink,
+    registrationLink: event.registrationLink || null,
     timestamp: event.timestamp,
     organizer: {
       id: organizerSnapshot.id,

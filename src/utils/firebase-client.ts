@@ -6,6 +6,8 @@ import {
   User,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
+  confirmPasswordReset,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -42,4 +44,19 @@ export function getUserProfile() {
 export function addAuthStateListener(cb: (u: User | null) => void) {
   const auth = getAuth();
   return onAuthStateChanged(auth, cb);
+}
+
+export async function resetPasswordRequest(email: string): Promise<void> {
+  const auth = getAuth();
+
+  await sendPasswordResetEmail(auth, email);
+}
+
+export async function resetPasswordConfirm(
+  code: string,
+  password: string
+): Promise<void> {
+  const auth = getAuth();
+
+  await confirmPasswordReset(auth, code, password);
 }

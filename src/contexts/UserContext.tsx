@@ -15,6 +15,8 @@ export type UserContextType = {
   loading: boolean;
   signup: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
+  resetPasswordRequest: (email: string) => Promise<void>;
+  resetPasswordConfirm: (code: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -23,6 +25,8 @@ export const UserContext = createContext<UserContextType>({
   loading: false,
   signup: () => Promise.reject('Not implemented'),
   login: () => Promise.reject('Not implemented'),
+  resetPasswordRequest: () => Promise.reject('Not implemented'),
+  resetPasswordConfirm: () => Promise.reject('Not implemented'),
   logout: () => Promise.reject('Not implemented'),
 });
 
@@ -47,6 +51,17 @@ export const UserProvider = ({children}: UserProviderProps) => {
     await firebase.logout();
     // setUser(null);
   }, []);
+
+  const resetPasswordRequest = useCallback(async (email: string) => {
+    await firebase.resetPasswordRequest(email);
+  }, []);
+
+  const resetPasswordConfirm = useCallback(
+    async (code: string, password: string) => {
+      await firebase.resetPasswordConfirm(code, password);
+    },
+    []
+  );
 
   useEffect(() => {
     const unsub = firebase.addAuthStateListener(async (user) => {
@@ -85,7 +100,17 @@ export const UserProvider = ({children}: UserProviderProps) => {
   }, [token]);
 
   return (
-    <UserContext.Provider value={{user, loading, login, signup, logout}}>
+    <UserContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        signup,
+        logout,
+        resetPasswordRequest,
+        resetPasswordConfirm,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

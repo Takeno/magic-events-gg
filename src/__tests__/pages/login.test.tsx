@@ -34,6 +34,8 @@ describe('Page /login', () => {
       signup: () => Promise.reject('Not implemented'),
       login: jest.fn(() => Promise.resolve()),
       logout: () => Promise.reject('Not implemented'),
+      resetPasswordRequest: () => Promise.reject('Not implemented'),
+      resetPasswordConfirm: () => Promise.reject('Not implemented'),
     };
 
     render(
@@ -77,6 +79,8 @@ describe('Page /login', () => {
         throw err;
       }),
       logout: () => Promise.reject('Not implemented'),
+      resetPasswordRequest: () => Promise.reject('Not implemented'),
+      resetPasswordConfirm: () => Promise.reject('Not implemented'),
     };
 
     render(

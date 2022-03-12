@@ -1,10 +1,10 @@
 const {writeFileSync} = require('fs');
 const {default: slugify} = require('slugify');
-const cities = require('../src/city.json');
+const cities = require('../src/city.json').slice(0, 20);
 
 const DOMAIN = 'https://magic-events.gg';
 
-const pages = ['/', '/accedi', '/contatti'];
+const pages = ['/', '/accedi', '/organizzatori', '/contatti'];
 
 cities.forEach((c) => pages.push(`/italia/${slugify(c.name, {lower: true})}`));
 

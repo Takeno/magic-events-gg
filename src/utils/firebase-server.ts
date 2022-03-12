@@ -24,6 +24,8 @@ function getDatabase() {
     init();
   }
 
+  console.log('QUERY');
+
   return getFirestore();
 }
 
@@ -70,6 +72,12 @@ export async function fetchHomeEvents(): Promise<Tournament[]> {
         name: d.organizer.name,
         logo: d.organizer.logo || null,
       },
+      leaguesIds: d.leaguesIds || [] || [],
+      leagues: (d.leagues || []).map((l: any) => ({
+        id: l.id,
+        name: l.name,
+        logo: l.logo || null,
+      })),
     });
   });
 
@@ -107,6 +115,12 @@ export async function fetchAllEvents(): Promise<Tournament[]> {
         name: d.organizer.name,
         logo: d.organizer.logo || null,
       },
+      leaguesIds: d.leaguesIds || [],
+      leagues: (d.leagues || []).map((l: any) => ({
+        id: l.id,
+        name: l.name,
+        logo: l.logo || null,
+      })),
     });
   });
 
@@ -145,6 +159,12 @@ export async function fetchEventById(id: string): Promise<Tournament | null> {
       name: d.organizer.name,
       logo: d.organizer.logo || null,
     },
+    leaguesIds: d.leaguesIds || [],
+    leagues: (d.leagues || []).map((l: any) => ({
+      id: l.id,
+      name: l.name,
+      logo: l.logo || null,
+    })),
   };
 
   return tournament;
@@ -207,6 +227,8 @@ export async function fetchEventByCoords(
     promises.push(q.get());
   }
 
+  console.log('QUERY BY COORDS: %d', promises.length);
+
   const snapshots = await Promise.all(promises);
   const matchingDocs: Tournament[] = [];
 
@@ -245,6 +267,12 @@ export async function fetchEventByCoords(
             name: d.organizer.name,
             logo: d.organizer.logo || null,
           },
+          leaguesIds: d.leaguesIds,
+          leagues: (d.leagues || []).map((l: any) => ({
+            id: l.id,
+            name: l.name,
+            logo: l.logo || null,
+          })),
         });
       }
     }
@@ -276,7 +304,8 @@ export async function fetchUser(uid: string): Promise<User | Admin | null> {
     id: snapshot.id,
     email: d.email,
     roles: d.roles,
-    storeManagerOf: d.storeManagerOf,
+    storeManagerOf: d.storeManagerOf || [],
+    leagueManagerOf: d.leagueManagerOf || [],
     cities: d.cities || [],
     formats: d.formats || [],
   };
@@ -356,6 +385,70 @@ export async function fetchOrganizerManagedBy(
   return organizers;
 }
 
+export async function fetchLeaguesManagedBy(uid: string): Promise<League[]> {
+  const db = getDatabase();
+
+  const snapshot = await db.collection('users').doc(uid).get();
+
+  if (snapshot.exists === false) {
+    throw new Error('Unknown user');
+  }
+
+  const user = snapshot.data() as User | Admin;
+
+  if (!isAdmin(user)) {
+    throw new Error('User is not an admin');
+  }
+
+  const results = await db
+    .collection('leagues')
+    .where(FieldPath.documentId(), 'in', user.leagueManagerOf)
+    .get();
+
+  const leagues: League[] = [];
+
+  results.forEach((doc: any) => {
+    const d = doc.data();
+
+    leagues.push({
+      id: doc.id,
+      name: d.name,
+      text: d.text || null,
+      logo: d.logo || null,
+      facebook: d.facebook || null,
+      email: d.email || null,
+      whatsapp: d.whatsapp || null,
+      website: d.website || null,
+    });
+  });
+  return leagues;
+}
+
+export async function fetchLeagueById(leagueId: string): Promise<League> {
+  const db = getDatabase();
+
+  const snapshot = await db.collection('leagues').doc(leagueId).get();
+
+  if (snapshot.exists === false) {
+    throw new Error('Unknown league');
+  }
+
+  const d = snapshot.data() as League;
+
+  const league: League = {
+    id: snapshot.id,
+    name: d.name,
+    text: d.text || null,
+    logo: d.logo || null,
+    facebook: d.facebook || null,
+    email: d.email || null,
+    whatsapp: d.whatsapp || null,
+    website: d.website || null,
+  };
+
+  return league;
+}
+
 export async function fetchAllEventsByOrganizer(
   organizer: string
 ): Promise<Tournament[]> {
@@ -392,10 +485,120 @@ export async function fetchAllEventsByOrganizer(
         name: d.organizer.name,
         logo: d.organizer.logo || null,
       },
+      leaguesIds: d.leaguesIds,
+      leagues: (d.leagues || []).map((l: any) => ({
+        id: l.id,
+        name: l.name,
+        logo: l.logo || null,
+      })),
     });
   });
 
   return data;
+}
+
+export async function fetchAllEventsByLeague(
+  league: string
+): Promise<Tournament[]> {
+  const db = getDatabase();
+
+  const snapshot = await db
+    .collection('tournaments')
+    .where('leaguesIds', 'array-contains', league)
+    .get();
+
+  const data: Tournament[] = [];
+
+  snapshot.forEach((doc: any) => {
+    const d = doc.data();
+
+    data.push({
+      id: doc.id,
+      format: d.format,
+      title: d.title || null,
+      text: d.text || null,
+      registrationLink: d.registrationLink || null,
+      timestamp: d.timestamp.seconds * 1000,
+      location: {
+        venue: d.location.venue,
+        address: d.location.address,
+        city: d.location.city,
+        province: d.location.province,
+        country: d.location.country,
+        latitude: d.location.latitude,
+        longitude: d.location.longitude,
+      },
+      organizer: {
+        id: d.organizer.id,
+        name: d.organizer.name,
+        logo: d.organizer.logo || null,
+      },
+      leaguesIds: d.leaguesIds,
+      leagues: (d.leagues || []).map((l: any) => ({
+        id: l.id,
+        name: l.name,
+        logo: l.logo || null,
+      })),
+    });
+  });
+
+  return data;
+}
+
+export async function unlinkEventFromLeague(
+  league: string,
+  eventId: string
+): Promise<void> {
+  const db = getDatabase();
+
+  const event = await fetchEventById(eventId);
+
+  if (event === null) {
+    return;
+  }
+
+  await db
+    .collection('tournaments')
+    .doc(eventId)
+    .set({
+      ...event,
+      timestamp: Timestamp.fromMillis(event.timestamp),
+      leaguesIds: event.leaguesIds.filter((id) => id !== league),
+      leagues: event.leagues.filter((l) => l.id !== league),
+    });
+}
+
+export async function linkEventToLeague(
+  leagueId: string,
+  eventId: string
+): Promise<void> {
+  const db = getDatabase();
+
+  const event = await fetchEventById(eventId);
+
+  if (event === null) {
+    return;
+  }
+
+  if (event.leaguesIds.includes(leagueId)) {
+    return;
+  }
+
+  const league = await fetchLeagueById(leagueId);
+
+  await db
+    .collection('tournaments')
+    .doc(eventId)
+    .set({
+      ...event,
+      timestamp: Timestamp.fromMillis(event.timestamp),
+      leaguesIds: [leagueId].concat(event.leaguesIds),
+      leagues: event.leagues.concat({
+        id: league.id,
+        name: league.name,
+        logo: league.logo,
+      }),
+    });
 }
 
 export async function saveNewEvent(
@@ -431,6 +634,8 @@ export async function saveNewEvent(
       logo: organizer.logo || null,
     },
     location: event.location || {...organizer.location, venue: organizer.name},
+    leaguesIds: [],
+    leagues: [],
   };
 
   const doc = await db.collection('tournaments').add({
@@ -501,6 +706,30 @@ export async function fetchAllOrganizers(): Promise<Organizer[]> {
   return organizers;
 }
 
+export async function fetchAllLeagues(): Promise<League[]> {
+  const db = getDatabase();
+
+  const results = await db.collection('leagues').orderBy('name').get();
+
+  const leagues: League[] = [];
+
+  results.forEach((doc: any) => {
+    const d = doc.data();
+
+    leagues.push({
+      id: doc.id,
+      name: d.name,
+      text: d.text || null,
+      logo: d.logo || null,
+      facebook: d.facebook || null,
+      email: d.email || null,
+      whatsapp: d.whatsapp || null,
+      website: d.website || null,
+    });
+  });
+  return leagues;
+}
+
 export async function updateOrganizer(
   organizerId: Organizer['id'],
   organizer: Pick<Organizer, 'facebook' | 'whatsapp' | 'email' | 'website'>
@@ -511,4 +740,13 @@ export async function updateOrganizer(
     .collection('organizers')
     .doc(organizerId)
     .set(organizer, {merge: true});
+}
+
+export async function updateleague(
+  leagueId: League['id'],
+  data: Pick<League, 'text' | 'facebook' | 'whatsapp' | 'email' | 'website'>
+): Promise<void> {
+  const db = getDatabase();
+
+  await db.collection('leagues').doc(leagueId).set(data, {merge: true});
 }

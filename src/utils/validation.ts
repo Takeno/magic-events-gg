@@ -112,3 +112,21 @@ export const updateOrganizerConstraints = {
     type: 'string',
   },
 };
+
+export const updateLeagueConstraints = {
+  text: {
+    type: 'string',
+  },
+  facebook: {
+    type: 'string',
+  },
+  whatsapp: {
+    type: 'string',
+  },
+  email: {
+    type: 'string',
+  },
+  website: {
+    type: 'string',
+  },
+};

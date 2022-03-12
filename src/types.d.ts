@@ -37,6 +37,17 @@ interface Organizer {
   location: OrganizerLocation;
 }
 
+interface League {
+  id: string;
+  name: string;
+  text: string | null;
+  logo: string | null;
+  facebook: string | null;
+  email: string | null;
+  whatsapp: string | null;
+  website: string | null;
+}
+
 type Tournament = {
   id: string;
   format: Format;
@@ -46,6 +57,8 @@ type Tournament = {
   timestamp: number;
   location: EventLocation;
   organizer: Pick<Organizer, 'id' | 'name' | 'logo'>;
+  leaguesIds: Array<League['id']>;
+  leagues: Array<Pick<League, 'id' | 'name' | 'logo'>>;
 };
 
 interface User {
@@ -57,5 +70,6 @@ interface User {
 }
 
 interface Admin extends User {
+  leagueManagerOf: League['id'][];
   storeManagerOf: Organizer['id'][];
 }

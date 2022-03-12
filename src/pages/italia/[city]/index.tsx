@@ -6,6 +6,7 @@ import cities from '../../../city.json';
 import {fetchEventByCoords} from '../../../utils/firebase-server';
 import {EventCardList} from '../../../components/EventList';
 import Link from 'next/link';
+import BannerCities from '../../../components/BannerCities';
 
 type PageProps = {
   tournaments: Tournament[];

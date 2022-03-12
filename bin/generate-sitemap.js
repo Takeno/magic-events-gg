@@ -4,7 +4,13 @@ const cities = require('../src/city.json').slice(0, 20);
 
 const DOMAIN = 'https://magic-events.gg';
 
-const pages = ['/', '/accedi', '/organizzatori', '/contatti'];
+const pages = [
+  '/',
+  '/accedi',
+  '/organizzatori',
+  '/leghe-e-circuiti',
+  '/contatti',
+];
 
 cities.forEach((c) => pages.push(`/italia/${slugify(c.name, {lower: true})}`));
 

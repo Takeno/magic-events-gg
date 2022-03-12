@@ -63,6 +63,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                   objectFit="contain"
                   width={50}
                   height={50}
+                  priority
                 />
               </div>
             )}
@@ -78,6 +79,35 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
           <div className="flex-initial w-full md:w-2/3">
             <div className="card py-4 md:py-8">
               <div className="px-4 md:px-12">
+                {tournament.leagues.map((league) => (
+                  <div
+                    key={league.id}
+                    className="flex flex-col-reverse sm:flex-row justify-between items-center pb-4 mb-4 border-b-2"
+                  >
+                    <h3 className="text-lg font-bold">
+                      Certificato{' '}
+                      <Link href={`/league/${league.id}`}>
+                        <a className="text-primary hover:underline">
+                          {league.name}
+                        </a>
+                      </Link>
+                    </h3>
+
+                    {league.logo && (
+                      <div className="flex-shrink-0 relative h-20 w-30 bg-white flex justify-center items-center mr-2">
+                        <Image
+                          src={league.logo}
+                          alt={league.name}
+                          objectFit="contain"
+                          width={120}
+                          height={75}
+                          priority
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+
                 {tournament.title && (
                   <h2 className="text-xl font-bold">{tournament.title}</h2>
                 )}

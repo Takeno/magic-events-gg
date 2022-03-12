@@ -1,6 +1,6 @@
 const {initializeApp, getApps} = require('firebase-admin/app');
 const {getFirestore, Timestamp} = require('firebase-admin/firestore');
-const {TOURNAMENTS, USERS, TOURNAMENT_ORGANIZERS} = require('./data');
+const {TOURNAMENTS, USERS, TOURNAMENT_ORGANIZERS, LEAGUES} = require('./data');
 
 const geofire = require('geofire-common');
 
@@ -33,6 +33,8 @@ async function populateDb() {
     ]),
     location: item.location,
     organizer: item.organizer,
+    leaguesIds: (item.leagues || []).map((l) => l.id),
+    leagues: item.leagues || [],
   })).map(({id, ...item}) =>
     database.collection('tournaments').doc(id).set(item)
   );
@@ -44,6 +46,12 @@ async function populateDb() {
   );
 
   await Promise.all(usersActions);
+
+  const leaguesActions = LEAGUES.map((league) =>
+    database.collection('leagues').doc(league.id).set(league)
+  );
+
+  await Promise.all(leaguesActions);
 
   const toActions = TOURNAMENT_ORGANIZERS.map((to) =>
     database

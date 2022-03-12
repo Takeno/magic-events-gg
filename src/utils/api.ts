@@ -34,6 +34,12 @@ export const fetchMyOrganizers = async (): Promise<Organizer[]> => {
   return response.data;
 };
 
+export const fetchMyLeagues = async (): Promise<League[]> => {
+  const response = await http.get('/api/admin/leagues');
+
+  return response.data;
+};
+
 export const fetchEventsByOrganizer = async (
   organizer: string
 ): Promise<Tournament[]> => {
@@ -42,10 +48,48 @@ export const fetchEventsByOrganizer = async (
   return response.data;
 };
 
+export const fetchEventsByLeague = async (
+  league: string
+): Promise<Tournament[]> => {
+  const response = await http.get(`/api/admin/leagues/${league}/events`);
+
+  return response.data;
+};
+
+export const addEventFromLeague = async (
+  league: string,
+  tournament: string
+): Promise<Tournament[]> => {
+  const response = await http.post(
+    `/api/admin/leagues/${league}/events/${tournament}`
+  );
+
+  return response.data;
+};
+
+export const removeEventFromLeague = async (
+  league: string,
+  tournament: string
+): Promise<Tournament[]> => {
+  const response = await http.delete(
+    `/api/admin/leagues/${league}/events/${tournament}`
+  );
+
+  return response.data;
+};
+
 export const fetchPublicEventsByOrganizer = async (
   organizer: string
 ): Promise<Tournament[]> => {
   const response = await http.get(`/api/organizers/${organizer}/events`);
+
+  return response.data;
+};
+
+export const fetchPublicEventsByLeague = async (
+  league: string
+): Promise<Tournament[]> => {
+  const response = await http.get(`/api/leagues/${league}/events`);
 
   return response.data;
 };
@@ -102,6 +146,15 @@ export const updateOrganizer = async (
     `/api/admin/organizers/${organizerId}`,
     organizer
   );
+
+  return response.data;
+};
+
+export const updateLeague = async (
+  leagueId: Organizer['id'],
+  data: Pick<Organizer, 'facebook' | 'whatsapp' | 'email' | 'website'>
+): Promise<Tournament> => {
+  const response = await http.post(`/api/admin/leagues/${leagueId}`, data);
 
   return response.data;
 };

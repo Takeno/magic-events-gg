@@ -44,12 +44,21 @@ const TOURNAMENT_ORGANIZERS = [
   },
 ];
 
+const LEAGUES = [
+  {
+    id: 'league-01',
+    name: 'Centurion Commander',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/magic-events-gg.appspot.com/o/leagues%2Fcenturion-commander.jpg?alt=media',
+  },
+];
+
 const USERS = [
   {
     id: 'lU1mG4MXPYPgoXgbTBX0ekP4Ldk1',
     email: 'test@test.it',
     roles: ['ROLE_USER', 'ROLE_ADMIN'],
     storeManagerOf: [TOURNAMENT_ORGANIZERS[0].id],
+    leagueManagerOf: [LEAGUES[0].id],
   },
   {
     id: 'lU1mG4MXPYPgoXgbTBX0ekP4Ldk2',
@@ -76,7 +85,7 @@ const TOURNAMENTS = [
   {
     id: 'tournament-02',
     datetime: add(set(new Date(), {hours: 21, minutes: 30}), {days: 6}),
-    format: 'modern',
+    format: 'centurion',
     location: {
       venue: TOURNAMENT_ORGANIZERS[0].name,
       ...TOURNAMENT_ORGANIZERS[0].location,
@@ -86,6 +95,13 @@ const TOURNAMENTS = [
       name: TOURNAMENT_ORGANIZERS[0].name,
       logo: TOURNAMENT_ORGANIZERS[0].logo,
     },
+    leagues: [
+      {
+        id: LEAGUES[0].id,
+        name: LEAGUES[0].name,
+        logo: LEAGUES[0].logo,
+      },
+    ],
   },
   {
     id: 'tournament-03',
@@ -136,4 +152,5 @@ module.exports = {
   USERS,
   TOURNAMENTS,
   TOURNAMENT_ORGANIZERS,
+  LEAGUES,
 };

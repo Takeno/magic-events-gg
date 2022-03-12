@@ -18,6 +18,8 @@ describe('Page /', () => {
         text: null,
         registrationLink: null,
         timestamp: 1642340900271,
+        leaguesIds: [],
+        leagues: [],
         location: {
           venue: 'La Torre del Minotauro',
           address: 'Via Roma, 100',

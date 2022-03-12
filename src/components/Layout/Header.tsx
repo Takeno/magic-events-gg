@@ -84,6 +84,11 @@ export default function Header() {
                         Organizzatori
                       </a>
                     </Link>
+                    <Link href="/leghe-e-circuiti">
+                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
+                        Leghe
+                      </a>
+                    </Link>
                     <Link href="/i-miei-eventi">
                       <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
                         I miei eventi
@@ -146,6 +151,14 @@ export default function Header() {
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Organizzatori
+                </Disclosure.Button>
+              </Link>
+              <Link href="/leghe-e-circuiti" passHref>
+                <Disclosure.Button
+                  as="a"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Leghe
                 </Disclosure.Button>
               </Link>
               <Link href="/i-miei-eventi" passHref>

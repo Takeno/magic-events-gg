@@ -10,6 +10,7 @@ import {fetchEventByCoords} from '../utils/api';
 import {fetchHomeEvents} from '../utils/firebase-server';
 
 import home from '../assets/home.jpg';
+import {isFormat} from '../utils/formats';
 
 type PageProps = {
   tournaments: Tournament[];
@@ -30,6 +31,13 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
 
     fetchEventByCoords(coords).then(setData);
   }, [coords]);
+
+  useEffect(() => {
+    const f = window.location.hash?.slice(1);
+    if (isFormat(f)) {
+      setFilter(f);
+    }
+  }, []);
 
   return (
     <>

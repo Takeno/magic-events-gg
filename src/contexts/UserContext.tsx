@@ -64,6 +64,8 @@ export const UserProvider = ({children}: UserProviderProps) => {
   );
 
   useEffect(() => {
+    let timer: NodeJS.Timer | undefined = undefined;
+
     const unsub = firebase.addAuthStateListener(async (user) => {
       if (user === null) {
         setLoading(false);
@@ -74,9 +76,18 @@ export const UserProvider = ({children}: UserProviderProps) => {
       const token = await user.getIdToken();
 
       setToken(token);
+
+      timer = setInterval(async () => {
+        const token = await user.getIdToken(true);
+
+        setToken(token);
+      }, 1000 * 60 * 30);
     });
 
-    return () => unsub();
+    return () => {
+      unsub();
+      timer && clearInterval(timer);
+    };
   }, []);
 
   useEffect(() => {

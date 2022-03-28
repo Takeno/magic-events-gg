@@ -402,7 +402,7 @@ export async function fetchLeaguesManagedBy(uid: string): Promise<League[]> {
 
   const results = await db
     .collection('leagues')
-    .where(FieldPath.documentId(), 'in', user.leagueManagerOf)
+    .where(FieldPath.documentId(), 'in', user.leagueManagerOf || [])
     .get();
 
   const leagues: League[] = [];

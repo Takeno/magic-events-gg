@@ -494,7 +494,7 @@ export async function fetchAllEventsByOrganizer(
     });
   });
 
-  return data;
+  return data.sort((a, b) => b.timestamp - a.timestamp);
 }
 
 export async function fetchAllEventsByLeague(

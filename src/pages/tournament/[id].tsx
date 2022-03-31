@@ -2,18 +2,23 @@ import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import slugify from 'slugify';
-import {PropsWithChildren} from 'react';
+import {PropsWithChildren, useEffect} from 'react';
 import EventBackground from '../../components/EventList/partials/EventBackground';
 import {format} from '../../utils/dates';
 import {fetchEventById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
 import Link from 'next/link';
+import {trackEvent, trackEventSubscriptionLink} from '../../utils/tracking';
 
 type PageProps = {
   tournament: Tournament;
 };
 
 const SingleTournament: NextPage<PageProps> = ({tournament}) => {
+  useEffect(() => {
+    trackEvent(tournament.id, tournament.format, tournament.organizer.id);
+  }, [tournament]);
+
   return (
     <>
       <Head>
@@ -173,6 +178,13 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                   target="_blank"
                   rel="noreferrer"
                   className="bg-blue-dark w-full p-4 text-primary font-bold flex items-center uppercase rounded-md mt-4"
+                  onClick={() =>
+                    trackEventSubscriptionLink(
+                      tournament.id,
+                      tournament.format,
+                      tournament.organizer.id
+                    )
+                  }
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

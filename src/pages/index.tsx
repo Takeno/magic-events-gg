@@ -11,6 +11,7 @@ import {fetchHomeEvents} from '../utils/firebase-server';
 
 import home from '../assets/home.jpg';
 import {isFormat} from '../utils/formats';
+import {trackFormat} from '../utils/tracking';
 
 type PageProps = {
   tournaments: Tournament[];
@@ -38,6 +39,14 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
       setFilter(f);
     }
   }, []);
+
+  useEffect(() => {
+    if (filter === undefined) {
+      return;
+    }
+
+    trackFormat(filter);
+  }, [filter]);
 
   return (
     <>

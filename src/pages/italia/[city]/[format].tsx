@@ -6,16 +6,23 @@ import cities from '../../../city.json';
 import {fetchEventByCoords} from '../../../utils/firebase-server';
 import {EventCardList} from '../../../components/EventList';
 import Link from 'next/link';
+import {useEffect} from 'react';
+import {trackFormat} from '../../../utils/tracking';
+import {isFormat} from '../../../utils/formats';
 
 type PageProps = {
   tournaments: Tournament[];
-  format: string;
+  format: Format;
   city: {
     name: string;
   };
 };
 
 const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
+  useEffect(() => {
+    trackFormat(format);
+  }, [format]);
+
   return (
     <>
       <Head>
@@ -159,7 +166,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
   }
 
   const format = context.params?.format;
-  if (typeof format !== 'string') {
+  if (typeof format !== 'string' || !isFormat(format)) {
     return {
       notFound: true,
     };

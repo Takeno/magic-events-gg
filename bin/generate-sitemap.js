@@ -6,7 +6,8 @@ const DOMAIN = 'https://magic-events.gg';
 
 const pages = [
   '/',
-  '/accedi',
+  '/login',
+  '/signup',
   '/organizzatori',
   '/leghe-e-circuiti',
   '/contatti',

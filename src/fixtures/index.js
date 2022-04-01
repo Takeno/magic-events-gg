@@ -59,10 +59,12 @@ async function populateDb() {
       .doc(to.id)
       .set({
         ...to,
-        geohash: geofire.geohashForLocation([
-          to.location.latitude,
-          to.location.longitude,
-        ]),
+        geohash:
+          to.location &&
+          geofire.geohashForLocation([
+            to.location.latitude,
+            to.location.longitude,
+          ]),
       })
   );
   await Promise.all(toActions);

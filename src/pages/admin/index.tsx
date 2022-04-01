@@ -79,15 +79,21 @@ const AdminIndex: NextPage<PageProps> = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {to.location.address}
-                            <br />
-                            {to.location.city} ({to.location.province}),{' '}
-                            {to.location.country}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {to.location.city}
-                          </div>
+                          {to.location ? (
+                            <>
+                              <div className="text-sm text-gray-900">
+                                {to.location.address}
+                                <br />
+                                {to.location.city} ({to.location.province}),{' '}
+                                {to.location.country}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {to.location.city}
+                              </div>
+                            </>
+                          ) : (
+                            <div className="text-sm text-gray-900">Online</div>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <Link href={`/to/${to.id}`}>

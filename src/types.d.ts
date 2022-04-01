@@ -34,7 +34,7 @@ interface Organizer {
   email: string | null;
   whatsapp: string | null;
   website: string | null;
-  location: OrganizerLocation;
+  location: OrganizerLocation | null;
 }
 
 interface League {

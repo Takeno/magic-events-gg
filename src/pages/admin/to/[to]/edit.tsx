@@ -95,13 +95,15 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 <span>{organizer.name}</span>
               </div>
 
-              <div>
-                <span className="block font-medium">Posizione</span>
-                <span>
-                  {organizer.location.address} - {organizer.location.city} (
-                  {organizer.location.province}) {organizer.location.country}
-                </span>
-              </div>
+              {organizer.location && (
+                <div>
+                  <span className="block font-medium">Posizione</span>
+                  <span>
+                    {organizer.location.address} - {organizer.location.city} (
+                    {organizer.location.province}) {organizer.location.country}
+                  </span>
+                </div>
+              )}
 
               <div>
                 <span className="block font-medium">Logo</span>

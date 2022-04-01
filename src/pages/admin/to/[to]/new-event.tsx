@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {FORM_ERROR} from 'final-form';
-import type {NextPage} from 'next';
+import type {GetServerSideProps, NextPage} from 'next';
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 import {Field, Form} from 'react-final-form';
@@ -16,8 +16,11 @@ import Textarea from '../../../../components/Form/Textarea';
 import TextInput from '../../../../components/Form/TextInput';
 import {autocompleteCity, saveEvent} from '../../../../utils/api';
 import {newEventConstraints} from '../../../../utils/validation';
+import {fetchOrganizerById} from '../../../../utils/firebase-server';
 
-type PageProps = {};
+type PageProps = {
+  organizer: Organizer;
+};
 
 type FormType = Omit<Tournament, 'id' | 'organizer' | 'location'> & {
   customLocation: boolean;
@@ -29,10 +32,8 @@ type SelectOption = {
   value: string;
 };
 
-const AdminTournamentCreate: NextPage<PageProps> = () => {
+const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
   const router = useRouter();
-
-  const organizerId = router.query.to as string;
 
   const loadOptions = useCallback(
     async (inputValue: string, callback: (options: SelectOption[]) => void) => {
@@ -65,7 +66,7 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
     }
 
     try {
-      await saveEvent(organizerId, {
+      await saveEvent(organizer.id, {
         format: data.format,
         timestamp: new Date(data.timestamp).getTime(),
         title: data.title,
@@ -97,7 +98,7 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
       };
     }
 
-    router.push(`/admin/to/${organizerId}`);
+    router.push(`/admin/to/${organizer.id}`);
   };
 
   return (
@@ -117,7 +118,7 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
       <div className="max-w-screen-lg w-full mx-auto pt-4 px-2">
         <Form<FormType>
           initialValues={{
-            customLocation: false,
+            customLocation: organizer.location ? false : true,
           }}
           onSubmit={handleSubmit}
           render={({handleSubmit, values, submitError, submitting}) => (
@@ -205,18 +206,20 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
                 )}
               />
 
-              <Field<FormType['customLocation']>
-                name="customLocation"
-                render={({input, meta}) => (
-                  <CheckboxFlag
-                    title="La location NON è quella dell'organizzatore"
-                    name={input.name}
-                    value={input.value}
-                    onChange={input.onChange}
-                    error={meta.error || meta.submitError}
-                  />
-                )}
-              />
+              {organizer.location && (
+                <Field<FormType['customLocation']>
+                  name="customLocation"
+                  render={({input, meta}) => (
+                    <CheckboxFlag
+                      title="La location NON è quella dell'organizzatore"
+                      name={input.name}
+                      value={input.value}
+                      onChange={input.onChange}
+                      error={meta.error || meta.submitError}
+                    />
+                  )}
+                />
+              )}
 
               {values.customLocation && (
                 <>
@@ -337,3 +340,26 @@ const AdminTournamentCreate: NextPage<PageProps> = () => {
 };
 
 export default AdminTournamentCreate;
+
+export const getServerSideProps: GetServerSideProps<PageProps> = async (
+  context
+) => {
+  if (typeof context.params?.to !== 'string') {
+    return {
+      notFound: true,
+    };
+  }
+  const organizer = await fetchOrganizerById(context.params.to);
+
+  if (organizer === null) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      organizer,
+    },
+  };
+};

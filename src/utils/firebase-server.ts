@@ -191,7 +191,7 @@ export async function fetchOrganizerById(
     email: d.email || null,
     whatsapp: d.whatsapp || null,
     website: d.website || null,
-    location: {
+    location: d.location && {
       address: d.location.address,
       city: d.location.city,
       province: d.location.province,
@@ -372,7 +372,7 @@ export async function fetchOrganizerManagedBy(
       email: d.email || null,
       whatsapp: d.whatsapp || null,
       website: d.website || null,
-      location: {
+      location: d.location && {
         address: d.location.address,
         city: d.location.city,
         province: d.location.province,
@@ -693,7 +693,7 @@ export async function fetchAllOrganizers(): Promise<Organizer[]> {
       email: d.email || null,
       whatsapp: d.whatsapp || null,
       website: d.website || null,
-      location: {
+      location: d.location && {
         address: d.location.address,
         city: d.location.city,
         province: d.location.province,

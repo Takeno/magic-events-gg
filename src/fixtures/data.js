@@ -42,6 +42,12 @@ const TOURNAMENT_ORGANIZERS = [
       longitude: 12.481060499636694,
     },
   },
+  {
+    id: 'to-online',
+    name: 'Online Organizer',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/magic-events-gg.appspot.com/o/organizers%2Fstore.png?alt=media',
+    location: null,
+  },
 ];
 
 const LEAGUES = [
@@ -57,7 +63,7 @@ const USERS = [
     id: 'lU1mG4MXPYPgoXgbTBX0ekP4Ldk1',
     email: 'test@test.it',
     roles: ['ROLE_USER', 'ROLE_ADMIN'],
-    storeManagerOf: [TOURNAMENT_ORGANIZERS[0].id],
+    storeManagerOf: [TOURNAMENT_ORGANIZERS[0].id, TOURNAMENT_ORGANIZERS[3].id],
     leagueManagerOf: [LEAGUES[0].id],
   },
   {
@@ -144,6 +150,26 @@ const TOURNAMENTS = [
       id: TOURNAMENT_ORGANIZERS[2].id,
       name: TOURNAMENT_ORGANIZERS[2].name,
       logo: TOURNAMENT_ORGANIZERS[2].logo,
+    },
+  },
+  {
+    id: 'tournament-06',
+    datetime: add(set(new Date(), {hours: 21, minutes: 30}), {days: 1}),
+    format: 'legacy',
+    title: 'Legacy da TO Online',
+    location: {
+      venue: 'Locale fittizio',
+      address: 'Via Roma, 100',
+      city: 'Roma',
+      province: 'RM',
+      country: 'Italy',
+      latitude: 41.87663604952337,
+      longitude: 12.481060499636694,
+    },
+    organizer: {
+      id: TOURNAMENT_ORGANIZERS[3].id,
+      name: TOURNAMENT_ORGANIZERS[3].name,
+      logo: TOURNAMENT_ORGANIZERS[3].logo,
     },
   },
 ];

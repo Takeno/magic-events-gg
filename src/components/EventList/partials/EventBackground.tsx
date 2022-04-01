@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image, {StaticImageData} from 'next/image';
 
 import standard from '../../../assets/standard-placeholder.jpg';
 import modern from '../../../assets/modern-placeholder.jpg';

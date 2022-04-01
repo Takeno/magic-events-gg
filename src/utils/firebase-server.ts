@@ -24,8 +24,6 @@ function getDatabase() {
     init();
   }
 
-  console.log('QUERY');
-
   return getFirestore();
 }
 

@@ -34,6 +34,7 @@ interface Organizer {
   email: string | null;
   whatsapp: string | null;
   website: string | null;
+  discord: string | null;
   location: OrganizerLocation | null;
 }
 
@@ -46,6 +47,7 @@ interface League {
   email: string | null;
   whatsapp: string | null;
   website: string | null;
+  discord: string | null;
 }
 
 type Tournament = {

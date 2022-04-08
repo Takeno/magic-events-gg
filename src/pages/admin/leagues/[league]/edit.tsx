@@ -19,7 +19,7 @@ type PageProps = {
 
 type FormType = Pick<
   League,
-  'text' | 'facebook' | 'whatsapp' | 'email' | 'website'
+  'text' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
 >;
 
 const AdminTournamentCreate: NextPage<PageProps> = ({league}) => {
@@ -83,6 +83,7 @@ const AdminTournamentCreate: NextPage<PageProps> = ({league}) => {
             whatsapp: league.whatsapp,
             email: league.email,
             website: league.website,
+            discord: league.discord,
           }}
           onSubmit={handleSubmit}
           render={({handleSubmit, values, submitError, submitting}) => (
@@ -146,6 +147,20 @@ const AdminTournamentCreate: NextPage<PageProps> = ({league}) => {
                 render={({input, meta}) => (
                   <TextInput
                     title="Website"
+                    name={input.name}
+                    type="url"
+                    value={input.value}
+                    onChange={input.onChange}
+                    error={meta.error || meta.submitError}
+                  />
+                )}
+              />
+
+              <Field<FormType['discord']>
+                name="discord"
+                render={({input, meta}) => (
+                  <TextInput
+                    title="Discord"
                     name={input.name}
                     type="url"
                     value={input.value}

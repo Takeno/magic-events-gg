@@ -111,6 +111,12 @@ export const updateOrganizerConstraints = {
   email: {
     type: 'string',
   },
+  website: {
+    type: 'string',
+  },
+  discord: {
+    type: 'string',
+  },
 };
 
 export const updateLeagueConstraints = {
@@ -127,6 +133,9 @@ export const updateLeagueConstraints = {
     type: 'string',
   },
   website: {
+    type: 'string',
+  },
+  discord: {
     type: 'string',
   },
 };

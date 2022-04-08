@@ -140,7 +140,10 @@ export const updateEvent = async (
 
 export const updateOrganizer = async (
   organizerId: Organizer['id'],
-  organizer: Pick<Organizer, 'facebook' | 'whatsapp' | 'email'>
+  organizer: Pick<
+    Organizer,
+    'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
+  >
 ): Promise<Tournament> => {
   const response = await http.post(
     `/api/admin/organizers/${organizerId}`,

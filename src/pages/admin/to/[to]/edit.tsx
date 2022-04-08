@@ -16,7 +16,10 @@ type PageProps = {
   organizer: Organizer;
 };
 
-type FormType = Pick<Organizer, 'facebook' | 'whatsapp' | 'email' | 'website'>;
+type FormType = Pick<
+  Organizer,
+  'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
+>;
 
 const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
   const router = useRouter();
@@ -78,6 +81,7 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
             whatsapp: organizer.whatsapp,
             email: organizer.email,
             website: organizer.website,
+            discord: organizer.discord,
           }}
           onSubmit={handleSubmit}
           render={({handleSubmit, values, submitError, submitting}) => (
@@ -139,6 +143,20 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 render={({input, meta}) => (
                   <TextInput
                     title="Website"
+                    name={input.name}
+                    type="url"
+                    value={input.value}
+                    onChange={input.onChange}
+                    error={meta.error || meta.submitError}
+                  />
+                )}
+              />
+
+              <Field<FormType['discord']>
+                name="discord"
+                render={({input, meta}) => (
+                  <TextInput
+                    title="Discord"
                     name={input.name}
                     type="url"
                     value={input.value}

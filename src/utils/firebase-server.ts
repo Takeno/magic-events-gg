@@ -189,6 +189,7 @@ export async function fetchOrganizerById(
     email: d.email || null,
     whatsapp: d.whatsapp || null,
     website: d.website || null,
+    discord: d.discord || null,
     location: d.location && {
       address: d.location.address,
       city: d.location.city,
@@ -370,6 +371,7 @@ export async function fetchOrganizerManagedBy(
       email: d.email || null,
       whatsapp: d.whatsapp || null,
       website: d.website || null,
+      discord: d.discord || null,
       location: d.location && {
         address: d.location.address,
         city: d.location.city,
@@ -417,6 +419,7 @@ export async function fetchLeaguesManagedBy(uid: string): Promise<League[]> {
       email: d.email || null,
       whatsapp: d.whatsapp || null,
       website: d.website || null,
+      discord: d.discord || null,
     });
   });
   return leagues;
@@ -442,6 +445,7 @@ export async function fetchLeagueById(leagueId: string): Promise<League> {
     email: d.email || null,
     whatsapp: d.whatsapp || null,
     website: d.website || null,
+    discord: d.discord || null,
   };
 
   return league;
@@ -691,6 +695,7 @@ export async function fetchAllOrganizers(): Promise<Organizer[]> {
       email: d.email || null,
       whatsapp: d.whatsapp || null,
       website: d.website || null,
+      discord: d.discord || null,
       location: d.location && {
         address: d.location.address,
         city: d.location.city,
@@ -723,6 +728,7 @@ export async function fetchAllLeagues(): Promise<League[]> {
       email: d.email || null,
       whatsapp: d.whatsapp || null,
       website: d.website || null,
+      discord: d.discord || null,
     });
   });
   return leagues;
@@ -730,7 +736,10 @@ export async function fetchAllLeagues(): Promise<League[]> {
 
 export async function updateOrganizer(
   organizerId: Organizer['id'],
-  organizer: Pick<Organizer, 'facebook' | 'whatsapp' | 'email' | 'website'>
+  organizer: Pick<
+    Organizer,
+    'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
+  >
 ): Promise<void> {
   const db = getDatabase();
 
@@ -742,7 +751,10 @@ export async function updateOrganizer(
 
 export async function updateleague(
   leagueId: League['id'],
-  data: Pick<League, 'text' | 'facebook' | 'whatsapp' | 'email' | 'website'>
+  data: Pick<
+    League,
+    'text' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
+  >
 ): Promise<void> {
   const db = getDatabase();
 

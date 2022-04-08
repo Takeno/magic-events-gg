@@ -2,6 +2,8 @@ import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import Image from 'next/image';
 import slugify from 'slugify';
 import useSWR from 'swr';
+import ReactMarkdown from 'react-markdown';
+
 import {fetchOrganizerById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
 import {fetchPublicEventsByOrganizer} from '../../utils/api';
@@ -184,6 +186,12 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
             )}
           </div>
         </div>
+
+        {organizer.description && (
+          <ReactMarkdown className="pt-4 prose" linkTarget="_blank">
+            {organizer.description}
+          </ReactMarkdown>
+        )}
       </div>
 
       <article className="max-w-screen-lg mx-auto mt-10 w-full">

@@ -29,6 +29,7 @@ type Format =
 interface Organizer {
   id: string;
   name: string;
+  description: string | null;
   logo: string | null;
   facebook: string | null;
   email: string | null;
@@ -41,7 +42,7 @@ interface Organizer {
 interface League {
   id: string;
   name: string;
-  text: string | null;
+  description: string | null;
   logo: string | null;
   facebook: string | null;
   email: string | null;

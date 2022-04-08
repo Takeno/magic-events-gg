@@ -5,6 +5,7 @@ import {fetchLeagueById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
 import {fetchPublicEventsByLeague} from '../../utils/api';
 import {EventCardList} from '../../components/EventList';
+import ReactMarkdown from 'react-markdown';
 
 type PageProps = {
   league: League;
@@ -46,11 +47,7 @@ const SingleLeague: NextPage<PageProps> = ({league}) => {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-center">
-          <div className="space-y-2">
-            {(league.text || '').split('\n').map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
+          <div className="space-y-2"></div>
 
           <div className="text-center min-w-[6rem]">
             {league.facebook && (
@@ -156,6 +153,12 @@ const SingleLeague: NextPage<PageProps> = ({league}) => {
             )}
           </div>
         </div>
+
+        {league.description && (
+          <ReactMarkdown className="pt-4 prose" linkTarget="_blank">
+            {league.description}
+          </ReactMarkdown>
+        )}
       </div>
 
       <article className="max-w-screen-lg mx-auto mt-10 w-full">

@@ -184,6 +184,7 @@ export async function fetchOrganizerById(
   const organizer: Organizer = {
     id: snapshot.id,
     name: d.name,
+    description: d.description || null,
     logo: d.logo || null,
     facebook: d.facebook || null,
     email: d.email || null,
@@ -367,6 +368,7 @@ export async function fetchOrganizerManagedBy(
       id: doc.id,
       name: d.name,
       logo: d.logo || null,
+      description: d.description || null,
       facebook: d.facebook || null,
       email: d.email || null,
       whatsapp: d.whatsapp || null,
@@ -413,7 +415,7 @@ export async function fetchLeaguesManagedBy(uid: string): Promise<League[]> {
     leagues.push({
       id: doc.id,
       name: d.name,
-      text: d.text || null,
+      description: d.description || null,
       logo: d.logo || null,
       facebook: d.facebook || null,
       email: d.email || null,
@@ -439,7 +441,7 @@ export async function fetchLeagueById(leagueId: string): Promise<League> {
   const league: League = {
     id: snapshot.id,
     name: d.name,
-    text: d.text || null,
+    description: d.description || null,
     logo: d.logo || null,
     facebook: d.facebook || null,
     email: d.email || null,
@@ -691,6 +693,7 @@ export async function fetchAllOrganizers(): Promise<Organizer[]> {
       id: doc.id,
       name: d.name,
       logo: d.logo || null,
+      description: d.description || null,
       facebook: d.facebook || null,
       email: d.email || null,
       whatsapp: d.whatsapp || null,
@@ -722,7 +725,7 @@ export async function fetchAllLeagues(): Promise<League[]> {
     leagues.push({
       id: doc.id,
       name: d.name,
-      text: d.text || null,
+      description: d.description || null,
       logo: d.logo || null,
       facebook: d.facebook || null,
       email: d.email || null,
@@ -753,7 +756,7 @@ export async function updateleague(
   leagueId: League['id'],
   data: Pick<
     League,
-    'text' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
+    'description' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
   >
 ): Promise<void> {
   const db = getDatabase();

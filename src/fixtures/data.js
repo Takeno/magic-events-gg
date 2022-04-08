@@ -48,6 +48,8 @@ const TOURNAMENT_ORGANIZERS = [
     logo: 'https://firebasestorage.googleapis.com/v0/b/magic-events-gg.appspot.com/o/organizers%2Fstore.png?alt=media',
     location: null,
     discord: 'https://discord.com',
+    description: `# Prova
+    Tutto *molto* **bello**`,
   },
 ];
 

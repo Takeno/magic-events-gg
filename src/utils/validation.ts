@@ -102,6 +102,9 @@ export const updateEventConstraints = {
 };
 
 export const updateOrganizerConstraints = {
+  description: {
+    type: 'string',
+  },
   facebook: {
     type: 'string',
   },
@@ -120,7 +123,7 @@ export const updateOrganizerConstraints = {
 };
 
 export const updateLeagueConstraints = {
-  text: {
+  description: {
     type: 'string',
   },
   facebook: {

@@ -11,6 +11,7 @@ import {updateOrganizer} from '../../../../utils/api';
 import {updateOrganizerConstraints} from '../../../../utils/validation';
 import {fetchOrganizerById} from '../../../../utils/firebase-server';
 import Image from 'next/image';
+import MarkdownEditor from '../../../../components/Form/MarkdownEditor';
 
 type PageProps = {
   organizer: Organizer;
@@ -18,7 +19,7 @@ type PageProps = {
 
 type FormType = Pick<
   Organizer,
-  'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
+  'description' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
 >;
 
 const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
@@ -77,6 +78,7 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
       <div className="max-w-screen-lg w-full mx-auto pt-4 px-2">
         <Form<FormType, FormType>
           initialValues={{
+            description: organizer.description,
             facebook: organizer.facebook,
             whatsapp: organizer.whatsapp,
             email: organizer.email,
@@ -135,6 +137,19 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 </a>
                 .
               </p>
+
+              <Field<FormType['description']>
+                name="description"
+                render={({input, meta}) => (
+                  <MarkdownEditor
+                    title="Descrizione"
+                    name={input.name}
+                    value={input.value}
+                    onChange={input.onChange}
+                    error={meta.error || meta.submitError}
+                  />
+                )}
+              />
 
               <h3 className="text-xl font-bold">Social</h3>
 

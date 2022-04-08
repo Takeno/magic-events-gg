@@ -11,7 +11,7 @@ import {updateLeague} from '../../../../utils/api';
 import {updateLeagueConstraints} from '../../../../utils/validation';
 import {fetchLeagueById} from '../../../../utils/firebase-server';
 import Image from 'next/image';
-import Textarea from '../../../../components/Form/Textarea';
+import MarkdownEditor from '../../../../components/Form/MarkdownEditor';
 
 type PageProps = {
   league: League;
@@ -19,7 +19,7 @@ type PageProps = {
 
 type FormType = Pick<
   League,
-  'text' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
+  'description' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
 >;
 
 const AdminTournamentCreate: NextPage<PageProps> = ({league}) => {
@@ -78,7 +78,7 @@ const AdminTournamentCreate: NextPage<PageProps> = ({league}) => {
       <div className="max-w-screen-lg w-full mx-auto pt-4 px-2">
         <Form<FormType, FormType>
           initialValues={{
-            text: league.text,
+            description: league.description,
             facebook: league.facebook,
             whatsapp: league.whatsapp,
             email: league.email,
@@ -127,10 +127,10 @@ const AdminTournamentCreate: NextPage<PageProps> = ({league}) => {
                 .
               </p>
 
-              <Field<FormType['text']>
-                name="text"
+              <Field<FormType['description']>
+                name="description"
                 render={({input, meta}) => (
-                  <Textarea
+                  <MarkdownEditor
                     title="Descrizione"
                     name={input.name}
                     value={input.value}

@@ -12,6 +12,9 @@ import {fetchHomeEvents} from '../utils/firebase-server';
 import home from '../assets/home.jpg';
 import {isFormat} from '../utils/formats';
 import {trackFormat} from '../utils/tracking';
+import JsonLD from '../components/Meta/JsonLD';
+import {format} from '../utils/dates';
+import {getAbsoluteURL} from '../utils/url';
 
 type PageProps = {
   tournaments: Tournament[];
@@ -59,6 +62,35 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
           content="magic-events.gg è un aggregatore di eventi e tornei di Magic. Trova i tornei di Magic vicino a te!"
         />
       </Head>
+
+      <JsonLD>
+        {tournaments.map((tournament) => ({
+          '@context': 'https://schema.org',
+          '@type': 'Event',
+          name:
+            tournament.title ||
+            `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
+          startDate: format(tournament.timestamp, "yyyy-MM-dd'T'HH:mmxxx"),
+          eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', // change if online event
+          eventStatus: 'https://schema.org/EventScheduled',
+          location: {
+            '@type': 'Place',
+            name: tournament.location.venue,
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: tournament.location.address,
+              addressLocality: tournament.location.city,
+              addressRegion: tournament.location.province,
+              addressCountry: tournament.location.country,
+            },
+          },
+          organizer: {
+            '@type': 'Organization',
+            name: tournament.organizer.name,
+            url: getAbsoluteURL(`/to/${tournament.organizer.id}`),
+          },
+        }))}
+      </JsonLD>
 
       <div className="bg-blue-dark h-[70vh] min-h-[300px] md:h-1/3 flex flex-col items-center justify-center relative px-2">
         <Image

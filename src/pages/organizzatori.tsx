@@ -9,6 +9,8 @@ import {fetchAllOrganizers, fetchHomeEvents} from '../utils/firebase-server';
 import home from '../assets/home.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 import Link from 'next/link';
+import JsonLD from '../components/Meta/JsonLD';
+import {getAbsoluteURL} from '../utils/url';
 
 type PageProps = {
   organizers: Organizer[];
@@ -34,6 +36,14 @@ const Organizers: NextPage<PageProps> = ({organizers}) => {
           },
         ]}
       />
+      <JsonLD>
+        {organizers.map((organizer) => ({
+          '@context': 'https://schema.org',
+          '@type': 'LocalBusiness',
+          name: organizer.name,
+          url: getAbsoluteURL(`/to/${organizer.id}`),
+        }))}
+      </JsonLD>
 
       <article className="max-w-screen-xl mx-auto mt-10 w-full">
         <h1 className="text-3xl font-bold">Tutti gli organizzatori</h1>

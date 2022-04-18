@@ -9,6 +9,8 @@ import {fetchEventById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
 import Link from 'next/link';
 import {trackEvent, trackEventSubscriptionLink} from '../../utils/tracking';
+import JsonLD from '../../components/Meta/JsonLD';
+import {getAbsoluteURL} from '../../utils/url';
 
 type PageProps = {
   tournament: Tournament;
@@ -18,6 +20,24 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
   useEffect(() => {
     trackEvent(tournament.id, tournament.format, tournament.organizer.id);
   }, [tournament]);
+
+  const breadcrumbItems = [
+    {
+      href: `/italia/${slugify(tournament.location.city, {lower: true})}`,
+      text: tournament.location.city,
+    },
+    {
+      href: `/italia/${slugify(tournament.location.city, {
+        lower: true,
+      })}/${tournament.format}`,
+      text: tournament.format,
+    },
+    {
+      text:
+        tournament.title ||
+        `Torneo ${tournament.format} di ${tournament.organizer.name}`,
+    },
+  ];
 
   return (
     <>
@@ -35,25 +55,51 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
         />
       </Head>
 
-      <Breadcrumb
-        items={[
+      <Breadcrumb items={breadcrumbItems} />
+
+      <JsonLD>
+        {[
           {
-            href: `/italia/${slugify(tournament.location.city, {lower: true})}`,
-            text: tournament.location.city,
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbItems
+              .slice(0, -1)
+              .map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: item.text,
+                item: getAbsoluteURL(item.href!),
+              })),
           },
           {
-            href: `/italia/${slugify(tournament.location.city, {
-              lower: true,
-            })}/${tournament.format}`,
-            text: tournament.format,
-          },
-          {
-            text:
+            '@context': 'https://schema.org',
+            '@type': 'Event',
+            name:
               tournament.title ||
-              `Torneo ${tournament.format} di ${tournament.organizer.name}`,
+              `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
+            startDate: format(tournament.timestamp, "yyyy-MM-dd'T'HH:mmxxx"),
+            eventAttendanceMode:
+              'https://schema.org/OfflineEventAttendanceMode', // change if online event
+            eventStatus: 'https://schema.org/EventScheduled',
+            location: {
+              '@type': 'Place',
+              name: tournament.location.venue,
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: tournament.location.address,
+                addressLocality: tournament.location.city,
+                addressRegion: tournament.location.province,
+                addressCountry: tournament.location.country,
+              },
+            },
+            organizer: {
+              '@type': 'Organization',
+              name: tournament.organizer.name,
+              url: getAbsoluteURL(`/to/${tournament.organizer.id}`),
+            },
           },
         ]}
-      />
+      </JsonLD>
 
       <div className="max-w-screen-lg mx-auto mt-8 w-full">
         <div className="flex flex-col md:flex-row gap-4 mb-4">

@@ -8,6 +8,8 @@ import {fetchOrganizerById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
 import {fetchPublicEventsByOrganizer} from '../../utils/api';
 import {EventCardList} from '../../components/EventList';
+import JsonLD from '../../components/Meta/JsonLD';
+import {getAbsoluteURL} from '../../utils/url';
 
 type PageProps = {
   organizer: Organizer;
@@ -37,6 +39,46 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
   return (
     <>
       <Breadcrumb items={breadcrumbItems} />
+
+      <JsonLD>
+        {[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbItems
+              .slice(0, -1)
+              .map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: item.text,
+                item: getAbsoluteURL(item.href!),
+              })),
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'LocalBusiness',
+            // logo: organizer.logo || undefined,
+            name: organizer.name,
+            address: organizer.location
+              ? {
+                  '@type': 'PostalAddress',
+                  streetAddress: organizer.location.address,
+                  addressLocality: organizer.location.city,
+                  addressRegion: organizer.location.province,
+                  addressCountry: organizer.location.country,
+                }
+              : undefined,
+            geo: organizer.location
+              ? {
+                  '@type': 'GeoCoordinates',
+                  latitude: organizer.location.latitude,
+                  longitude: organizer.location.longitude,
+                }
+              : undefined,
+            email: organizer.email || undefined,
+          },
+        ]}
+      </JsonLD>
 
       <div className="card max-w-screen-lg mx-auto w-full mt-8 p-4">
         <div className="flex flex-col-reverse sm:flex-row justify-between items-center">

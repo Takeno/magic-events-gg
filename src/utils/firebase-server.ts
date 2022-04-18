@@ -402,6 +402,10 @@ export async function fetchLeaguesManagedBy(uid: string): Promise<League[]> {
     throw new Error('User is not an admin');
   }
 
+  if (user.leagueManagerOf === undefined || user.leagueManagerOf.length === 0) {
+    return [];
+  }
+
   const results = await db
     .collection('leagues')
     .where(FieldPath.documentId(), 'in', user.leagueManagerOf || [])

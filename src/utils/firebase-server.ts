@@ -334,7 +334,7 @@ export async function updateUserEvents(
 ): Promise<void> {
   const db = getDatabase();
 
-  await db.collection('users').doc(uid).set({cities, formats}, {merge: true});
+  await db.collection('users').doc(uid).set({cities, formats});
 }
 
 export async function fetchOrganizerManagedBy(

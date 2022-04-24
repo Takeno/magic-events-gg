@@ -2,7 +2,7 @@ import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import slugify from 'slugify';
-import {PropsWithChildren, useEffect} from 'react';
+import {PropsWithChildren, useCallback, useEffect} from 'react';
 import EventBackground from '../../components/EventList/partials/EventBackground';
 import {format} from '../../utils/dates';
 import {fetchEventById} from '../../utils/firebase-server';
@@ -11,15 +11,30 @@ import Link from 'next/link';
 import {trackEvent, trackEventSubscriptionLink} from '../../utils/tracking';
 import JsonLD from '../../components/Meta/JsonLD';
 import {getAbsoluteURL} from '../../utils/url';
+import {useRouter} from 'next/router';
 
 type PageProps = {
   tournament: Tournament;
 };
 
 const SingleTournament: NextPage<PageProps> = ({tournament}) => {
+  const router = useRouter();
+
   useEffect(() => {
     trackEvent(tournament.id, tournament.format, tournament.organizer.id);
   }, [tournament]);
+
+  const shareEvent = useCallback(() => {
+    const shareData = {
+      title: `Torneo ${tournament.format} di ${tournament.organizer.name}`,
+      text: "Dai un'occhiata a questo torneo, ci andiamo?",
+      url: getAbsoluteURL(router.asPath),
+    };
+
+    try {
+      navigator.share(shareData);
+    } catch (e) {}
+  }, [tournament, router]);
 
   const breadcrumbItems = [
     {
@@ -158,11 +173,20 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                     )}
                   </div>
                 ))}
-
                 {tournament.title && (
                   <h2 className="text-xl font-bold">{tournament.title}</h2>
                 )}
-
+                {typeof navigator !== 'undefined' && navigator.share && (
+                  <p className="my-4">
+                    Interessato all&apos;evento?{' '}
+                    <button
+                      onClick={shareEvent}
+                      className="text-blue-dark font-medium"
+                    >
+                      Clicca qui per condividere
+                    </button>
+                  </p>
+                )}
                 <div className="space-y-2">
                   {(tournament.text || '').split('\n').map((p, i) => (
                     <p key={i}>{p}</p>

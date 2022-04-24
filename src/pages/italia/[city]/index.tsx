@@ -36,7 +36,7 @@ const CityPage: NextPage<PageProps> = ({tournaments, city}) => {
 
       <nav className="bg-white drop-shadow-sm">
         <div className="max-w-screen-lg mx-auto h-16 flex flex-row  items-center gap-3 overflow-x-auto">
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/undefined`}>
+          <Link href={`/italia/${slugify(city.name, {lower: true})}`}>
             <a className="font-bold text-primary">Tutti</a>
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/modern`}>

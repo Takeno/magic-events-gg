@@ -7,6 +7,7 @@ import Footer from '../components/Layout/Footer';
 import Header from '../components/Layout/Header';
 import {UserProvider, useUser} from '../contexts/UserContext';
 import {isAdmin} from '../utils/acl';
+import {getAbsoluteURL} from '../utils/url';
 import '../styles/global.css';
 
 import graphImage from '../assets/graph-image.png';
@@ -15,7 +16,11 @@ function MyApp({Component, pageProps}: AppProps) {
   return (
     <UserProvider>
       <Head>
-        <meta key="og:image" property="og:image" content={graphImage.src} />
+        <meta
+          key="og:image"
+          property="og:image"
+          content={getAbsoluteURL(graphImage.src)}
+        />
       </Head>
       <main className="min-h-screen flex flex-col">
         <Header />

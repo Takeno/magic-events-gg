@@ -25,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const tournaments = await fetchEventByCoords(
     +latitude,
     +longitude,
-    Math.min(parseInt(radius), 30)
+    Math.max(0, Math.min(parseInt(radius), 300))
   );
 
   res.status(200).send(tournaments);

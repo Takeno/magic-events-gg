@@ -6,19 +6,51 @@ import cities from '../../../city.json';
 import {fetchEventByCoords} from '../../../utils/firebase-server';
 import {EventCardList} from '../../../components/EventList';
 import Link from 'next/link';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {trackFormat} from '../../../utils/tracking';
 import {isFormat} from '../../../utils/formats';
+import * as API from '../../../utils/api';
+import useSWR from 'swr';
 
 type PageProps = {
   tournaments: Tournament[];
   format: Format;
   city: {
     name: string;
+    latitude: string;
+    longitude: string;
   };
 };
 
+const STARTING_RADIUS = 100;
+const RADIUS_KEY_STORAGE = 'radius';
+
 const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
+  const [radius, setRadius] = useState(STARTING_RADIUS);
+
+  const {data} = useSWR(
+    `/italia/${city}/${format}/${radius}`,
+    () =>
+      API.fetchEventByCoords(
+        {
+          latitude: +city.latitude,
+          longitude: +city.longitude,
+        },
+        radius
+      ).then((tournaments) => tournaments.filter((t) => t.format === format)),
+    {
+      fallbackData: tournaments,
+      revalidateOnFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    const radiusFromStorage = localStorage.getItem(RADIUS_KEY_STORAGE);
+    if (radiusFromStorage !== null) {
+      setRadius(+radiusFromStorage);
+    }
+  }, []);
+
   useEffect(() => {
     trackFormat(format);
   }, [format]);
@@ -147,9 +179,23 @@ const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
 
       <article className="max-w-screen-lg mx-auto mt-10 w-full">
         <h2 className="text-2xl font-bold uppercase my-4">
-          Tornei {format} a {city.name}
+          Tornei {format} a {city.name} nel raggio di{' '}
+          <select
+            value={radius}
+            onChange={(e) => {
+              setRadius(+e.target.value);
+              localStorage.setItem(RADIUS_KEY_STORAGE, e.target.value);
+            }}
+          >
+            <option value={300}>300</option>
+            <option value={150}>150</option>
+            <option value={100}>100</option>
+            <option value={50}>50</option>
+            <option value={25}>25</option>
+          </select>{' '}
+          km
         </h2>
-        <EventCardList events={tournaments} />
+        {data && <EventCardList events={data} />}
       </article>
     </>
   );
@@ -183,7 +229,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
   const tournaments = await fetchEventByCoords(
     +city.latitude,
     +city.longitude,
-    50
+    STARTING_RADIUS
   );
 
   return {

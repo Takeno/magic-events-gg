@@ -9,9 +9,12 @@ export const fetchCurrentUser = async (): Promise<User> => {
 };
 
 export const fetchEventByCoords = async (
-  coords: Coords
+  coords: Coords,
+  radius: number | undefined = 50
 ): Promise<Tournament[]> => {
-  const response = await http.get('/api/events-by-coords', {params: coords});
+  const response = await http.get('/api/events-by-coords', {
+    params: {...coords, radius},
+  });
 
   return response.data;
 };

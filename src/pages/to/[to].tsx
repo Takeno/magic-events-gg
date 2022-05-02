@@ -10,6 +10,7 @@ import {fetchPublicEventsByOrganizer} from '../../utils/api';
 import {EventCardList} from '../../components/EventList';
 import JsonLD from '../../components/Meta/JsonLD';
 import {getAbsoluteURL} from '../../utils/url';
+import Head from 'next/head';
 
 type PageProps = {
   organizer: Organizer;
@@ -38,6 +39,14 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
 
   return (
     <>
+      <Head>
+        <title key="title">{organizer.name} su magic-events.gg</title>
+        <meta
+          key="description"
+          name="description"
+          content={`Scopri tutti gli eventi di magic organizzati da ${organizer.name}`}
+        />
+      </Head>
       <Breadcrumb items={breadcrumbItems} />
 
       <JsonLD>

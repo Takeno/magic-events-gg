@@ -176,6 +176,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                 {tournament.title && (
                   <h2 className="text-xl font-bold">{tournament.title}</h2>
                 )}
+                {/* @ts-expect-error */}
                 {typeof navigator !== 'undefined' && navigator.share && (
                   <p className="my-4">
                     Interessato all&apos;evento?{' '}

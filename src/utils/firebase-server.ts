@@ -303,7 +303,7 @@ export async function fetchUser(uid: string): Promise<User | Admin | null> {
   return {
     id: snapshot.id,
     email: d.email,
-    roles: d.roles,
+    roles: d.roles || ['ROLE_USER'],
     storeManagerOf: d.storeManagerOf || [],
     leagueManagerOf: d.leagueManagerOf || [],
     cities: d.cities || [],

@@ -12,10 +12,7 @@ type JsonLDProps = {
 };
 
 export default function JsonLD({children}: JsonLDProps) {
-  const content = useMemo(() => {
-    console.log('render');
-    return JSON.stringify(children);
-  }, [children]);
+  const content = useMemo(() => JSON.stringify(children), [children]);
 
   return (
     <Head>

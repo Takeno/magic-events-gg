@@ -12,7 +12,7 @@ type PageProps = {
 };
 
 const SingleLeague: NextPage<PageProps> = ({league}) => {
-  const {data} = useSWR(
+  const {data, isValidating} = useSWR(
     `/leagues/${league.id}/events`,
     () => fetchPublicEventsByLeague(league.id),
     {revalidateOnFocus: false}
@@ -163,7 +163,9 @@ const SingleLeague: NextPage<PageProps> = ({league}) => {
 
       <article className="max-w-screen-lg mx-auto mt-10 w-full">
         <h2 className="text-2xl font-bold uppercase my-4">I prossimi tornei</h2>
-        {data && data.length > 0 ? (
+        {isValidating ? (
+          <p>Loading...</p>
+        ) : data && data.length > 0 ? (
           <EventCardList events={data} />
         ) : (
           <p>Nessun torneo in programma.</p>

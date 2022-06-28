@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <Disclosure as="nav" className="bg-blue-dark sticky top-0 z-10">
-      {({open}) => (
+      {({open, close}) => (
         <>
           <div className="container mx-auto">
             <div className="relative flex items-center justify-between h-20">
@@ -146,75 +146,75 @@ export default function Header() {
           <Disclosure.Panel className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               <Link href="/organizzatori" passHref>
-                <Disclosure.Button
-                  as="a"
+                <a
+                  onClick={() => close()}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Organizzatori
-                </Disclosure.Button>
+                </a>
               </Link>
               <Link href="/leghe-e-circuiti" passHref>
-                <Disclosure.Button
-                  as="a"
+                <a
+                  onClick={() => close()}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Leghe
-                </Disclosure.Button>
+                </a>
               </Link>
               <Link href="/i-miei-eventi" passHref>
-                <Disclosure.Button
-                  as="a"
+                <a
+                  onClick={() => close()}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   I miei eventi
-                </Disclosure.Button>
+                </a>
               </Link>
               {user ? (
                 <>
                   {isAdmin(user) && (
                     <Link href="/admin" passHref>
-                      <Disclosure.Button
-                        as="a"
+                      <a
+                        onClick={() => close()}
                         className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                       >
                         Gestione negozio
-                      </Disclosure.Button>
+                      </a>
                     </Link>
                   )}
-                  <Disclosure.Button
-                    as="button"
+                  <a
+                    onClick={() => close()}
                     className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                   >
                     Logout
-                  </Disclosure.Button>
+                  </a>
                 </>
               ) : (
                 <Link href="/login" passHref>
-                  <Disclosure.Button
-                    as="a"
+                  <a
+                    onClick={() => close()}
                     className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                   >
                     Accedi
-                  </Disclosure.Button>
+                  </a>
                 </Link>
               )}
               <Link href="/contatti" passHref>
-                <Disclosure.Button
-                  as="a"
+                <a
+                  onClick={() => close()}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Contatti
-                </Disclosure.Button>
+                </a>
               </Link>
-              <Disclosure.Button
-                as="a"
+              <a
+                onClick={() => close()}
                 href="https://www.facebook.com/magiceventsgg"
                 target="_blank"
                 rel="noreferrer"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               >
                 Seguici su Facebook
-              </Disclosure.Button>
+              </a>
             </div>
           </Disclosure.Panel>
         </>

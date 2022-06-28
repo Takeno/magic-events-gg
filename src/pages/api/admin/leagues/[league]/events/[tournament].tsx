@@ -65,8 +65,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     //   return;
     // }
     await linkEventToLeague(league, tournament);
-    res.unstable_revalidate('/leagues/' + league);
-    res.unstable_revalidate('/tournament/' + tournament);
+    res.revalidate('/leagues/' + league);
+    res.revalidate('/tournament/' + tournament);
 
     res.status(204).end();
     return;

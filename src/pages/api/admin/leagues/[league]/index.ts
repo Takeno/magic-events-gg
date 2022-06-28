@@ -55,7 +55,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const event = await updateleague(league, req.body);
 
-    res.unstable_revalidate(`/league/${league}`);
+    res.revalidate(`/league/${league}`);
 
     res.json(event);
     return;

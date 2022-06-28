@@ -9,9 +9,9 @@ const handler: NextApiHandler = async function (req, res) {
 
   try {
     if (typeof req.query.path === 'string') {
-      await res.unstable_revalidate(req.query.path);
+      await res.revalidate(req.query.path);
     } else {
-      await res.unstable_revalidate('/');
+      await res.revalidate('/');
     }
     return res.json({revalidated: true});
   } catch (err) {

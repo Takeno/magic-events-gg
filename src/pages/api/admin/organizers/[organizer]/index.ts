@@ -55,7 +55,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const event = await updateOrganizer(organizer, req.body);
 
-    res.unstable_revalidate(`/to/${organizer}`);
+    res.revalidate(`/to/${organizer}`);
 
     res.json(event);
     return;

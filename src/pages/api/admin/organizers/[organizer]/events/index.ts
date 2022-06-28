@@ -60,7 +60,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const event = await saveNewEvent(organizer, req.body);
 
-    res.unstable_revalidate('/');
+    res.revalidate('/');
 
     res.json(event);
     return;

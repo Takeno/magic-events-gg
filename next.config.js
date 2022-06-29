@@ -1,4 +1,5 @@
 const {withSentryConfig} = require('@sentry/nextjs');
+const withPWA = require('next-pwa');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,6 +10,10 @@ const nextConfig = {
   sentry: {
     disableServerWebpackPlugin: !process.env.SENTRY_AUTH_TOKEN,
     disableClientWebpackPlugin: !process.env.SENTRY_AUTH_TOKEN,
+  },
+  pwa: {
+    dest: 'public',
+    disable: process.env.NODE_ENV !== 'production',
   },
 };
 
@@ -26,4 +31,6 @@ const sentryWebpackPluginOptions = {
 
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+module.exports = withPWA(
+  withSentryConfig(nextConfig, sentryWebpackPluginOptions)
+);

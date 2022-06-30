@@ -4,7 +4,7 @@ import Image from 'next/image';
 import slugify from 'slugify';
 import {PropsWithChildren, useCallback, useEffect} from 'react';
 import EventBackground from '../../components/EventList/partials/EventBackground';
-import {format} from '../../utils/dates';
+import {format, guessEndOfEvent} from '../../utils/dates';
 import {fetchEventById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
 import Link from 'next/link';
@@ -92,7 +92,14 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
             name:
               tournament.title ||
               `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
+            description: `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
             startDate: format(tournament.timestamp, "yyyy-MM-dd'T'HH:mmxxx"),
+            endDate: format(
+              guessEndOfEvent(tournament.timestamp, {
+                hours: 4,
+              }),
+              "yyyy-MM-dd'T'HH:mmxxx"
+            ),
             eventAttendanceMode:
               'https://schema.org/OfflineEventAttendanceMode', // change if online event
             eventStatus: 'https://schema.org/EventScheduled',

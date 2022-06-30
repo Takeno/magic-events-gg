@@ -13,7 +13,7 @@ import home from '../assets/home.jpg';
 import {isFormat} from '../utils/formats';
 import {trackFormat} from '../utils/tracking';
 import JsonLD from '../components/Meta/JsonLD';
-import {format} from '../utils/dates';
+import {format, guessEndOfEvent} from '../utils/dates';
 import {getAbsoluteURL} from '../utils/url';
 
 type PageProps = {
@@ -70,7 +70,14 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
           name:
             tournament.title ||
             `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
+          description: `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
           startDate: format(tournament.timestamp, "yyyy-MM-dd'T'HH:mmxxx"),
+          endDate: format(
+            guessEndOfEvent(tournament.timestamp, {
+              hours: 4,
+            }),
+            "yyyy-MM-dd'T'HH:mmxxx"
+          ),
           eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', // change if online event
           eventStatus: 'https://schema.org/EventScheduled',
           location: {

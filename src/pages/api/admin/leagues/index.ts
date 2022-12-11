@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {withSentry} from '@sentry/nextjs';
+
 import {
   fetchLeaguesManagedBy,
   verifyAuthToken,
@@ -22,4 +22,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.json(leagues);
 };
 
-export default withSentry(handler);
+export default handler;

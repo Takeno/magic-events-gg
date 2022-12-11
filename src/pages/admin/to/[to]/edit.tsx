@@ -115,10 +115,9 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 <span className="block font-medium">Logo</span>
                 {organizer.logo && (
                   <Image
-                    className="rounded-full"
+                    className="rounded-full object-contain aspect-square"
                     src={organizer.logo}
                     alt={organizer.name}
-                    objectFit="contain"
                     width={50}
                     height={50}
                   />

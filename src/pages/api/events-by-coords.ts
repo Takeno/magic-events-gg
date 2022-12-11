@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {withSentry} from '@sentry/nextjs';
+
 import {fetchEventByCoords} from '../../utils/firebase-server';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -31,4 +31,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).send(tournaments);
 };
 
-export default withSentry(handler);
+export default handler;

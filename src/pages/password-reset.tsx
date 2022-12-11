@@ -100,10 +100,11 @@ const PasswordReset: NextPage<PageProps> = () => {
           />
           <p className="mt-2 text-center text-sm text-gray-600">
             Hai già un account?{' '}
-            <Link href="/login">
-              <a className="font-medium text-blue-dark hover:underline">
-                {"Effettua l'accesso"}
-              </a>
+            <Link
+              href="/login"
+              className="font-medium text-blue-dark hover:underline"
+            >
+              {"Effettua l'accesso"}
             </Link>
           </p>
         </div>

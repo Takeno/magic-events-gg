@@ -95,10 +95,9 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
           {organizer.logo && (
             <div className="flex-shrink-0 relative h-24 w-24">
               <Image
-                className="rounded-full"
+                className="rounded-full object-contain aspect-square"
                 src={organizer.logo}
                 alt={organizer.name}
-                objectFit="contain"
                 width={150}
                 height={150}
               />

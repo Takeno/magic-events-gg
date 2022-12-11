@@ -1,5 +1,5 @@
 import type {NextApiHandler} from 'next';
-import {withSentry} from '@sentry/nextjs';
+
 import {fetchEventByCoords} from '../../utils/firebase-server';
 
 import data from '../../city.json';
@@ -41,4 +41,4 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 
-export default withSentry(handler);
+export default handler;

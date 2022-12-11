@@ -1,5 +1,5 @@
 import type {NextApiHandler} from 'next';
-import {withSentry} from '@sentry/nextjs';
+
 import {
   fetchUser,
   updateUserEvents,
@@ -40,4 +40,4 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 
-export default withSentry(handler);
+export default handler;

@@ -104,9 +104,8 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
           src={home}
           alt=""
           aria-hidden="true"
-          layout="fill"
-          objectFit="cover"
-          className="blur-sm opacity-40"
+          fill
+          className="blur-sm opacity-40 object-cover"
           priority={true}
         />
         <div className="relative">

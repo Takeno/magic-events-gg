@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {withSentry} from '@sentry/nextjs';
+
 import cities from '../../city.json';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,4 +17,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.send(results);
 };
 
-export default withSentry(handler);
+export default handler;

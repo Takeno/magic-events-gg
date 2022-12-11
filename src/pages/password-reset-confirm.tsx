@@ -78,10 +78,11 @@ const PasswordResetConfirm: NextPage<PageProps> = () => {
                 {submitSucceeded && (
                   <p className="text-center text-green-600">
                     Password modificata! Adesso puoi fare il{' '}
-                    <Link href="/login">
-                      <a className="font-medium text-blue-dark hover:underline">
-                        login
-                      </a>
+                    <Link
+                      href="/login"
+                      className="font-medium text-blue-dark hover:underline"
+                    >
+                      login
                     </Link>
                     .
                   </p>
@@ -113,10 +114,11 @@ const PasswordResetConfirm: NextPage<PageProps> = () => {
           />
           <p className="mt-2 text-center text-sm text-gray-600">
             Hai già un account?{' '}
-            <Link href="/login">
-              <a className="font-medium text-blue-dark hover:underline">
-                {"Effettua l'accesso"}
-              </a>
+            <Link
+              href="/login"
+              className="font-medium text-blue-dark hover:underline"
+            >
+              {"Effettua l'accesso"}
             </Link>
           </p>
         </div>

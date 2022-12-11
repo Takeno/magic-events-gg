@@ -68,10 +68,11 @@ function BreadcrumbItem({href, first, last, children}: BreadcrumbItemType) {
           </svg>
         )}
         {href ? (
-          <Link href={href}>
-            <a className="inline-flex items-center text-sm font-medium text-blue-dark hover:text-white whitespace-nowrap ml-2 first-letter:uppercase">
-              {children}
-            </a>
+          <Link
+            href={href}
+            className="inline-flex items-center text-sm font-medium text-blue-dark hover:text-white whitespace-nowrap ml-2 first-letter:uppercase"
+          >
+            {children}
           </Link>
         ) : (
           <span className="text-sm font-medium text-blue-dark whitespace-nowrap ml-2 first-letter:uppercase">

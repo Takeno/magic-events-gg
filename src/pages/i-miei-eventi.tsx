@@ -90,12 +90,12 @@ export default function MyEvents() {
           </h3>
 
           <div className="text-center mt-4">
-            <Link href="/login">
-              <a className="underline">Accedi</a>
+            <Link href="/login" className="underline">
+              Accedi
             </Link>{' '}
             -{' '}
-            <Link href="/signup">
-              <a className="underline">Registrati</a>
+            <Link href="/signup" className="underline">
+              Registrati
             </Link>
           </div>
         </article>
@@ -150,24 +150,18 @@ function MyEventForm() {
     }
   }, [cities, formats, mutate, user.formats, user.cities]);
 
-  const loadOptions = useCallback(
-    async (inputValue: string, callback: (options: SelectOption[]) => void) => {
-      if (inputValue.length < 3) {
-        callback([]);
-        return;
-      }
+  const loadOptions = useCallback(async (inputValue: string) => {
+    if (inputValue.length < 3) {
+      return [];
+    }
 
-      const results = await autocompleteCity(inputValue);
+    const results = await autocompleteCity(inputValue);
 
-      callback(
-        results.map((r) => ({
-          label: r.name,
-          value: r,
-        }))
-      );
-    },
-    []
-  );
+    return results.map((r) => ({
+      label: r.name,
+      value: r,
+    }));
+  }, []);
 
   return (
     <>

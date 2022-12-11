@@ -15,10 +15,9 @@ export default function EventRow({event}: EventRowProps) {
         {event.organizer.logo && (
           <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center top-1 left-1">
             <Image
-              className="rounded-full bg-red-600"
+              className="rounded-full bg-red-600 object-contain aspect-square"
               src={event.organizer.logo}
               alt={event.organizer.name}
-              objectFit="contain"
               width={50}
               height={50}
             />

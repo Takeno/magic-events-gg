@@ -130,10 +130,9 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
             {tournament.organizer.logo && (
               <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-2">
                 <Image
-                  className="rounded-full"
+                  className="rounded-full object-contain aspect-square"
                   src={tournament.organizer.logo}
                   alt={tournament.organizer.name}
-                  objectFit="contain"
                   width={50}
                   height={50}
                   priority
@@ -159,10 +158,11 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                   >
                     <h3 className="text-lg font-bold">
                       Certificato{' '}
-                      <Link href={`/league/${league.id}`}>
-                        <a className="text-primary hover:underline">
-                          {league.name}
-                        </a>
+                      <Link
+                        href={`/league/${league.id}`}
+                        className="text-primary hover:underline"
+                      >
+                        {league.name}
                       </Link>
                     </h3>
 
@@ -203,14 +203,14 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
               </div>
 
               {/* <hr className="my-6" />
-              <div className="px-4 md:px-12 pb-4 md:pb-8">
-                <div className="flex flex-row">
-                  <SectionTitle className="mr-2">
-                    Condividi l{"'"}evento
-                  </SectionTitle>
-                  <img className="aspect-square w-6" alt="Twitter" />
-                </div>
-              </div> */}
+            <div className="px-4 md:px-12 pb-4 md:pb-8">
+              <div className="flex flex-row">
+                <SectionTitle className="mr-2">
+                  Condividi l{"'"}evento
+                </SectionTitle>
+                <img className="aspect-square w-6" alt="Twitter" />
+              </div>
+            </div> */}
             </div>
           </div>
 
@@ -218,11 +218,9 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
             <aside className="card p-4 md:p-8 sticky top-20">
               <SectionTitle>Organizzatore</SectionTitle>
               <Link href={`/to/${tournament.organizer.id}`}>
-                <a>
-                  <h3 className="text-xl font-bold">
-                    {tournament.organizer.name}
-                  </h3>
-                </a>
+                <h3 className="text-xl font-bold">
+                  {tournament.organizer.name}
+                </h3>
               </Link>
 
               <SectionTitle className="mt-6">Quando?</SectionTitle>

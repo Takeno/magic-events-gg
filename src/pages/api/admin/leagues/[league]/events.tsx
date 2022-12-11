@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {withSentry} from '@sentry/nextjs';
+
 import {isAdmin} from '../../../../../utils/acl';
 import {
   fetchUser,
@@ -51,4 +51,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(405).end();
 };
 
-export default withSentry(handler);
+export default handler;

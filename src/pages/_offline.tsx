@@ -14,8 +14,8 @@ const NotFoundPage: NextPage<{}> = () => {
 
       <p className="mt-4">
         Attendi di tornare online, oppure torna alla
-        <Link href="/">
-          <a className="underline">home</a>
+        <Link href="/" className="underline">
+          home
         </Link>
         .
       </p>

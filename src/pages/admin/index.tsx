@@ -60,20 +60,20 @@ const AdminIndex: NextPage<PageProps> = () => {
                             {to.logo && (
                               <div className="flex-shrink-0 relative h-10 w-10 rounded-full bg-white flex justify-center items-center">
                                 <Image
-                                  className="rounded-full"
+                                  className="rounded-full object-contain aspect-square"
                                   src={to.logo}
                                   alt={to.name}
-                                  objectFit="contain"
                                   width={50}
                                   height={50}
                                 />
                               </div>
                             )}
                             <div className="ml-4">
-                              <Link href={`/admin/to/${to.id}`}>
-                                <a className="text-md font-medium text-gray-900">
-                                  {to.name}
-                                </a>
+                              <Link
+                                href={`/admin/to/${to.id}`}
+                                className="text-md font-medium text-gray-900"
+                              >
+                                {to.name}
                               </Link>
                             </div>
                           </div>
@@ -96,16 +96,18 @@ const AdminIndex: NextPage<PageProps> = () => {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link href={`/to/${to.id}`}>
-                            <a className="text-indigo-600 hover:text-indigo-900">
-                              Vedi scheda
-                            </a>
+                          <Link
+                            href={`/to/${to.id}`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            Vedi scheda
                           </Link>{' '}
                           -{' '}
-                          <Link href={`/admin/to/${to.id}/edit`}>
-                            <a className="text-indigo-600 hover:text-indigo-900">
-                              Modifica
-                            </a>
+                          <Link
+                            href={`/admin/to/${to.id}/edit`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            Modifica
                           </Link>
                         </td>
                       </tr>
@@ -154,26 +156,29 @@ const AdminIndex: NextPage<PageProps> = () => {
                               </div>
                             )}
                             <div className="ml-4">
-                              <Link href={`/admin/leagues/${league.id}`}>
-                                <a className="text-md font-medium text-gray-900">
-                                  {league.name}
-                                </a>
+                              <Link
+                                href={`/admin/leagues/${league.id}`}
+                                className="text-md font-medium text-gray-900"
+                              >
+                                {league.name}
                               </Link>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap"></td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link href={`/league/${league.id}`}>
-                            <a className="text-indigo-600 hover:text-indigo-900">
-                              Vedi scheda
-                            </a>
+                          <Link
+                            href={`/league/${league.id}`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            Vedi scheda
                           </Link>{' '}
                           -{' '}
-                          <Link href={`/admin/leagues/${league.id}/edit`}>
-                            <a className="text-indigo-600 hover:text-indigo-900">
-                              Modifica
-                            </a>
+                          <Link
+                            href={`/admin/leagues/${league.id}/edit`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            Modifica
                           </Link>
                         </td>
                       </tr>

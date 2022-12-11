@@ -117,7 +117,7 @@ const AdminLeagueIndex: NextPage<PageProps> = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link href={`/to/${tournament.organizer.id}`}>
-                            <a>{tournament.organizer.name}</a>
+                            {tournament.organizer.name}
                           </Link>
                           <div className="text-sm font-normal text-gray-500 normal-case">
                             {tournament.location.city} (
@@ -126,13 +126,12 @@ const AdminLeagueIndex: NextPage<PageProps> = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link href={`/tournament/${tournament.id}`}>
-                            <a
-                              className="text-indigo-600 hover:text-indigo-900"
-                              target="_blank"
-                            >
-                              Vedi evento
-                            </a>
+                          <Link
+                            href={`/tournament/${tournament.id}`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                            target="_blank"
+                          >
+                            Vedi evento
                           </Link>{' '}
                           -{' '}
                           <button

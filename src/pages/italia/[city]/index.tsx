@@ -68,38 +68,41 @@ const CityPage: NextPage<PageProps> = ({tournaments, city}) => {
 
       <nav className="bg-white drop-shadow-sm">
         <div className="max-w-screen-lg mx-auto h-16 flex flex-row  items-center gap-3 overflow-x-auto">
-          <Link href={`/italia/${slugify(city.name, {lower: true})}`}>
-            <a className="font-bold text-primary">Tutti</a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}`}
+            className="font-bold text-primary"
+          >
+            Tutti
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/modern`}>
-            <a>Modern</a>
+            Modern
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/standard`}>
-            <a>Standard</a>
+            Standard
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/legacy`}>
-            <a>Legacy</a>
+            Legacy
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/pauper`}>
-            <a>Pauper</a>
+            Pauper
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/pioneer`}>
-            <a>Pioneer</a>
+            Pioneer
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/vintage`}>
-            <a>Vintage</a>
+            Vintage
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/commander`}>
-            <a>Commander</a>
+            Commander
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/centurion`}>
-            <a>Centurion</a>
+            Centurion
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/draft`}>
-            <a>Booster Draft</a>
+            Booster Draft
           </Link>
           <Link href={`/italia/${slugify(city.name, {lower: true})}/sealed`}>
-            <a>Sealed Deck</a>
+            Sealed Deck
           </Link>
         </div>
       </nav>

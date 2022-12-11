@@ -29,24 +29,18 @@ export default function LocationSearch({
     );
   }, [onPosition]);
 
-  const loadOptions = useCallback(
-    async (inputValue: string, callback: (options: SelectOption[]) => void) => {
-      if (inputValue.length < 3) {
-        callback([]);
-        return;
-      }
+  const loadOptions = useCallback(async (inputValue: string) => {
+    if (inputValue.length < 3) {
+      return [];
+    }
 
-      const results = await autocompleteCity(inputValue);
+    const results = await autocompleteCity(inputValue);
 
-      callback(
-        results.map((r) => ({
-          label: r.name,
-          value: r,
-        }))
-      );
-    },
-    []
-  );
+    return results.map((r) => ({
+      label: r.name,
+      value: r,
+    }));
+  }, []);
 
   const onCitySelect = useCallback(
     (input: SelectOption | null) => {

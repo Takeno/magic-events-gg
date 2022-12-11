@@ -57,50 +57,49 @@ export default function Header() {
                 <div className="flex-shrink-0 flex items-center">
                   <span className="lg:absolute translate-y-1 lg:translate-y-9 h-20 lg:h-auto">
                     <Link href="/">
-                      <a>
-                        <Image
-                          src={logo}
-                          alt="magic-events.gg"
-                          width="86"
-                          height="117"
-                          priority={true}
-                          layout="fixed"
-                        />
-                      </a>
+                      <Image
+                        src={logo}
+                        alt="magic-events.gg"
+                        width="86"
+                        height="117"
+                        priority={true}
+                      />
                     </Link>
                   </span>
                   <Link href="/">
-                    <a>
-                      <h1 className="text-primary text-xl font-bold lg:pl-24 hidden lg:block">
-                        magic-events.gg
-                      </h1>
-                    </a>
+                    <h1 className="text-primary text-xl font-bold lg:pl-24 hidden lg:block">
+                      magic-events.gg
+                    </h1>
                   </Link>
                 </div>
                 <div className="hidden lg:block sm:ml-6 h-full">
                   <div className="flex space-x-4">
-                    <Link href="/organizzatori">
-                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
-                        Organizzatori
-                      </a>
+                    <Link
+                      href="/organizzatori"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                    >
+                      Organizzatori
                     </Link>
-                    <Link href="/leghe-e-circuiti">
-                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
-                        Leghe
-                      </a>
+                    <Link
+                      href="/leghe-e-circuiti"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                    >
+                      Leghe
                     </Link>
-                    <Link href="/i-miei-eventi">
-                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
-                        I miei eventi
-                      </a>
+                    <Link
+                      href="/i-miei-eventi"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                    >
+                      I miei eventi
                     </Link>
                     {user ? (
                       <>
                         {isAdmin(user) && (
-                          <Link href="/admin">
-                            <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
-                              Gestione negozio
-                            </a>
+                          <Link
+                            href="/admin"
+                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                          >
+                            Gestione negozio
                           </Link>
                         )}
                         <button
@@ -111,16 +110,18 @@ export default function Header() {
                         </button>
                       </>
                     ) : (
-                      <Link href="/login">
-                        <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
-                          Accedi
-                        </a>
+                      <Link
+                        href="/login"
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                      >
+                        Accedi
                       </Link>
                     )}
-                    <Link href="/contatti">
-                      <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium">
-                        Contatti
-                      </a>
+                    <Link
+                      href="/contatti"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                    >
+                      Contatti
                     </Link>
                     <a
                       href="https://www.facebook.com/magiceventsgg"
@@ -145,40 +146,36 @@ export default function Header() {
 
           <Disclosure.Panel className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link href="/organizzatori" passHref>
-                <a
-                  onClick={() => close()}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Organizzatori
-                </a>
+              <Link
+                href="/organizzatori"
+                onClick={() => close()}
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Organizzatori
               </Link>
-              <Link href="/leghe-e-circuiti" passHref>
-                <a
-                  onClick={() => close()}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Leghe
-                </a>
+              <Link
+                href="/leghe-e-circuiti"
+                onClick={() => close()}
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Leghe
               </Link>
-              <Link href="/i-miei-eventi" passHref>
-                <a
-                  onClick={() => close()}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  I miei eventi
-                </a>
+              <Link
+                href="/i-miei-eventi"
+                onClick={() => close()}
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                I miei eventi
               </Link>
               {user ? (
                 <>
                   {isAdmin(user) && (
-                    <Link href="/admin" passHref>
-                      <a
-                        onClick={() => close()}
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                      >
-                        Gestione negozio
-                      </a>
+                    <Link
+                      href="/admin"
+                      onClick={() => close()}
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                    >
+                      Gestione negozio
                     </Link>
                   )}
                   <a
@@ -189,22 +186,20 @@ export default function Header() {
                   </a>
                 </>
               ) : (
-                <Link href="/login" passHref>
-                  <a
-                    onClick={() => close()}
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  >
-                    Accedi
-                  </a>
-                </Link>
-              )}
-              <Link href="/contatti" passHref>
-                <a
+                <Link
+                  href="/login"
                   onClick={() => close()}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
-                  Contatti
-                </a>
+                  Accedi
+                </Link>
+              )}
+              <Link
+                href="/contatti"
+                onClick={() => close()}
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Contatti
               </Link>
               <a
                 onClick={() => close()}

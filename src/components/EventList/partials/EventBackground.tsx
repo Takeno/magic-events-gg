@@ -35,10 +35,8 @@ export default function EventBackground({event}: EventBackgroundProps) {
     <Image
       src={image}
       alt={event.format}
-      layout="fill"
-      objectFit="cover"
-      objectPosition="top center"
-      className="opacity-70"
+      fill
+      className="opacity-70 object-cover object-center"
       sizes="(min-width: 1024px) 300px, 100vw"
     />
   );

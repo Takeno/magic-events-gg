@@ -1,5 +1,4 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {withSentry} from '@sentry/nextjs';
 import {isAdmin} from '../../../../utils/acl';
 import {
   fetchAllEventsByOrganizer,
@@ -75,4 +74,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   return;
 };
 
-export default withSentry(handler);
+export default handler;

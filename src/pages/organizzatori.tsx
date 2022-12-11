@@ -55,26 +55,26 @@ const Organizers: NextPage<PageProps> = ({organizers}) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-1 mt-8">
           {organizers.map((to) => (
-            <Link key={to.id} href={`/to/${to.id}`}>
-              <a className="card p-4 flex flex-row items-center">
-                {to.logo && (
-                  <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-4">
-                    <Image
-                      className="rounded-full"
-                      src={to.logo}
-                      alt={to.name}
-                      objectFit="contain"
-                      width={50}
-                      height={50}
-                    />
-                  </div>
-                )}
-                <div>
-                  <h3 className="text-lg font-bold">{to.name}</h3>
-                  {to.location &&
-                    `${to.location.city} (${to.location.province})`}
+            <Link
+              key={to.id}
+              href={`/to/${to.id}`}
+              className="card p-4 flex flex-row items-center"
+            >
+              {to.logo && (
+                <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-4">
+                  <Image
+                    className="rounded-full object-contain aspect-square"
+                    src={to.logo}
+                    alt={to.name}
+                    width={50}
+                    height={50}
+                  />
                 </div>
-              </a>
+              )}
+              <div>
+                <h3 className="text-lg font-bold">{to.name}</h3>
+                {to.location && `${to.location.city} (${to.location.province})`}
+              </div>
             </Link>
           ))}
         </div>

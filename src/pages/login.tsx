@@ -50,10 +50,11 @@ const Login: NextPage<PageProps> = () => {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Non hai ancora un account?{' '}
-            <Link href="/signup">
-              <a className="font-medium text-blue-dark hover:underline">
-                Registrati ora!
-              </a>
+            <Link
+              href="/signup"
+              className="font-medium text-blue-dark hover:underline"
+            >
+              Registrati ora!
             </Link>
           </p>
           <Form<LoginFormType>
@@ -111,10 +112,11 @@ const Login: NextPage<PageProps> = () => {
           />
           <p className="mt-2 text-center text-sm text-gray-600">
             Hai dimenticato la password?{' '}
-            <Link href="/password-reset">
-              <a className="font-medium text-blue-dark hover:underline">
-                Recupera password
-              </a>
+            <Link
+              href="/password-reset"
+              className="font-medium text-blue-dark hover:underline"
+            >
+              Recupera password
             </Link>
           </p>
         </div>

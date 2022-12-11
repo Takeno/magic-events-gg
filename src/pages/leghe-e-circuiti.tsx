@@ -46,24 +46,25 @@ const Leagues: NextPage<PageProps> = ({leagues}) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-1 mt-8">
           {leagues.map((league) => (
-            <Link key={league.id} href={`/league/${league.id}`}>
-              <a className="card p-4 flex flex-row items-center">
-                {league.logo && (
-                  <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-4">
-                    <Image
-                      className="rounded-full"
-                      src={league.logo}
-                      alt={league.name}
-                      objectFit="contain"
-                      width={50}
-                      height={50}
-                    />
-                  </div>
-                )}
-                <div>
-                  <h3 className="text-lg font-bold">{league.name}</h3>
+            <Link
+              key={league.id}
+              href={`/league/${league.id}`}
+              className="card p-4 flex flex-row items-center"
+            >
+              {league.logo && (
+                <div className="flex-shrink-0 relative h-14 w-14 rounded-full bg-white flex justify-center items-center mr-4">
+                  <Image
+                    className="rounded-full object-contain aspect-square"
+                    src={league.logo}
+                    alt={league.name}
+                    width={50}
+                    height={50}
+                  />
                 </div>
-              </a>
+              )}
+              <div>
+                <h3 className="text-lg font-bold">{league.name}</h3>
+              </div>
             </Link>
           ))}
         </div>

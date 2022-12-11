@@ -36,8 +36,11 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
         <h2 className="text-3xl font-bold my-4 ml-3">Eventi</h2>
 
         <div className="w-full flex flex-row justify-end my-4">
-          <Link href={`/admin/to/${router.query.to}/new-event`}>
-            <a className="underline">Aggiungi nuovo evento</a>
+          <Link
+            href={`/admin/to/${router.query.to}/new-event`}
+            className="underline"
+          >
+            Aggiungi nuovo evento
           </Link>
         </div>
 
@@ -87,21 +90,19 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link href={`/tournament/${tournament.id}`}>
-                            <a
-                              className="text-indigo-600 hover:text-indigo-900"
-                              target="_blank"
-                            >
-                              Vedi evento
-                            </a>
+                          <Link
+                            href={`/tournament/${tournament.id}`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                            target="_blank"
+                          >
+                            Vedi evento
                           </Link>{' '}
                           -{' '}
                           <Link
                             href={`/admin/to/${organizerId}/${tournament.id}`}
+                            className="text-indigo-600 hover:text-indigo-900"
                           >
-                            <a className="text-indigo-600 hover:text-indigo-900">
-                              Modifica
-                            </a>
+                            Modifica
                           </Link>
                         </td>
                       </tr>

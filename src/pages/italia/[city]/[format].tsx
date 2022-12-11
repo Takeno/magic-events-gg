@@ -82,97 +82,87 @@ const CityPage: NextPage<PageProps> = ({tournaments, city, format}) => {
       <nav className="bg-white drop-shadow-sm">
         <div className="max-w-screen-lg mx-auto h-16 flex flex-row  items-center gap-3 overflow-x-auto">
           <Link href={`/italia/${slugify(city.name, {lower: true})}`}>
-            <a>Tutti</a>
+            Tutti
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/modern`}>
-            <a
-              className={
-                format === 'modern' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Modern
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/modern`}
+            className={
+              format === 'modern' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Modern
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/standard`}>
-            <a
-              className={
-                format === 'standard' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Standard
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/standard`}
+            className={
+              format === 'standard' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Standard
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/legacy`}>
-            <a
-              className={
-                format === 'legacy' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Legacy
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/legacy`}
+            className={
+              format === 'legacy' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Legacy
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/pauper`}>
-            <a
-              className={
-                format === 'pauper' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Pauper
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/pauper`}
+            className={
+              format === 'pauper' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Pauper
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/pioneer`}>
-            <a
-              className={
-                format === 'pioneer' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Pioneer
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/pioneer`}
+            className={
+              format === 'pioneer' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Pioneer
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/vintage`}>
-            <a
-              className={
-                format === 'vintage' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Vintage
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/vintage`}
+            className={
+              format === 'vintage' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Vintage
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/commander`}>
-            <a
-              className={
-                format === 'commander' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Commander
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/commander`}
+            className={
+              format === 'commander' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Commander
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/centurion`}>
-            <a
-              className={
-                format === 'centurion' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Centurion
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/centurion`}
+            className={
+              format === 'centurion' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Centurion
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/draft`}>
-            <a
-              className={
-                format === 'draft' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Booster Draft
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/draft`}
+            className={
+              format === 'draft' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Booster Draft
           </Link>
-          <Link href={`/italia/${slugify(city.name, {lower: true})}/sealed`}>
-            <a
-              className={
-                format === 'sealed' ? 'font-bold text-primary' : undefined
-              }
-            >
-              Sealed Deck
-            </a>
+          <Link
+            href={`/italia/${slugify(city.name, {lower: true})}/sealed`}
+            className={
+              format === 'sealed' ? 'font-bold text-primary' : undefined
+            }
+          >
+            Sealed Deck
           </Link>
         </div>
       </nav>

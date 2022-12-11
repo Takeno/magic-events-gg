@@ -39,7 +39,7 @@ const SingleLeague: NextPage<PageProps> = ({league}) => {
             <Image
               src={league.logo}
               alt={league.name}
-              objectFit="contain"
+              className="object-contain aspect-square"
               width={150}
               height={150}
             />

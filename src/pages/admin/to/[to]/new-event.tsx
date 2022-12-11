@@ -35,24 +35,18 @@ type SelectOption = {
 const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
   const router = useRouter();
 
-  const loadOptions = useCallback(
-    async (inputValue: string, callback: (options: SelectOption[]) => void) => {
-      if (inputValue.length < 3) {
-        callback([]);
-        return;
-      }
+  const loadOptions = useCallback(async (inputValue: string) => {
+    if (inputValue.length < 3) {
+      return [];
+    }
 
-      const results = await autocompleteCity(inputValue);
+    const results = await autocompleteCity(inputValue);
 
-      callback(
-        results.map((r) => ({
-          label: r.name,
-          value: r.name,
-        }))
-      );
-    },
-    []
-  );
+    return results.map((r) => ({
+      label: r.name,
+      value: r.name,
+    }));
+  }, []);
 
   const handleSubmit = async (data: FormType) => {
     if (data.customLocation !== true) {

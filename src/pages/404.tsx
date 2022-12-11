@@ -15,8 +15,8 @@ const NotFoundPage: NextPage<{}> = () => {
 
       <p className="mt-4">
         Se pensi sia un errore, non esitare a{' '}
-        <Link href="/contatti">
-          <a className="underline">contattarci</a>
+        <Link href="/contatti" className="underline">
+          contattarci
         </Link>{' '}
         per migliorare il servizio.
       </p>

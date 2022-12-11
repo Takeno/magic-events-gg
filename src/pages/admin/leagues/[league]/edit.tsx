@@ -107,9 +107,9 @@ const AdminTournamentCreate: NextPage<PageProps> = ({league}) => {
                   <Image
                     src={league.logo}
                     alt={league.name}
-                    objectFit="contain"
                     width={50}
                     height={50}
+                    className="object-contain aspect-square"
                   />
                 )}
               </div>

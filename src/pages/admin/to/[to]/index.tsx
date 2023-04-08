@@ -2,9 +2,9 @@ import type {NextPage} from 'next';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import useSWR from 'swr';
-import {format} from '../../../../utils/dates';
+import {format, formatTimeZoned} from '../../../../utils/dates';
 import Breadcrumb from '../../../../components/Breadcrumb';
-import {fetchEventsByOrganizer} from '../../../../utils/api';
+import {fetchAllEventsByOrganizer} from '../../../../utils/db';
 
 type PageProps = {};
 
@@ -15,9 +15,8 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
 
   const {data: tournaments} = useSWR(
     `/admin/organizer/${organizerId}/events`,
-    () => fetchEventsByOrganizer(organizerId)
+    () => fetchAllEventsByOrganizer(organizerId)
   );
-  // const {data: organizer} = useSWR(`/admin/organizer/${organizerId}`, () => fetchEventsByOrganizer(organizerId));
 
   return (
     <>
@@ -74,10 +73,18 @@ const AdminOrganizerIndex: NextPage<PageProps> = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="">
                             <div className="text-sm font-medium text-gray-900 first-letter:uppercase">
-                              {format(tournament.timestamp, 'E, d MMM')}
+                              {formatTimeZoned(
+                                tournament.startDate,
+                                tournament.startDateTz,
+                                'E, d MMM'
+                              )}
                             </div>
                             <div className="text-sm text-gray-500">
-                              {format(tournament.timestamp, 'HH:mm')}
+                              {formatTimeZoned(
+                                tournament.startDate,
+                                tournament.startDateTz,
+                                'HH:mm'
+                              )}
                             </div>
                           </div>
                         </td>

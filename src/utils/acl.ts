@@ -13,5 +13,5 @@ export function isAdmin(user: User | Admin | null): user is Admin {
     return false;
   }
 
-  return user.roles.includes('ROLE_ADMIN');
+  return user.roles.some((r) => r.role === 'manager');
 }

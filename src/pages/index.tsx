@@ -6,14 +6,13 @@ import {useEffect, useState} from 'react';
 import slugify from 'slugify';
 import {EventCardList} from '../components/EventList';
 import LocationSearch from '../components/LocationSearch';
-import {fetchEventByCoords} from '../utils/api';
-import {fetchHomeEvents} from '../utils/firebase-server';
+import {fetchHomeEvents} from '../utils/db';
 
 import home from '../assets/home.jpg';
 import {isFormat} from '../utils/formats';
 import {trackFormat} from '../utils/tracking';
 import JsonLD from '../components/Meta/JsonLD';
-import {format, guessEndOfEvent} from '../utils/dates';
+import {formatTimeZoned} from '../utils/dates';
 import {getAbsoluteURL} from '../utils/url';
 
 type PageProps = {
@@ -21,20 +20,9 @@ type PageProps = {
 };
 
 const Home: NextPage<PageProps> = ({tournaments}) => {
-  const [data, setData] = useState<Tournament[]>(tournaments);
   const [filter, setFilter] = useState<Format>();
 
-  const [coords, setCoords] = useState<Coords>();
-
   const router = useRouter();
-
-  useEffect(() => {
-    if (coords === undefined) {
-      return;
-    }
-
-    fetchEventByCoords(coords).then(setData);
-  }, [coords]);
 
   useEffect(() => {
     const f = window.location.hash?.slice(1);
@@ -71,26 +59,30 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
             tournament.title ||
             `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
           description: `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
-          startDate: format(tournament.timestamp, "yyyy-MM-dd'T'HH:mmxxx"),
-          endDate: format(
-            guessEndOfEvent(tournament.timestamp, {
-              hours: 4,
-            }),
+          startDate: formatTimeZoned(
+            tournament.startDate,
+            tournament.startDateTz,
             "yyyy-MM-dd'T'HH:mmxxx"
           ),
-          eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', // change if online event
           eventStatus: 'https://schema.org/EventScheduled',
-          location: {
-            '@type': 'Place',
-            name: tournament.location.venue,
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: tournament.location.address,
-              addressLocality: tournament.location.city,
-              addressRegion: tournament.location.province,
-              addressCountry: tournament.location.country,
-            },
-          },
+          eventAttendanceMode: tournament.onlineEvent
+            ? 'https://schema.org/OnlineEventAttendanceMode'
+            : 'https://schema.org/OfflineEventAttendanceMode',
+          location: tournament.onlineEvent
+            ? {
+                '@type': 'VirtualLocation',
+              }
+            : {
+                '@type': 'Place',
+                name: tournament.location.venue,
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: tournament.location.address,
+                  addressLocality: tournament.location.city,
+                  addressRegion: tournament.location.province,
+                  addressCountry: tournament.location.country,
+                },
+              },
           organizer: {
             '@type': 'Organization',
             name: tournament.organizer.name,
@@ -113,7 +105,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
             Tutti i tornei di Magic intorno a te
           </h2>
           <LocationSearch
-            onPosition={setCoords}
+            onPosition={() => {}}
             onCity={({name}) =>
               router.push(`/italia/${slugify(name, {lower: true})}`)
             }
@@ -216,7 +208,7 @@ const Home: NextPage<PageProps> = ({tournaments}) => {
 
       <article className="max-w-screen-lg mx-auto mt-10 w-full">
         <EventCardList
-          events={data.filter(
+          events={tournaments.filter(
             (t) => filter === undefined || t.format === filter
           )}
         />

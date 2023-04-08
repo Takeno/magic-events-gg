@@ -8,8 +8,8 @@ interface DatetimeProps {
   error?: string;
   placeholder?: string;
   title: string;
-  value: number | null | undefined;
-  onChange: (timestamp: number) => void;
+  value: Date | undefined;
+  onChange: (date: Date) => void;
 }
 
 export default function Datetime(props: DatetimeProps) {
@@ -19,13 +19,13 @@ export default function Datetime(props: DatetimeProps) {
 
       const d = parseISO(value);
 
-      props.onChange(d.getTime());
+      props.onChange(d);
     },
     [props.onChange]
   );
 
   const value =
-    typeof props.value === 'number'
+    props.value instanceof Date
       ? format(props.value, "yyyy-MM-dd'T'HH:mm")
       : '';
 
@@ -34,7 +34,7 @@ export default function Datetime(props: DatetimeProps) {
       <label htmlFor={props.id || props.name} className="block font-medium">
         {props.title}
       </label>
-      <div className="mt-1 relative rounded-md shadow-sm">
+      <div className="mt-1 relative rounded-md shadow-sm flex flex-row">
         <input
           name={props.name}
           id={props.id || props.name}
@@ -44,6 +44,9 @@ export default function Datetime(props: DatetimeProps) {
           value={value}
           onChange={onChange}
         />
+        <span className="whitespace-nowrap">
+          {Intl.DateTimeFormat().resolvedOptions().timeZone}
+        </span>
       </div>
       {props.error && <span className="text-red-600">{props.error}</span>}
     </div>

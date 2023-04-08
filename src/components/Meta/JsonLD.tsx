@@ -2,13 +2,11 @@ import Head from 'next/head';
 import {useMemo} from 'react';
 
 type leaf = {
-  [key: string]: string | number | string[] | undefined | leaf;
+  [key: string]: leaf | leaf[] | string | number | string[] | undefined;
 };
 
-type entry = Record<string, leaf[] | leaf | string | string[] | undefined>;
-
 type JsonLDProps = {
-  children: entry | entry[];
+  children: leaf | leaf[];
 };
 
 export default function JsonLD({children}: JsonLDProps) {

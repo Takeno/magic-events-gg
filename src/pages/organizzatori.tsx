@@ -1,16 +1,11 @@
 import type {GetStaticProps, NextPage} from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import slugify from 'slugify';
-import {EventCardList} from '../components/EventList';
-import LocationSearch from '../components/LocationSearch';
-import {fetchAllOrganizers, fetchHomeEvents} from '../utils/firebase-server';
-
-import home from '../assets/home.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 import Link from 'next/link';
 import JsonLD from '../components/Meta/JsonLD';
 import {getAbsoluteURL} from '../utils/url';
+import {fetchAllOrganizers} from 'utils/db';
 
 type PageProps = {
   organizers: Organizer[];
@@ -73,7 +68,7 @@ const Organizers: NextPage<PageProps> = ({organizers}) => {
               )}
               <div>
                 <h3 className="text-lg font-bold">{to.name}</h3>
-                {to.location && `${to.location.city} (${to.location.province})`}
+                {to.address && `${to.address.city} (${to.address.province})`}
               </div>
             </Link>
           ))}

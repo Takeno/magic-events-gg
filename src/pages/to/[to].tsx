@@ -3,14 +3,12 @@ import Image from 'next/image';
 import slugify from 'slugify';
 import useSWR from 'swr';
 import ReactMarkdown from 'react-markdown';
-
-import {fetchOrganizerById} from '../../utils/firebase-server';
 import Breadcrumb from '../../components/Breadcrumb';
-import {fetchPublicEventsByOrganizer} from '../../utils/api';
 import {EventCardList} from '../../components/EventList';
 import JsonLD from '../../components/Meta/JsonLD';
 import {getAbsoluteURL} from '../../utils/url';
 import Head from 'next/head';
+import {fetchAllEventsByOrganizer, fetchOrganizer} from 'utils/db';
 
 type PageProps = {
   organizer: Organizer;
@@ -19,17 +17,17 @@ type PageProps = {
 const SingleTournament: NextPage<PageProps> = ({organizer}) => {
   const {data, isValidating} = useSWR(
     `/organizer/${organizer.id}/events`,
-    () => fetchPublicEventsByOrganizer(organizer.id),
+    () => fetchAllEventsByOrganizer(organizer.id),
     {revalidateOnFocus: false}
   );
 
   const breadcrumbItems = [];
-  if (organizer.location) {
+  if (organizer.address) {
     breadcrumbItems.push({
-      href: `/italia/${slugify(organizer.location.city, {
+      href: `/italia/${slugify(organizer.address.city, {
         lower: true,
       })}`,
-      text: organizer.location.city,
+      text: organizer.address.city,
     });
   }
 
@@ -68,23 +66,23 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
             '@type': 'LocalBusiness',
             // logo: organizer.logo || undefined,
             name: organizer.name,
-            address: organizer.location
+            address: organizer.address
               ? {
                   '@type': 'PostalAddress',
-                  streetAddress: organizer.location.address,
-                  addressLocality: organizer.location.city,
-                  addressRegion: organizer.location.province,
-                  addressCountry: organizer.location.country,
+                  streetAddress: organizer.address.address,
+                  addressLocality: organizer.address.city,
+                  addressRegion: organizer.address.province,
+                  addressCountry: organizer.address.country,
                 }
               : undefined,
-            geo: organizer.location
+            geo: organizer.address
               ? {
                   '@type': 'GeoCoordinates',
-                  latitude: organizer.location.latitude,
-                  longitude: organizer.location.longitude,
+                  latitude: organizer.address.latitude,
+                  longitude: organizer.address.longitude,
                 }
               : undefined,
-            email: organizer.email || undefined,
+            email: organizer.contacts.email || undefined,
           },
         ]}
       </JsonLD>
@@ -107,9 +105,9 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <div>
-            {organizer.location && (
+            {organizer.address && (
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${organizer.location.latitude}%2C${organizer.location.longitude}`}
+                href={`https://www.google.com/maps/dir/?api=1&destination=${organizer.address.latitude}%2C${organizer.address.longitude}`}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:underline"
@@ -126,16 +124,16 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
                     clipRule="evenodd"
                   />
                 </svg>
-                {organizer.location.address} - {organizer.location.city} (
-                {organizer.location.province}) {organizer.location.country}
+                {organizer.address.address} - {organizer.address.city} (
+                {organizer.address.province}) {organizer.address.country}
               </a>
             )}
           </div>
 
           <div className="text-center min-w-[6rem]">
-            {organizer.facebook && (
+            {organizer.contacts.facebook && (
               <a
-                href={organizer.facebook}
+                href={organizer.contacts.facebook}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-dark"
@@ -151,9 +149,9 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
                 </svg>
               </a>
             )}
-            {organizer.discord && (
+            {organizer.contacts.discord && (
               <a
-                href={organizer.discord}
+                href={organizer.contacts.discord}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-dark"
@@ -169,9 +167,9 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
                 </svg>
               </a>
             )}
-            {organizer.website && (
+            {organizer.contacts.website && (
               <a
-                href={organizer.website}
+                href={organizer.contacts.website}
                 target="_blank"
                 className="text-blue-dark"
                 rel="noreferrer"
@@ -193,9 +191,9 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
                 </svg>
               </a>
             )}
-            {organizer.email && (
+            {organizer.contacts.email && (
               <a
-                href={`mailto:${organizer.email}`}
+                href={`mailto:${organizer.contacts.email}`}
                 className="text-blue-dark"
                 title={`Contatta ${organizer.name} per email`}
               >
@@ -215,9 +213,9 @@ const SingleTournament: NextPage<PageProps> = ({organizer}) => {
                 </svg>
               </a>
             )}
-            {organizer.whatsapp && (
+            {organizer.contacts.whatsapp && (
               <a
-                href={`https://wa.me/${organizer.whatsapp}`}
+                href={`https://wa.me/${organizer.contacts.whatsapp}`}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-dark"
@@ -267,7 +265,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
       notFound: true,
     };
   }
-  const organizer = await fetchOrganizerById(context.params.to);
+  const organizer = await fetchOrganizer(context.params.to);
 
   if (organizer === null) {
     return {

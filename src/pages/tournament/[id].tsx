@@ -4,14 +4,14 @@ import Image from 'next/image';
 import slugify from 'slugify';
 import {PropsWithChildren, useCallback, useEffect} from 'react';
 import EventBackground from '../../components/EventList/partials/EventBackground';
-import {format, guessEndOfEvent} from '../../utils/dates';
-import {fetchEventById} from '../../utils/firebase-server';
-import Breadcrumb from '../../components/Breadcrumb';
+import {format, formatTimeZoned, guessEndOfEvent} from '../../utils/dates';
+import Breadcrumb, {BreadcrumbType} from '../../components/Breadcrumb';
 import Link from 'next/link';
 import {trackEvent, trackEventSubscriptionLink} from '../../utils/tracking';
 import JsonLD from '../../components/Meta/JsonLD';
 import {getAbsoluteURL} from '../../utils/url';
 import {useRouter} from 'next/router';
+import {fetchEventById} from '../../utils/db';
 
 type PageProps = {
   tournament: Tournament;
@@ -21,7 +21,11 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
   const router = useRouter();
 
   useEffect(() => {
-    trackEvent(tournament.id, tournament.format, tournament.organizer.id);
+    trackEvent(
+      tournament.id,
+      tournament.format as Format,
+      tournament.organizer.id
+    );
   }, [tournament]);
 
   const shareEvent = useCallback(() => {
@@ -36,23 +40,26 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
     } catch (e) {}
   }, [tournament, router]);
 
-  const breadcrumbItems = [
-    {
-      href: `/italia/${slugify(tournament.location.city, {lower: true})}`,
-      text: tournament.location.city,
-    },
-    {
-      href: `/italia/${slugify(tournament.location.city, {
-        lower: true,
-      })}/${tournament.format}`,
-      text: tournament.format,
-    },
-    {
-      text:
-        tournament.title ||
-        `Torneo ${tournament.format} di ${tournament.organizer.name}`,
-    },
-  ];
+  const breadcrumbItems: BreadcrumbType[] = (
+    tournament.onlineEvent
+      ? []
+      : ([
+          {
+            href: `/italia/${slugify(tournament.location.city, {lower: true})}`,
+            text: tournament.location.city,
+          },
+          {
+            href: `/italia/${slugify(tournament.location.city, {
+              lower: true,
+            })}/${tournament.format}`,
+            text: tournament.format,
+          },
+        ] as BreadcrumbType[])
+  ).concat({
+    text:
+      tournament.title ||
+      `Torneo ${tournament.format} di ${tournament.organizer.name}`,
+  });
 
   return (
     <>
@@ -64,9 +71,10 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
         </title>
         <meta
           name="description"
-          content={`${format(tournament.timestamp, 'EEEE d MMMM HH:mm')} - ${
-            tournament.format
-          } presso ${tournament.organizer.name}`}
+          content={`${format(
+            new Date(tournament.startDate),
+            'EEEE d MMMM HH:mm'
+          )} - ${tournament.format} presso ${tournament.organizer.name}`}
         />
       </Head>
 
@@ -93,27 +101,31 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
               tournament.title ||
               `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
             description: `Torneo ${tournament.format} presso ${tournament.organizer.name}`,
-            startDate: format(tournament.timestamp, "yyyy-MM-dd'T'HH:mmxxx"),
-            endDate: format(
-              guessEndOfEvent(tournament.timestamp, {
-                hours: 4,
-              }),
+            startDate: formatTimeZoned(
+              tournament.startDate,
+              tournament.startDateTz,
               "yyyy-MM-dd'T'HH:mmxxx"
             ),
-            eventAttendanceMode:
-              'https://schema.org/OfflineEventAttendanceMode', // change if online event
+
             eventStatus: 'https://schema.org/EventScheduled',
-            location: {
-              '@type': 'Place',
-              name: tournament.location.venue,
-              address: {
-                '@type': 'PostalAddress',
-                streetAddress: tournament.location.address,
-                addressLocality: tournament.location.city,
-                addressRegion: tournament.location.province,
-                addressCountry: tournament.location.country,
-              },
-            },
+            eventAttendanceMode: tournament.onlineEvent
+              ? 'https://schema.org/OnlineEventAttendanceMode'
+              : 'https://schema.org/OfflineEventAttendanceMode',
+            location: tournament.onlineEvent
+              ? {
+                  '@type': 'VirtualLocation',
+                }
+              : {
+                  '@type': 'Place',
+                  name: tournament.location.venue,
+                  address: {
+                    '@type': 'PostalAddress',
+                    streetAddress: tournament.location.address,
+                    addressLocality: tournament.location.city,
+                    addressRegion: tournament.location.province,
+                    addressCountry: tournament.location.country,
+                  },
+                },
             organizer: {
               '@type': 'Organization',
               name: tournament.organizer.name,
@@ -151,7 +163,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
           <div className="flex-initial w-full md:w-2/3">
             <div className="card py-4 md:py-8">
               <div className="px-4 md:px-12">
-                {tournament.leagues.map((league) => (
+                {/* {tournament.leagues.map((league) => (
                   <div
                     key={league.id}
                     className="flex flex-col-reverse sm:flex-row justify-between items-center pb-4 mb-4 border-b-2"
@@ -179,7 +191,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                       </div>
                     )}
                   </div>
-                ))}
+                ))} */}
                 {tournament.title && (
                   <h2 className="text-xl font-bold">{tournament.title}</h2>
                 )}
@@ -196,7 +208,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                   </p>
                 )}
                 <div className="space-y-2">
-                  {(tournament.text || '').split('\n').map((p, i) => (
+                  {(tournament.description || '').split('\n').map((p, i) => (
                     <p key={i}>{p}</p>
                   ))}
                 </div>
@@ -225,26 +237,38 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
 
               <SectionTitle className="mt-6">Quando?</SectionTitle>
               <p className="first-letter:uppercase">
-                {format(tournament.timestamp, 'EEEE, d MMMM')}
+                {formatTimeZoned(
+                  tournament.startDate,
+                  tournament.startDateTz,
+                  'EEEE, d MMMM'
+                )}
                 <br />
-                {format(tournament.timestamp, 'HH:mm')}
+                {formatTimeZoned(
+                  tournament.startDate,
+                  tournament.startDateTz,
+                  'HH:mm'
+                )}
               </p>
 
               <SectionTitle className="mt-6">Dove?</SectionTitle>
-              <p>
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${tournament.location.latitude}%2C${tournament.location.longitude}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:underline"
-                >
+              {tournament.onlineEvent ? (
+                <p>Online</p>
+              ) : (
+                <p>
+                  {/* <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${tournament.location.latitude}%2C${tournament.location.longitude}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline"
+                  > */}
                   {tournament.location.venue}
                   {tournament.location.venue && <br />}
                   {tournament.location.address}
                   <br />
                   {tournament.location.city} ({tournament.location.province})
-                </a>
-              </p>
+                  {/* </a> */}
+                </p>
+              )}
 
               {/* <img src={staticMap.src} className="aspect-video mt-4" /> */}
 
@@ -257,7 +281,7 @@ const SingleTournament: NextPage<PageProps> = ({tournament}) => {
                   onClick={() =>
                     trackEventSubscriptionLink(
                       tournament.id,
-                      tournament.format,
+                      tournament.format as Format,
                       tournament.organizer.id
                     )
                   }

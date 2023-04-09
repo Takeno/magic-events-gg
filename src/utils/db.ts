@@ -114,6 +114,9 @@ export async function fetchHomeEvents(): Promise<Tournament[]> {
   const {data, error} = await supabase
     .from('tournaments')
     .select('*, organizer:organizers(id, name, logo)')
+    .order('start_date', {
+      ascending: true,
+    })
     .gte('start_date', new Date().toISOString());
 
   if (error) {

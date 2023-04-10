@@ -1,40 +1,34 @@
 import axios from 'axios';
 import {FORM_ERROR} from 'final-form';
-import type {GetServerSideProps, NextPage} from 'next';
 import {useRouter} from 'next/router';
 import {Field, Form} from 'react-final-form';
-import {validate} from 'validate.js';
 import * as Sentry from '@sentry/nextjs';
 import Breadcrumb from '../../../../components/Breadcrumb';
 import TextInput from '../../../../components/Form/TextInput';
-import {updateOrganizer} from '../../../../utils/api';
-import {updateOrganizerConstraints} from '../../../../utils/validation';
-import {fetchOrganizerById} from '../../../../utils/firebase-server';
 import Image from 'next/image';
 import MarkdownEditor from '../../../../components/Form/MarkdownEditor';
+import useSWR from 'swr';
+import {fetchOrganizer, updateOrganizer} from '../../../../utils/db';
 
-type PageProps = {
-  organizer: Organizer;
-};
+type FormType = Pick<Organizer, 'description' | 'contacts'>;
 
-type FormType = Pick<
-  Organizer,
-  'description' | 'facebook' | 'whatsapp' | 'email' | 'website' | 'discord'
->;
-
-const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
+const OrganizerEdit = () => {
   const router = useRouter();
+  const {
+    data: organizer,
+    isLoading,
+    mutate,
+  } = useSWR(`/organizer/${router.query.to}`, () =>
+    fetchOrganizer(router.query.to as string)
+  );
 
   const handleSubmit = async (data: FormType) => {
-    const validationErrors = validate(data, updateOrganizerConstraints);
-
-    if (validationErrors !== undefined) {
-      return validationErrors;
-    }
-
     try {
-      await updateOrganizer(organizer.id, data);
+      await updateOrganizer(organizer!.id, data);
+      mutate();
+      router.push(`/admin`);
     } catch (e) {
+      console.error(e);
       if (!axios.isAxiosError(e)) {
         Sentry.captureException(e);
         return {
@@ -57,9 +51,15 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
         [FORM_ERROR]: 'Si è verificato un errore.',
       };
     }
-
-    router.push(`/admin`);
   };
+
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (organizer === null || organizer === undefined) {
+    return <h2>Not found</h2>;
+  }
 
   return (
     <>
@@ -79,11 +79,7 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
         <Form<FormType, FormType>
           initialValues={{
             description: organizer.description,
-            facebook: organizer.facebook,
-            whatsapp: organizer.whatsapp,
-            email: organizer.email,
-            website: organizer.website,
-            discord: organizer.discord,
+            contacts: organizer.contacts,
           }}
           onSubmit={handleSubmit}
           render={({handleSubmit, values, submitError, submitting}) => (
@@ -92,21 +88,17 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 Modifica informazioni negozio
               </h1>
 
-              {submitError && (
-                <span className="text-red-600">{submitError}</span>
-              )}
-
               <div>
                 <span className="block font-medium">Nome</span>
                 <span>{organizer.name}</span>
               </div>
 
-              {organizer.location && (
+              {organizer.address && (
                 <div>
                   <span className="block font-medium">Posizione</span>
                   <span>
-                    {organizer.location.address} - {organizer.location.city} (
-                    {organizer.location.province}) {organizer.location.country}
+                    {organizer.address.address} - {organizer.address.city} (
+                    {organizer.address.province}) {organizer.address.country}
                   </span>
                 </div>
               )}
@@ -152,8 +144,8 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
 
               <h3 className="text-xl font-bold">Social</h3>
 
-              <Field<FormType['website']>
-                name="website"
+              <Field<FormType['contacts']['website']>
+                name="contacts.website"
                 render={({input, meta}) => (
                   <TextInput
                     title="Website"
@@ -166,8 +158,8 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 )}
               />
 
-              <Field<FormType['discord']>
-                name="discord"
+              <Field<FormType['contacts']['discord']>
+                name="contacts.discord"
                 render={({input, meta}) => (
                   <TextInput
                     title="Discord"
@@ -180,8 +172,8 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 )}
               />
 
-              <Field<FormType['facebook']>
-                name="facebook"
+              <Field<FormType['contacts']['facebook']>
+                name="contacts.facebook"
                 render={({input, meta}) => (
                   <TextInput
                     title="Pagina Facebook"
@@ -194,8 +186,8 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 )}
               />
 
-              <Field<FormType['whatsapp']>
-                name="whatsapp"
+              <Field<FormType['contacts']['whatsapp']>
+                name="contacts.whatsapp"
                 render={({input, meta}) => (
                   <TextInput
                     title="Numero/Gruppo Whatsapp"
@@ -207,8 +199,8 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                 )}
               />
 
-              <Field<FormType['email']>
-                name="email"
+              <Field<FormType['contacts']['email']>
+                name="contacts.email"
                 render={({input, meta}) => (
                   <TextInput
                     title="Email"
@@ -220,6 +212,10 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
                   />
                 )}
               />
+
+              {submitError && (
+                <span className="text-red-600">{submitError}</span>
+              )}
 
               <button
                 className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
@@ -236,27 +232,4 @@ const AdminTournamentCreate: NextPage<PageProps> = ({organizer}) => {
   );
 };
 
-export default AdminTournamentCreate;
-
-export const getServerSideProps: GetServerSideProps<PageProps> = async (
-  context
-) => {
-  if (typeof context.params?.to !== 'string') {
-    return {
-      notFound: true,
-    };
-  }
-  const organizer = await fetchOrganizerById(context.params.to);
-
-  if (organizer === null) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      organizer,
-    },
-  };
-};
+export default OrganizerEdit;

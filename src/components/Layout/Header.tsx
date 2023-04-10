@@ -80,35 +80,33 @@ export default function Header() {
                     >
                       Organizzatori
                     </Link>
-                    <Link
+                    {/* <Link
                       href="/leghe-e-circuiti"
                       className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
                     >
                       Leghe
-                    </Link>
-                    <Link
+                    </Link> */}
+                    {/* <Link
                       href="/i-miei-eventi"
                       className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
                     >
                       I miei eventi
-                    </Link>
+                    </Link> */}
+                    {isAdmin(user) && (
+                      <Link
+                        href="/admin"
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                      >
+                        Area Admin
+                      </Link>
+                    )}
                     {user ? (
-                      <>
-                        {isAdmin(user) && (
-                          <Link
-                            href="/admin"
-                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
-                          >
-                            Gestione negozio
-                          </Link>
-                        )}
-                        <button
-                          onClick={logout}
-                          className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
-                        >
-                          Logout
-                        </button>
-                      </>
+                      <button
+                        onClick={logout}
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                      >
+                        Logout
+                      </button>
                     ) : (
                       <Link
                         href="/login"

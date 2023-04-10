@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import {format} from '../../utils/dates';
+import {formatTimeZoned} from '../../utils/dates';
 import EventBackground from './partials/EventBackground';
 
 type EventCardProps = {
@@ -27,10 +27,10 @@ export default function EventCard({event}: EventCardProps) {
 
       <div className="flex flex-row justify-between px-4 my-2">
         <span className="text-sm text-gray-600 first-letter:uppercase">
-          {format(event.timestamp, 'E, d MMM')}
+          {formatTimeZoned(event.startDate, event.startDateTz, 'E, d MMM')}
         </span>
         <span className="text-sm text-gray-600">
-          {format(event.timestamp, 'HH:mm')}
+          {formatTimeZoned(event.startDate, event.startDateTz, 'HH:mm')}
         </span>
       </div>
 
@@ -46,10 +46,12 @@ export default function EventCard({event}: EventCardProps) {
 
       <div className="px-4 my-2 truncate">
         <Link href={`/to/${event.organizer.id}`}>{event.organizer.name}</Link>
-        <div className="text-sm font-normal text-gray-500 normal-case">
-          {event.location.city} ({event.location.province}),{' '}
-          {event.location.country}
-        </div>
+        {event.onlineEvent || (
+          <div className="text-sm font-normal text-gray-500 normal-case">
+            {event.location.city} ({event.location.province}),{' '}
+            {event.location.country}
+          </div>
+        )}
       </div>
     </div>
   );

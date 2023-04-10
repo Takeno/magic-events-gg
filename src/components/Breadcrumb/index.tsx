@@ -1,14 +1,16 @@
 import Link from 'next/link';
-import {PropsWithChildren, ReactNode} from 'react';
+import {PropsWithChildren} from 'react';
 
-interface BreadcrumbType {
-  items: Array<{
-    text: ReactNode;
-    href?: string;
-  }>;
-}
+export type BreadcrumbType = {
+  text: string;
+  href?: string;
+};
 
-export default function Breadcrumb(props: BreadcrumbType) {
+type BreadcrumbProps = {
+  items: BreadcrumbType[];
+};
+
+export default function Breadcrumb(props: BreadcrumbProps) {
   return (
     <div className="bg-primary">
       <nav

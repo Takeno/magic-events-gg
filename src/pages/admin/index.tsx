@@ -4,18 +4,18 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import Breadcrumb from '../../components/Breadcrumb';
 import {useAdmin} from '../../contexts/UserContext';
-import {fetchMyLeagues, fetchMyOrganizers} from '../../utils/api';
+import {fetchOrganizersManagedBy} from '../../utils/db';
 
 type PageProps = {};
 
 const AdminIndex: NextPage<PageProps> = () => {
-  useAdmin();
+  const {user} = useAdmin();
 
-  const {data: organizers} = useSWR('/my-organizers', () =>
-    fetchMyOrganizers()
+  const {data: organizers} = useSWR(
+    `/user/${user.id}/organizers`,
+    () => fetchOrganizersManagedBy(user.id),
+    {fallbackData: []}
   );
-
-  const {data: leagues} = useSWR('/my-leagues', () => fetchMyLeagues());
 
   return (
     <>
@@ -27,168 +27,56 @@ const AdminIndex: NextPage<PageProps> = () => {
         ]}
       />
       <div className="container mx-auto pt-16">
-        <div className="flex flex-col">
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Negozio
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Location
-                      </th>
-
-                      <th scope="col" className="relative px-6 py-3">
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {(organizers || []).map((to) => (
-                      <tr key={to.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            {to.logo && (
-                              <div className="flex-shrink-0 relative h-10 w-10 rounded-full bg-white flex justify-center items-center">
-                                <Image
-                                  className="rounded-full object-contain aspect-square"
-                                  src={to.logo}
-                                  alt={to.name}
-                                  width={50}
-                                  height={50}
-                                />
-                              </div>
-                            )}
-                            <div className="ml-4">
-                              <Link
-                                href={`/admin/to/${to.id}`}
-                                className="text-md font-medium text-gray-900"
-                              >
-                                {to.name}
-                              </Link>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {to.location ? (
-                            <>
-                              <div className="text-sm text-gray-900">
-                                {to.location.address}
-                                <br />
-                                {to.location.city} ({to.location.province}),{' '}
-                                {to.location.country}
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                {to.location.city}
-                              </div>
-                            </>
-                          ) : (
-                            <div className="text-sm text-gray-900">Online</div>
-                          )}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link
-                            href={`/to/${to.id}`}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Vedi scheda
-                          </Link>{' '}
-                          -{' '}
-                          <Link
-                            href={`/admin/to/${to.id}/edit`}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Modifica
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {(organizers || []).map((organizer) => (
+            <li
+              key={organizer.id}
+              className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow"
+            >
+              <div className="flex w-full items-center justify-between space-x-6 p-6">
+                <div className="flex-1 truncate">
+                  <div className="flex items-center space-x-3">
+                    <h3 className="truncate text-xl font-medium text-gray-900">
+                      {organizer.name}
+                    </h3>
+                  </div>
+                  <p className="mt-1 truncate text-sm text-gray-500">
+                    {organizer.address?.city}
+                  </p>
+                </div>
+                {organizer.logo && (
+                  <Image
+                    className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 object-contain aspect-square"
+                    src={organizer.logo}
+                    alt={organizer.name}
+                    width={50}
+                    height={50}
+                  />
+                )}
               </div>
-            </div>
-          </div>
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Leagues
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      ></th>
-                      <th scope="col" className="relative px-6 py-3">
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {(leagues || []).map((league) => (
-                      <tr key={league.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            {league.logo && (
-                              <div className="flex-shrink-0 relative h-10 w-10 rounded-full bg-white flex justify-center items-center">
-                                <Image
-                                  className="rounded-full"
-                                  src={league.logo}
-                                  alt={league.name}
-                                  objectFit="contain"
-                                  width={50}
-                                  height={50}
-                                />
-                              </div>
-                            )}
-                            <div className="ml-4">
-                              <Link
-                                href={`/admin/leagues/${league.id}`}
-                                className="text-md font-medium text-gray-900"
-                              >
-                                {league.name}
-                              </Link>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap"></td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link
-                            href={`/league/${league.id}`}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Vedi scheda
-                          </Link>{' '}
-                          -{' '}
-                          <Link
-                            href={`/admin/leagues/${league.id}/edit`}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Modifica
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div>
+                <div className="-mt-px flex divide-x divide-gray-200">
+                  <div className="flex w-0 flex-1">
+                    <Link
+                      href={`/admin/to/${organizer.id}`}
+                      className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500"
+                    >
+                      Eventi
+                    </Link>
+                  </div>
+                  <div className="-ml-px flex w-0 flex-1">
+                    <Link
+                      href={`/admin/to/${organizer.id}/edit`}
+                      className="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500"
+                    >
+                      Modifica
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );

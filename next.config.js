@@ -13,12 +13,19 @@ const nextConfig = {
     disableServerWebpackPlugin: !process.env.SENTRY_AUTH_TOKEN,
     disableClientWebpackPlugin: !process.env.SENTRY_AUTH_TOKEN,
   },
-  async redirect() {
-    return Object.entries(oldOrganizers).map(([oldId, newId]) => ({
-      source: `/to/${oldId}`,
-      destination: `/to/${newId}`,
-      permanent: true,
-    }));
+  async redirects() {
+    return [
+      ...Object.entries(oldOrganizers).map(([oldId, newId]) => ({
+        source: `/to/${oldId}`,
+        destination: `/to/${newId}`,
+        permanent: true,
+      })),
+      ...Object.entries(oldEvents).map(([oldId, newId]) => ({
+        source: `/tournament/${oldId}`,
+        destination: `/tournament/${newId}`,
+        permanent: true,
+      })),
+    ];
   },
 };
 
@@ -98,4 +105,36 @@ const oldOrganizers = {
   w8q1zHNn7I5rLAYeOFRz: '215d4bb2-9f79-45e0-a04b-49633b4597bf',
   wSDmEAqkDKPgl9WnX3NL: '8700d4ee-5f8a-42c7-8d06-3cdb8ae743af',
   ytDd0PoCCvL1KFqW2A4m: 'b27c8da4-f72e-44d0-a01b-b1ddde387758',
+};
+
+const oldEvents = {
+  1223273328552637: '07951138-d8f3-4a16-9fce-2aa7bf912d38',
+  1253098082269226: 'cb28d44d-5650-472b-af44-dbec08f8ec39',
+  1527735637730827: '79fae066-a36d-4143-ba09-2404708fb52e',
+  187947973944941: '31b63173-62b5-4f39-b8db-eb1172f20b6a',
+  '1jgwKlVPDetpWnqpSag0': '924a42a1-56b4-4688-99fd-d419a3ac69f1',
+  2433012830199544: 'e4f8683f-e7ab-4a96-95d8-dc6b9b5a698d',
+  '3qdeYzlMuRpI8v1xbOS3': '43ca7716-2465-4514-a71d-7723d4efd269',
+  '483NQUjZODYSZX3IDwPC': '3f93e131-3abf-4c82-9c6d-902a08d4ef30',
+  579853434185480: '5b66de33-7e7a-4ec1-a6b8-0cc577c23aee',
+  6711618778872301: 'b9eddef4-609c-4985-872f-1b853e9cf68a',
+  776378874060417: '73489981-4663-49a6-bbc8-df5048dadcf2',
+  945166553344905: '716f1181-b8d5-4a76-87ea-af64fd8a4489',
+  952779092545586: 'a6702fc8-46bb-4123-b721-4fc555ba1052',
+  991024268532105: 'e5292225-17a2-4d4b-8ddf-d827f0539bb9',
+  A8UiDKcHTUKTGXtZ6hBb: 'f7cb3c64-a7be-4fad-b893-1825f968c676',
+  BIEREKNvFjNa7LAofRVR: 'ea9db977-8c0e-4b83-9882-61a1ac185af9',
+  Db57Fv8ssu0xv41wonnW: '36e4d0be-594f-4efb-a288-7656f371870d',
+  F3F909o2AJRq2Wim78eb: '0b017875-31e6-4874-9c46-87c7b0e9722d',
+  RYmSfQbchoeUYzB1Fp0R: 'cf3917c2-3934-43ae-b625-905b1157ab38',
+  S5YrTP7D1ttqp7QUbKKX: '3eb69a8b-9e72-4c9d-adfc-b6c0ba0a7c92',
+  WxeJaCxqcN1kJys9ch8T: '7c63d1cf-6f75-4d5f-96d2-98a6a266d457',
+  hZIqewwhWpBOAXAaKB13: '81d9cd79-a397-42a9-87b7-82214dfbf527',
+  kSKuYnL5aUFR6runlF0z: 'aee2b557-b3e5-4fc6-a294-b30d0566729d',
+  nJeLQMJnVnWYpTyET0dO: '6ad23692-365f-4cfc-8bdd-9573b8333e75',
+  nWd9ji2f74LC5wWbmiNr: '31fcfa9c-fc6b-4597-9d5b-20cf95d90169',
+  ulsFp5jvdjyzb2R37das: '5763aace-1c84-44be-bd56-e234322c3512',
+  vT4jA2LP5SliHjj7nbpy: '6793c365-9643-45ed-a9c6-b3222b20926b',
+  wSXbVNd5QjyCjdwo17PQ: 'a2761d37-ac51-4155-93dc-f71de32a028a',
+  zIUjnS6OEP5B84WUboHp: '186defd8-582f-4abe-84a7-018164f613e0',
 };
